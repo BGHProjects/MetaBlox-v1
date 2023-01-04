@@ -5,4 +5,9 @@ enum Content {
   SANDBOX = "Sandbox",
 }
 
-export { Content };
+enum Cursor {
+  Default = "Default",
+  Hover = "Hover",
+}
+
+export { Content, Cursor };

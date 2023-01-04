@@ -1,6 +1,7 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, HStack, Center } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import MenuItem from "../components/Menu/MenuItem";
+import MenuOption from "../components/Menu/MenuOption";
 import PageComponent from "../components/Menu/PageComponent";
 import { Content } from "../constants/menu";
 import { useAppContext } from "../contexts/AppStateContext";
@@ -19,8 +20,24 @@ const MainPage = () => {
 
   return (
     <PageComponent>
-      <Flex mt="50px">
-        {localMenuContent === Content.GRID && (
+      <Center
+        mt="50px"
+        maxW="1000px"
+        w="1000px"
+        h="600px"
+        border="1px solid gold"
+        flexDirection="column"
+        justifyContent="space-evenly"
+      >
+        <HStack w="100%" h="fit-content" justifyContent={"space-evenly"}>
+          <MenuOption />
+          <MenuOption />
+        </HStack>
+        <HStack w="100%" h="fit-content" justifyContent={"space-evenly"}>
+          <MenuOption />
+          <MenuOption />
+        </HStack>
+        {/* {localMenuContent === Content.GRID && (
           <MenuItem
             condition={menuContent === Content.GRID}
             animDuration={ANIM_DURATION}
@@ -51,8 +68,8 @@ const MainPage = () => {
           >
             <Flex h="500px" w="500px" bg="gold"></Flex>
           </MenuItem>
-        )}
-      </Flex>
+        )} */}
+      </Center>
     </PageComponent>
   );
 };

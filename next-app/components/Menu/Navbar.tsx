@@ -1,17 +1,21 @@
 import { Flex, Text, HStack, chakra } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Content } from "../../constants/menu";
 import { useAppContext } from "../../contexts/AppStateContext";
 import { AnimatedDiv, AnimatedSpan } from "../AnimatedComponents";
 
 const NavBar = () => {
-  const { setMenuContent } = useAppContext();
+  const { menuContent, setMenuContent } = useAppContext();
 
   const text = "Faucet";
 
   const [hovering, setHovering] = useState(false);
 
   const ANIM_DURATION = 0.2;
+
+  useEffect(() => {
+    console.log("menuContent", menuContent);
+  }, [menuContent]);
 
   return (
     //@ts-ignore
@@ -30,7 +34,6 @@ const NavBar = () => {
               color="white"
               fontSize="20px"
               fontWeight="bold"
-              cursor="pointer"
               key={index}
               //@ts-ignore
               transition={{
@@ -48,22 +51,13 @@ const NavBar = () => {
             </AnimatedSpan>
           ))}
         </AnimatedDiv>
-        <StyledText
-          cursor="pointer"
-          onClick={() => setMenuContent(Content.MARKETPLACE)}
-        >
+        <StyledText onClick={() => setMenuContent(Content.MARKETPLACE)}>
           Marketplace
         </StyledText>
-        <StyledText
-          cursor="pointer"
-          onClick={() => setMenuContent(Content.GRID)}
-        >
+        <StyledText onClick={() => setMenuContent(Content.GRID)}>
           Grid
         </StyledText>
-        <StyledText
-          cursor="pointer"
-          onClick={() => setMenuContent(Content.SANDBOX)}
-        >
+        <StyledText onClick={() => setMenuContent(Content.SANDBOX)}>
           Sandbox
         </StyledText>
       </HStack>
