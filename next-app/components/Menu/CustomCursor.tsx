@@ -3,7 +3,7 @@ import { useAppContext } from "../../contexts/AppStateContext";
 import { AnimatedDiv } from "../AnimatedComponents";
 
 const SIZE = 25;
-const SCALE_SIZE = 0.66;
+const SCALE_SIZE = 2 / 3;
 
 const CustomCursor = () => {
   const { cursorState } = useAppContext();
@@ -11,6 +11,7 @@ const CustomCursor = () => {
   return (
     <AnimatedDiv
       initial={{ opacity: 0 }}
+      // @ts-ignore
       transition={{ duration: 0.2 }}
       animate={{
         scale:

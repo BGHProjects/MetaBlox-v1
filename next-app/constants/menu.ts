@@ -1,8 +1,9 @@
 enum Content {
-  FAUCET = "Faucet",
-  MARKETPLACE = "Marketplace",
-  GRID = "Grid",
-  SANDBOX = "Sandbox",
+  Exchange = "Exchange",
+  Marketplace = "Marketplace",
+  Grid = "Grid",
+  Sandbox = "Sandbox",
+  None = "None",
 }
 
 enum Cursor {

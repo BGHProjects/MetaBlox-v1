@@ -1,3 +1,3 @@
-const mainBG = "#361858";
+const mainBG = "navy";
 
 export { mainBG };

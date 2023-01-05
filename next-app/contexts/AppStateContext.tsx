@@ -23,7 +23,7 @@ const AppStateContextProvider = ({
 }: {
   children: ReactNode | ReactNode[];
 }) => {
-  const [menuContent, setMenuContent] = useState<Content>(Content.GRID);
+  const [menuContent, setMenuContent] = useState<Content>(Content.None);
   const [cursorState, setCursorState] = useState<Cursor>(Cursor.Default);
 
   const setCursorHover = () => setCursorState(Cursor.Hover);
