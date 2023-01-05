@@ -1,4 +1,4 @@
-import { Center, chakra, Image } from "@chakra-ui/react";
+import { Center, chakra, Flex, Image } from "@chakra-ui/react";
 import { useState } from "react";
 import { Content } from "../../constants/menu";
 import { useAppContext } from "../../contexts/AppStateContext";
@@ -38,59 +38,69 @@ const MenuOption = ({ menuOption }: IMenuOption) => {
   };
 
   return (
-    <OptionContainer
-      onMouseEnter={() => handleEnter()}
-      onMouseLeave={() => handleLeave()}
-      onClick={() => handleClick()}
-      //@ts-ignore
-      transition={{
-        duration: ANIM_DURATION,
-        ease: "easeInOut",
-      }}
-      animate={{
-        scale: hovering ? [1, 1.1] : [1.1, 1],
-      }}
-    >
-      <ContainerCenterer>
-        <OptionIcon
-          //@ts-ignore
-          transition={{
-            duration: ANIM_DURATION,
-          }}
-          animate={{
-            opacity: hovering ? 0 : 1,
-          }}
-        >
-          <Image w="100%" h="100%" src="/images/test_circle.svg" />
-        </OptionIcon>
-        <TextCenterer>
-          {optionLabel[menuOption].split("").map((char, index) => (
-            <AnimatedSpan
-              opacity={0}
-              color="white"
-              fontSize="20px"
-              fontWeight="bold"
-              key={index}
+    <>
+      {/*@ts-ignore */}
+      <TotalContainer
+        onMouseEnter={() => handleEnter()}
+        onMouseLeave={() => handleLeave()}
+        onClick={() => handleClick()}
+        initial={{
+          scale: 1,
+        }}
+        //@ts-ignore
+        transition={{
+          duration: ANIM_DURATION,
+          ease: "easeInOut",
+        }}
+        animate={{
+          scale: hovering ? [1, 1.1] : [1.1, 1],
+        }}
+      >
+        {/*@ts-ignore */}
+        <BlurBackground />
+        <OptionContainer>
+          <ContainerCenterer>
+            <OptionIcon
               //@ts-ignore
               transition={{
-                delay: hovering
-                  ? ANIM_DURATION +
-                    (index * ANIM_DURATION) / optionLabel[menuOption].length
-                  : 0,
-                duration: hovering ? ANIM_DURATION / 4 : 0,
-                ease: "easeIn",
+                duration: ANIM_DURATION,
               }}
               animate={{
-                opacity: hovering ? [0, 1] : 0,
-                y: hovering ? [10, 0] : 0,
+                opacity: hovering ? 0 : 1,
               }}
             >
-              {char}
-            </AnimatedSpan>
-          ))}
-        </TextCenterer>
-      </ContainerCenterer>
-    </OptionContainer>
+              <Image w="100%" h="100%" src="/images/test_circle.svg" />
+            </OptionIcon>
+            <TextCenterer>
+              {optionLabel[menuOption].split("").map((char, index) => (
+                <AnimatedSpan
+                  opacity={0}
+                  color="white"
+                  fontSize="40px"
+                  fontWeight="bold"
+                  key={index}
+                  //@ts-ignore
+                  transition={{
+                    delay: hovering
+                      ? ANIM_DURATION +
+                        (index * ANIM_DURATION) / optionLabel[menuOption].length
+                      : 0,
+                    duration: hovering ? ANIM_DURATION / 4 : 0,
+                    ease: "easeIn",
+                  }}
+                  animate={{
+                    opacity: hovering ? [0, 1] : 0,
+                    y: hovering ? [10, 0] : 0,
+                  }}
+                >
+                  {char}
+                </AnimatedSpan>
+              ))}
+            </TextCenterer>
+          </ContainerCenterer>
+        </OptionContainer>
+      </TotalContainer>
+    </>
   );
 };
 
@@ -119,14 +129,38 @@ const ContainerCenterer = chakra(Center, {
   },
 });
 
-const OptionContainer = chakra(AnimatedDiv, {
+const TotalContainer = chakra(AnimatedDiv, {
   shouldForwardProp: () => true,
   baseStyle: {
+    position: "relative",
     w: "400px",
     minW: "400px",
     h: "200px",
     borderRadius: "10px",
+  },
+});
+
+const OptionContainer = chakra(Flex, {
+  baseStyle: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    w: "100%",
+    h: "100%",
+    borderRadius: "10px",
     border: "5px solid white",
+  },
+});
+
+const BlurBackground = chakra(Flex, {
+  baseStyle: {
+    position: "absolute",
+    w: "100%",
+    h: "100%",
+    borderRadius: "10px",
+    backgroundColor: "purple",
+    opacity: 0.4,
+    filter: "blur(5px)",
   },
 });
 

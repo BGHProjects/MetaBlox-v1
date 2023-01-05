@@ -1,6 +1,5 @@
-import { Flex, chakra } from "@chakra-ui/react";
+import { chakra, Flex } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { mainBG } from "../../constants/colours";
 import NavBar from "./Navbar";
 
 interface IPageComponent {
@@ -23,7 +22,7 @@ const PageContainer = chakra(Flex, {
     w: "100%",
     minH: "100vh",
     alignItems: "center",
-    bg: mainBG,
+    position: "absolute",
   },
 });
 
