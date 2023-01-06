@@ -1,25 +1,36 @@
 import { useEffect, useRef, useState } from "react";
-import { NearestFilter, RepeatWrapping, Texture, TextureLoader } from "three";
-import getRandomNumber from "../../helpers/getRandomNumber";
+import {
+  Mesh,
+  NearestFilter,
+  RepeatWrapping,
+  Texture,
+  TextureLoader,
+} from "three";
+import getRandomNumber from "../../../helpers/getRandomNumber";
 
-const OFF_SCREEN_LIMIT = 6;
+const OFF_SCREEN_LIMIT = 2;
+const CUBE_SIZE = 0.03;
 
 const MenuCube = () => {
+  const [mounted, setMounted] = useState(false);
   const [rotation, setRotation] = useState({ x: 0, y: 0, z: 0 });
   const [position, setPosition] = useState({
-    x: getRandomNumber(-5, 5),
-    y: -6,
-    z: 0,
+    x: 0,
+    y: 0.1,
+    z: -2,
   });
   const [activeTexture, setActiveTexture] = useState<Texture | undefined>(
     undefined
   );
-  const flowSpeed = getRandomNumber(5, 20) / 1000;
-  const ySpin = getRandomNumber(-30, 30) / 1000;
-  const zSpin = getRandomNumber(-30, 30) / 1000;
+  const flowSpeed = 0.01;
+  const randomSpin = getRandomNumber(-30, 30) / 1000;
+  const ySpin = randomSpin;
+  const zSpin = randomSpin;
   const flowDelay = getRandomNumber(10, 1000) * 10;
+  let xPos = getRandomNumber(30, 70) / 1000;
+  let yPos = getRandomNumber(30, 150) / 1000;
 
-  const cubeRef = useRef();
+  const cubeRef = useRef<Mesh>();
 
   const randomTexture: Record<number, string> = {
     [1]: "wood.png",
@@ -39,6 +50,10 @@ const MenuCube = () => {
   };
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     if (!typeof document === undefined) return;
     setActiveTexture(() => {
       let newTexture = new TextureLoader().load(
@@ -54,11 +69,19 @@ const MenuCube = () => {
 
   useEffect(() => {
     if (!cubeRef.current) return;
-    cubeRef.current.rotation.set(rotation.x, rotation.y, rotation.z);
-    cubeRef.current.position.set(position.x, position.y, position.z);
+    cubeRef.current!.rotation.set(rotation.x, rotation.y, rotation.z);
+    cubeRef.current!.position.set(position.x, position.y, position.z);
   }, [cubeRef.current, rotation, position]);
 
   useEffect(() => {
+    let coinFlip1 = getRandomNumber(1, 2);
+    let coinFlip2 = getRandomNumber(1, 2);
+
+    if (coinFlip1 === 1) xPos *= -1;
+    if (coinFlip2 === 2) yPos *= -1;
+
+    setPosition({ x: xPos, y: yPos, z: -2 });
+
     setTimeout(() => {
       const interval = setInterval(() => {
         setRotation((prevRotation) => ({
@@ -68,25 +91,27 @@ const MenuCube = () => {
         }));
 
         setPosition((prevPosition) => ({
-          x: prevPosition.x,
-          y:
-            prevPosition.y >= OFF_SCREEN_LIMIT
+          x: xPos,
+          y: yPos,
+          z:
+            prevPosition.z >= OFF_SCREEN_LIMIT
               ? (prevPosition.y = -OFF_SCREEN_LIMIT)
-              : prevPosition.y + flowSpeed,
-          z: prevPosition.z,
+              : (prevPosition.z += flowSpeed),
         }));
       }, 1000 / 60);
       return () => clearInterval(interval);
     }, flowDelay);
   }, []);
 
+  if (!mounted) return null;
+
   return (
     <mesh ref={cubeRef}>
-      <boxGeometry attach="geometry" />
+      <boxGeometry attach="geometry" args={[CUBE_SIZE, CUBE_SIZE, CUBE_SIZE]} />
       <meshBasicMaterial
         attach="material"
         map={activeTexture}
-        color={activeTexture ?? randomColor[getRandomNumber(1, 6)]}
+        color={!activeTexture ? randomColor[getRandomNumber(1, 6)] : undefined}
       />
     </mesh>
   );

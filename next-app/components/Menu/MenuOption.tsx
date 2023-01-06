@@ -1,5 +1,6 @@
 import { Center, chakra, Flex, Image } from "@chakra-ui/react";
 import { useState } from "react";
+import { mainBG } from "../../constants/colours";
 import { Content } from "../../constants/menu";
 import { useAppContext } from "../../contexts/AppStateContext";
 import { AnimatedDiv, AnimatedSpan } from "../AnimatedComponents";
@@ -148,7 +149,6 @@ const OptionContainer = chakra(Flex, {
     w: "100%",
     h: "100%",
     borderRadius: "10px",
-    border: "5px solid white",
   },
 });
 
@@ -158,9 +158,9 @@ const BlurBackground = chakra(Flex, {
     w: "100%",
     h: "100%",
     borderRadius: "10px",
-    backgroundColor: "purple",
-    opacity: 0.4,
-    filter: "blur(5px)",
+    bgGradient: mainBG,
+    opacity: 0.8,
+    filter: "blur(4px)",
   },
 });
 

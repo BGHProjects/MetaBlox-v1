@@ -1,4 +1,5 @@
-import { Center, chakra, HStack } from "@chakra-ui/react";
+import { Center, chakra, Flex, HStack } from "@chakra-ui/react";
+import { AnimatedDiv } from "../components/AnimatedComponents";
 import {
   Exchange,
   Grid,
@@ -7,18 +8,28 @@ import {
   PageComponent,
   Sandbox,
 } from "../components/Menu";
-import MenuBackground from "../components/Menu/MenuBackground";
+import MenuBackground from "../components/Menu/MenuBackground/MenuBackground";
 import { Content } from "../constants/menu";
 import { useAppContext } from "../contexts/AppStateContext";
-
-const ANIM_DURATION = 0.5;
 
 const MainPage = () => {
   const { menuContent } = useAppContext();
 
   return (
     <>
-      <MenuBackground />
+      {/*//@ts-ignore */}
+      <WindowContainer>
+        <MenuBackground />
+      </WindowContainer>
+      <FadeContainer
+        initial={{ opacity: 1 }}
+        //@ts-ignore
+        transition={{
+          duration: 1,
+          ease: "easeIn",
+        }}
+        animate={{ opacity: [1, 0] }}
+      />
       <PageComponent>
         <Center
           mt="50px"
@@ -52,11 +63,29 @@ const MainPage = () => {
   );
 };
 
+const FadeContainer = chakra(AnimatedDiv, {
+  shouldForwardProp: () => true,
+  baseStyle: {
+    w: "100%",
+    h: "100vh",
+    bg: "black",
+    position: "absolute",
+  },
+});
+
 const RowContainer = chakra(HStack, {
   baseStyle: {
     w: "100%",
     h: "fit-content",
     justifyContent: "space-evenly",
+  },
+});
+
+const WindowContainer = chakra(Flex, {
+  baseStyle: {
+    h: "100vh",
+    w: "100%",
+    position: "absolute",
   },
 });
 

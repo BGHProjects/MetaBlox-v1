@@ -23,7 +23,7 @@ const CustomCursor = () => {
         height: `${SIZE}px`,
         borderRadius: "50%",
         background: cursorState === Cursor.Default ? "transparent" : "white",
-        border: cursorState === Cursor.Default ? "3px solid white" : "none",
+        border: cursorState === Cursor.Default ? "2px solid white" : "none",
       }}
     />
   );
