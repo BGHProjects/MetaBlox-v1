@@ -1,7 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react";
-import BackButton from "./BackButton";
 
-const Sandbox = () => {
+const Grid = () => {
   return (
     <Flex
       w="100%"
@@ -10,12 +9,11 @@ const Sandbox = () => {
       position="relative"
       alignItems="center"
     >
-      <BackButton />
       <Text color="white" fontSize="20px">
-        SANDBOX
+        GRID
       </Text>
     </Flex>
   );
 };
 
-export default Sandbox;
+export default Grid;

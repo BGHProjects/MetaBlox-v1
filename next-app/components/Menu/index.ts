@@ -1,12 +1,12 @@
 import BackButton from "./BackButton";
 import CustomCursor from "./CustomCursor";
-import Exchange from "./Exchange";
-import Grid from "./Grid";
-import Marketplace from "./Marketplace";
+import Exchange from "./MenuOptions/Exchange";
+import Grid from "./MenuOptions/Grid";
+import Marketplace from "./MenuOptions/Marketplace";
 import MenuOption from "./MenuOption";
 import NavBar from "./Navbar";
 import PageComponent from "./PageComponent";
-import Sandbox from "./Sandbox";
+import Sandbox from "./MenuOptions/Sandbox";
 
 export {
   BackButton,

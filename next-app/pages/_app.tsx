@@ -1,4 +1,4 @@
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import { AnimatedDiv } from "../components/AnimatedComponents";
@@ -32,14 +32,21 @@ export default function App({ Component, pageProps }: AppProps) {
     };
   }, []);
 
+  const theme = extendTheme({
+    fonts: {
+      metr: `Iceland, sans-serif`,
+    },
+  });
+
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <AppStateContextProvider>
         <Component {...pageProps} />
         <AnimatedDiv
           className="cursor"
           variants={variants}
           animate={cursorVariant}
+          position="relative"
         >
           <CustomCursor />
         </AnimatedDiv>

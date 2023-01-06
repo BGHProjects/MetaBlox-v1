@@ -1,9 +1,9 @@
 import { Center, chakra, Flex, Image } from "@chakra-ui/react";
 import { useState } from "react";
-import { mainBG } from "../../constants/colours";
 import { Content } from "../../constants/menu";
 import { useAppContext } from "../../contexts/AppStateContext";
 import { AnimatedDiv, AnimatedSpan } from "../AnimatedComponents";
+import BlurBackground from "./BlurBackground";
 
 interface IMenuOption {
   menuOption: Content;
@@ -14,6 +14,7 @@ const ANIM_DURATION = 0.3;
 const MenuOption = ({ menuOption }: IMenuOption) => {
   const { setMenuContent, setCursorDefault, setCursorHover } = useAppContext();
   const [hovering, setHovering] = useState(false);
+  const [justRendered, setJustRendered] = useState(true);
 
   const optionLabel: Record<Content, string> = {
     [Content.Exchange]: "EXCHANGE",
@@ -24,6 +25,7 @@ const MenuOption = ({ menuOption }: IMenuOption) => {
   };
 
   const handleEnter = () => {
+    setJustRendered(false);
     setCursorHover();
     setHovering(true);
   };
@@ -45,20 +47,17 @@ const MenuOption = ({ menuOption }: IMenuOption) => {
         onMouseEnter={() => handleEnter()}
         onMouseLeave={() => handleLeave()}
         onClick={() => handleClick()}
-        initial={{
-          scale: 1,
-        }}
         //@ts-ignore
         transition={{
           duration: ANIM_DURATION,
           ease: "easeInOut",
         }}
         animate={{
-          scale: hovering ? [1, 1.1] : [1.1, 1],
+          scale: hovering ? [1, 1.1] : justRendered ? 1 : [1.1, 1],
         }}
       >
-        {/*@ts-ignore */}
         <BlurBackground />
+        {/*@ts-ignore */}
         <OptionContainer>
           <ContainerCenterer>
             <OptionIcon
@@ -149,18 +148,6 @@ const OptionContainer = chakra(Flex, {
     w: "100%",
     h: "100%",
     borderRadius: "10px",
-  },
-});
-
-const BlurBackground = chakra(Flex, {
-  baseStyle: {
-    position: "absolute",
-    w: "100%",
-    h: "100%",
-    borderRadius: "10px",
-    bgGradient: mainBG,
-    opacity: 0.8,
-    filter: "blur(4px)",
   },
 });
 

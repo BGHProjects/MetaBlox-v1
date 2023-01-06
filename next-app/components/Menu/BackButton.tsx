@@ -1,6 +1,8 @@
-import { Center, Text } from "@chakra-ui/react";
+import { ChevronLeftIcon } from "@chakra-ui/icons";
+import { Center, Flex } from "@chakra-ui/react";
 import { Content } from "../../constants/menu";
 import { useAppContext } from "../../contexts/AppStateContext";
+import AppButton from "./AppButton";
 
 const BackButton = () => {
   const { setMenuContent, setCursorDefault, setCursorHover } = useAppContext();
@@ -10,21 +12,17 @@ const BackButton = () => {
     setMenuContent(Content.None);
   };
 
+  const size = 40;
+
   return (
-    <Center
-      position="absolute"
-      top="0"
-      left="0"
-      w="50px"
-      h="50px"
-      borderRadius="10px"
-      border="3px solid white"
-      onMouseEnter={() => setCursorHover()}
-      onMouseLeave={() => setCursorDefault()}
-      onClick={() => handleClick()}
-    >
-      <Text fontWeight="bold">X</Text>
-    </Center>
+    <Flex position="absolute" top="0" left="0">
+      <AppButton
+        w={size}
+        h={size}
+        action={() => handleClick()}
+        component={<ChevronLeftIcon boxSize={10} color="white" />}
+      />
+    </Flex>
   );
 };
 

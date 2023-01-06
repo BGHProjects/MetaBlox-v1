@@ -1,5 +1,5 @@
 import { Flex, Text } from "@chakra-ui/react";
-import BackButton from "./BackButton";
+import BackButton from "../BackButton";
 
 const Marketplace = () => {
   return (

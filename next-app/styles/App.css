@@ -8,3 +8,10 @@
   left: 0;
   pointer-events: none;
 }
+
+@font-face {
+  font-family: "Iceland";
+  src: url("/fonts/Iceland/Iceland-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}

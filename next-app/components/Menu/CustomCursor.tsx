@@ -24,6 +24,9 @@ const CustomCursor = () => {
         borderRadius: "50%",
         background: cursorState === Cursor.Default ? "transparent" : "white",
         border: cursorState === Cursor.Default ? "2px solid white" : "none",
+        position: "absolute",
+        top: `-${SIZE / 2}px`,
+        left: `-${SIZE / 2}px`,
       }}
     />
   );

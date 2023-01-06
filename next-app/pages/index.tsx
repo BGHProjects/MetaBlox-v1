@@ -9,6 +9,7 @@ import {
   Sandbox,
 } from "../components/Menu";
 import MenuBackground from "../components/Menu/MenuBackground/MenuBackground";
+import MenuOptionBase from "../components/Menu/MenuOptions/MenuOptionBase";
 import { Content } from "../constants/menu";
 import { useAppContext } from "../contexts/AppStateContext";
 
@@ -53,10 +54,7 @@ const MainPage = () => {
               </RowContainer>
             </>
           )}
-          {menuContent === Content.Grid && <Grid />}
-          {menuContent === Content.Sandbox && <Sandbox />}
-          {menuContent === Content.Marketplace && <Marketplace />}
-          {menuContent === Content.Exchange && <Exchange />}
+          {menuContent !== Content.None && <MenuOptionBase />}
         </Center>
       </PageComponent>
     </>
