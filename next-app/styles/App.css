@@ -1,14 +1,3 @@
-* {
-  cursor: none;
-}
-
-.cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-}
-
 @font-face {
   font-family: "Iceland";
   src: url("/fonts/Iceland/Iceland-Regular.ttf");

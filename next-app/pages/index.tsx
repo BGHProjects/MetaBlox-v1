@@ -1,13 +1,6 @@
 import { Center, chakra, Flex, HStack } from "@chakra-ui/react";
 import { AnimatedDiv } from "../components/AnimatedComponents";
-import {
-  Exchange,
-  Grid,
-  Marketplace,
-  MenuOption,
-  PageComponent,
-  Sandbox,
-} from "../components/Menu";
+import { MenuOption, PageComponent } from "../components/Menu";
 import MenuBackground from "../components/Menu/MenuBackground/MenuBackground";
 import MenuOptionBase from "../components/Menu/MenuOptions/MenuOptionBase";
 import { Content } from "../constants/menu";
@@ -32,15 +25,7 @@ const MainPage = () => {
         animate={{ opacity: [1, 0] }}
       />
       <PageComponent>
-        <Center
-          mt="50px"
-          maxW="1000px"
-          w="1000px"
-          h="600px"
-          border="1px solid gold"
-          flexDirection="column"
-          justifyContent="space-evenly"
-        >
+        <MenuContentContainer>
           {menuContent === Content.None && (
             <>
               {/*//@ts-ignore */}
@@ -55,11 +40,23 @@ const MainPage = () => {
             </>
           )}
           {menuContent !== Content.None && <MenuOptionBase />}
-        </Center>
+        </MenuContentContainer>
       </PageComponent>
     </>
   );
 };
+
+const MenuContentContainer = chakra(Center, {
+  baseStyle: {
+    mt: "100px",
+    maxW: "1000px",
+    w: "1000px",
+    h: "600px",
+    border: "1px solid gold",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+  },
+});
 
 const FadeContainer = chakra(AnimatedDiv, {
   shouldForwardProp: () => true,

@@ -1,56 +1,46 @@
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
-import { useEffect, useState } from "react";
-import { AnimatedDiv } from "../components/AnimatedComponents";
-import CustomCursor from "../components/Menu/CustomCursor";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { polygonMumbai } from "wagmi/chains";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { publicProvider } from "wagmi/providers/public";
 import { AppStateContextProvider } from "../contexts/AppStateContext";
 import "../styles/App.css";
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  const cursorVariant = "default";
+  const { chains, provider } = configureChains(
+    [polygonMumbai],
+    [alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY }), publicProvider()]
+  );
 
-  const variants = {
-    default: {
-      x: cursorPosition.x,
-      y: cursorPosition.y,
-    },
-  };
+  const { connectors } = getDefaultWallets({
+    appName: "MetaBlox",
+    chains,
+  });
 
-  useEffect(() => {
-    const handleMouseMove = (event) => {
-      setCursorPosition({
-        x: event.clientX,
-        y: event.clientY,
-      });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
+  const wagmiClient = createClient({
+    autoConnect: true,
+    connectors,
+    provider,
+  });
 
   const theme = extendTheme({
     fonts: {
-      metr: `Iceland, sans-serif`,
+      Iceland: `Iceland, sans-serif`,
     },
   });
 
   return (
-    <ChakraProvider theme={theme}>
-      <AppStateContextProvider>
-        <Component {...pageProps} />
-        <AnimatedDiv
-          className="cursor"
-          variants={variants}
-          animate={cursorVariant}
-          position="relative"
-        >
-          <CustomCursor />
-        </AnimatedDiv>
-      </AppStateContextProvider>
-    </ChakraProvider>
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider chains={chains}>
+        <ChakraProvider theme={theme}>
+          <AppStateContextProvider>
+            <Component {...pageProps} />
+          </AppStateContextProvider>
+        </ChakraProvider>
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 }

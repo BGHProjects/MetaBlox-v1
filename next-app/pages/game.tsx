@@ -1,4 +1,4 @@
-import { Flex, chakra, Text, Center } from "@chakra-ui/react";
+import { Center, chakra, Flex } from "@chakra-ui/react";
 import { Physics } from "@react-three/cannon";
 import { Sky } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -6,39 +6,44 @@ import { FPV, Ground, Player } from "../components/Gameplay";
 import Cubes from "../components/Gameplay/Cubes/Cubes";
 import TextureSelector from "../components/Gameplay/TextureSelector";
 
+const cursorSize = 15;
+
 const Gameplay = () => {
   return (
-    <WindowContainer>
-      <Canvas>
-        <Sky sunPosition={[100, 100, 20]} />
-        <ambientLight intensity={0.5} />
-        <FPV />
-        <Physics>
-          <Player />
-          <Cubes />
-          <Ground />
-        </Physics>
-      </Canvas>
-      <TextureSelector />
-      <CursorContainer>
-        <Cursor>+</Cursor>
-      </CursorContainer>
-    </WindowContainer>
+    <>
+      {/* @ts-ignore */}
+      <WindowContainer>
+        <Canvas>
+          <Sky sunPosition={[100, 100, 20]} />
+          <ambientLight intensity={0.5} />
+          <FPV />
+          <Physics>
+            <Player />
+            <Cubes />
+            <Ground />
+          </Physics>
+        </Canvas>
+        <TextureSelector />
+        <Cursor />
+      </WindowContainer>
+    </>
   );
 };
 
-const CursorContainer = chakra(Center, {
+const Cursor = chakra(Center, {
   baseStyle: {
     position: "absolute",
-    w: "100%",
-    h: "100vh",
+    bg: "white",
+    h: `${cursorSize}px`,
+    w: `${cursorSize}px`,
+    left: "0",
+    right: "0",
+    top: "0",
+    bottom: "0",
+    m: "auto",
+    borderRadius: "full",
+    border: "1px solid black",
   },
-});
-
-const Cursor = chakra(Text, {
-  fontSize: "30px",
-  fontWeight: "bold",
-  color: "red",
 });
 
 const WindowContainer = chakra(Flex, {

@@ -1,3 +1,4 @@
+import { Center, chakra, Image } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import useKeyboard from "../../hooks/useKeyboard";
 import useStore from "../../hooks/useStore";
@@ -8,6 +9,7 @@ import {
   woodImg,
   logImg,
 } from "../../public/images/images";
+import BlurBackground from "../Menu/BlurBackground";
 
 const images = {
   dirt: dirtImg,
@@ -16,6 +18,9 @@ const images = {
   wood: woodImg,
   log: logImg,
 };
+
+const normalSize = 50;
+const selectedSize = 70;
 
 const TextureSelector = () => {
   const [visible, setVisible] = useState(false);
@@ -51,20 +56,52 @@ const TextureSelector = () => {
 
   return (
     visible && (
-      <div className="absolute centered texture-selector">
+      <SelectorContainer>
+        <BlurBackground />
+
         {Object.entries(images).map(([k, src]) => {
+          const size =
+            k === activeTexture ? `${selectedSize}px` : `${normalSize}px`;
           return (
-            <img
-              key={k}
-              src={src}
-              alt={k}
-              className={`${k === activeTexture ? "active" : ""}`}
-            />
+            <>
+              {/* @ts-ignore */}
+              <TextureImg
+                key={k}
+                src={src.src}
+                alt={k}
+                h={size}
+                w={size}
+                border={k === activeTexture ? "3px solid orange" : "none"}
+              />
+            </>
           );
         })}
-      </div>
+      </SelectorContainer>
     )
   );
 };
+
+const SelectorContainer = chakra(Center, {
+  baseStyle: {
+    w: "fit-content",
+    p: "20px",
+    h: "fit-content",
+    position: "absolute",
+    left: "0",
+    right: "0",
+    top: "0",
+    bottom: "0",
+    m: "auto",
+    borderRadius: "10px",
+  },
+});
+
+const TextureImg = chakra(Image, {
+  baseStyle: {
+    mx: "10px",
+    borderRadius: "10px",
+    zIndex: "1",
+  },
+});
 
 export default TextureSelector;

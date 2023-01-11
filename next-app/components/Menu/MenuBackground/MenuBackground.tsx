@@ -22,7 +22,7 @@ const MenuBackground = () => {
           <Suspense fallback={null}>
             <color attach="background" args={["#000000"]} />
             <fog attach="fog" args={["#000000", 1, 2.5]} />
-            {range(10).map((number) => (
+            {range(20).map((number) => (
               <MenuCube key={number} />
             ))}
             <Light />

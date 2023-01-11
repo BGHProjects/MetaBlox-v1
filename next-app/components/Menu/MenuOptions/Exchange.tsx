@@ -1,11 +1,8 @@
-import { VStack, Text, Link } from "@chakra-ui/react";
+import { Link, Text, VStack } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { useAppContext } from "../../../contexts/AppStateContext";
 import AppButton from "../AppButton";
 
 const Exchange = () => {
-  const { setCursorDefault, setCursorHover } = useAppContext();
-
   return (
     <VStack spacing={10}>
       <AppButton
@@ -20,9 +17,7 @@ const Exchange = () => {
           as={NextLink}
           href="https://github.com/BGHProjects/MetaRanger_v1"
           isExternal
-          cursor="none"
-          onMouseEnter={() => setCursorHover()}
-          onMouseLeave={() => setCursorDefault()}
+          cursor="pointer"
         >
           METARANGERS
         </Link>

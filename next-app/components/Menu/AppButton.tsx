@@ -1,7 +1,6 @@
-import { Center, chakra, HStack, Text, Image } from "@chakra-ui/react";
+import { Center, chakra, HStack, Image, Text } from "@chakra-ui/react";
 import { ReactNode, useState } from "react";
 import { buttonBG, metrButtonBG } from "../../constants/colours";
-import { useAppContext } from "../../contexts/AppStateContext";
 import { AnimatedDiv } from "../AnimatedComponents";
 
 const ANIM_DURATION = 0.3;
@@ -25,24 +24,12 @@ const AppButton = ({
   component,
   metrButton,
 }: IAppButton) => {
-  const { setCursorDefault, setCursorHover } = useAppContext();
   const [hovering, setHovering] = useState(false);
   const [justRendered, setJustRendered] = useState(true);
 
   const handleEnter = () => {
     setJustRendered(false);
-    setCursorHover();
     setHovering(true);
-  };
-
-  const handleLeave = () => {
-    setCursorDefault();
-    setHovering(false);
-  };
-
-  const handleClick = () => {
-    setCursorDefault();
-    action();
   };
 
   return (
@@ -50,8 +37,8 @@ const AppButton = ({
       h={`${h}px`}
       w={`${w}px`}
       onMouseEnter={() => handleEnter()}
-      onMouseLeave={() => handleLeave()}
-      onClick={() => handleClick()}
+      onMouseLeave={() => setHovering(false)}
+      onClick={() => action()}
       //@ts-ignore
       transition={{
         duration: ANIM_DURATION,
@@ -62,6 +49,7 @@ const AppButton = ({
       }}
       bgGradient={metrButton ? metrButtonBG : buttonBG}
       borderRadius="10px"
+      cursor="pointer"
     >
       <Center w="100%" h="100%">
         {metrButton ? (
@@ -71,7 +59,7 @@ const AppButton = ({
               textAlign="center"
               color="white"
               fontSize={fontSize ? `${fontSize}px` : "30px"}
-              fontFamily="metr"
+              fontFamily="Iceland"
             >
               {title}
             </Text>

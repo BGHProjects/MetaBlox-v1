@@ -12,7 +12,7 @@ interface IMenuOption {
 const ANIM_DURATION = 0.3;
 
 const MenuOption = ({ menuOption }: IMenuOption) => {
-  const { setMenuContent, setCursorDefault, setCursorHover } = useAppContext();
+  const { setMenuContent } = useAppContext();
   const [hovering, setHovering] = useState(false);
   const [justRendered, setJustRendered] = useState(true);
 
@@ -26,18 +26,7 @@ const MenuOption = ({ menuOption }: IMenuOption) => {
 
   const handleEnter = () => {
     setJustRendered(false);
-    setCursorHover();
     setHovering(true);
-  };
-
-  const handleLeave = () => {
-    setCursorDefault();
-    setHovering(false);
-  };
-
-  const handleClick = () => {
-    setCursorDefault();
-    setMenuContent(menuOption);
   };
 
   return (
@@ -45,8 +34,8 @@ const MenuOption = ({ menuOption }: IMenuOption) => {
       {/*@ts-ignore */}
       <TotalContainer
         onMouseEnter={() => handleEnter()}
-        onMouseLeave={() => handleLeave()}
-        onClick={() => handleClick()}
+        onMouseLeave={() => setHovering(false)}
+        onClick={() => setMenuContent(menuOption)}
         //@ts-ignore
         transition={{
           duration: ANIM_DURATION,
@@ -137,6 +126,7 @@ const TotalContainer = chakra(AnimatedDiv, {
     minW: "400px",
     h: "200px",
     borderRadius: "10px",
+    cursor: "pointer",
   },
 });
 
