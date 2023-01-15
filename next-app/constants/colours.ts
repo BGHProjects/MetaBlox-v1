@@ -8,4 +8,4 @@ const metrPurple = "#6D00A0";
 const metrBlue = "#00A3FF";
 const metrButtonBG = `linear(to-r, ${metrPurple}, ${metrBlue})`;
 
-export { mainBG, gridBlue, gridPink, buttonBG, metrButtonBG };
+export { mainBG, gridBlue, gridPink, buttonBG, metrButtonBG, orangeMain };
