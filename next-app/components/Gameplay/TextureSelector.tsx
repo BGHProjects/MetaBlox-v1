@@ -1,5 +1,5 @@
-import { Center, chakra, Image } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Center, chakra, Image, Flex, Text, HStack } from "@chakra-ui/react";
+import { useEffect } from "react";
 import useKeyboard from "../../hooks/useKeyboard";
 import useStore from "../../hooks/useStore";
 import {
@@ -19,15 +19,15 @@ const images = {
   log: logImg,
 };
 
-const normalSize = 50;
-const selectedSize = 70;
+const normalSize = 30;
+const selectedSize = 40;
 
 const TextureSelector = () => {
-  const [visible, setVisible] = useState(false);
   const [activeTexture, setTexture] = useStore((state) => [
     state.texture,
     state.setTexture,
   ]);
+
   const { dirt, grass, glass, wood, log } = useKeyboard();
 
   useEffect(() => {
@@ -44,21 +44,10 @@ const TextureSelector = () => {
     }
   }, [setTexture, dirt, grass, glass, wood, log]);
 
-  useEffect(() => {
-    const visibilityTimeout = setTimeout(() => {
-      setVisible(false);
-    }, 2000);
-    setVisible(true);
-    return () => {
-      clearTimeout(visibilityTimeout);
-    };
-  }, [activeTexture]);
-
   return (
-    visible && (
-      <SelectorContainer>
-        <BlurBackground />
-
+    <SelectorContainer>
+      <BlurBackground />
+      <Center>
         {Object.entries(images).map(([k, src]) => {
           const size =
             k === activeTexture ? `${selectedSize}px` : `${normalSize}px`;
@@ -70,29 +59,41 @@ const TextureSelector = () => {
                 src={src.src}
                 alt={k}
                 h={size}
+                a
                 w={size}
                 border={k === activeTexture ? "3px solid orange" : "none"}
               />
             </>
           );
         })}
-      </SelectorContainer>
-    )
+      </Center>
+
+      <HStack spacing={10} mt="5px" zIndex="1">
+        <HelpText>Press C for Controls</HelpText>
+        <HelpText>Press Q to Quit</HelpText>
+      </HStack>
+    </SelectorContainer>
   );
 };
+
+const HelpText = chakra(Text, {
+  baseStyle: {
+    color: "white",
+  },
+});
 
 const SelectorContainer = chakra(Center, {
   baseStyle: {
     w: "fit-content",
-    p: "20px",
+    p: "10px",
     h: "fit-content",
     position: "absolute",
     left: "0",
     right: "0",
     top: "0",
-    bottom: "0",
     m: "auto",
     borderRadius: "10px",
+    flexDirection: "column",
   },
 });
 

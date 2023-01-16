@@ -55,14 +55,10 @@ const AppButton = ({
         {metrButton ? (
           <HStack>
             <Image src="/images/METR_icon.svg" />
-            <Text
-              textAlign="center"
-              color="white"
-              fontSize={fontSize ? `${fontSize}px` : "30px"}
-              fontFamily="Iceland"
-            >
+            {/* @ts-ignore */}
+            <METRLabel fontSize={fontSize ? `${fontSize}px` : "30px"}>
               {title}
-            </Text>
+            </METRLabel>
           </HStack>
         ) : (
           component ?? (
@@ -80,9 +76,12 @@ const AppButton = ({
   );
 };
 
-const StyledButton = chakra(AnimatedDiv, {
-  shouldForwardProp: () => true,
-  baseStyle: {},
+const METRLabel = chakra(Text, {
+  baseStyle: {
+    textAlign: "center",
+    color: "white",
+    fontFamily: "Iceland",
+  },
 });
 
 export default AppButton;

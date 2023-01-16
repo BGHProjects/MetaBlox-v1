@@ -2,6 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 
 const actionByKey = (key: string) => {
   const keyActionMap: Record<string, string> = {
+    KeyQ: "quit",
+    KeyY: "quitWithSaving",
+    KeyN: "quitWithoutSaving",
+    KeyC: "toggleControls",
     KeyW: "moveForward",
     KeyS: "moveBackward",
     KeyA: "moveLeft",
@@ -18,6 +22,10 @@ const actionByKey = (key: string) => {
 
 const useKeyboard = () => {
   const [actions, setActions] = useState({
+    quit: false,
+    quitWithSaving: false,
+    quitWithoutSaving: false,
+    toggleControls: false,
     moveForward: false,
     moveBackward: false,
     moveLeft: false,

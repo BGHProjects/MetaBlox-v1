@@ -17,9 +17,13 @@ const ANIM_DURATION = 0.3;
 
 interface IMarketplaceBlockCard {
   block: Block;
+  handleClick: () => void;
 }
 
-const MarketplaceBlockCard = ({ block }: IMarketplaceBlockCard) => {
+const MarketplaceBlockCard = ({
+  block,
+  handleClick,
+}: IMarketplaceBlockCard) => {
   const [mounted, setMounted] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [justRendered, setJustRendered] = useState(true);
@@ -84,6 +88,7 @@ const MarketplaceBlockCard = ({ block }: IMarketplaceBlockCard) => {
     <CardContainer
       onMouseEnter={() => handleEnter()}
       onMouseLeave={() => setHovering(false)}
+      onClick={() => handleClick()}
       //@ts-ignore
       transition={{
         duration: ANIM_DURATION,

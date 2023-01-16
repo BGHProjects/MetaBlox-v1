@@ -14,4 +14,12 @@ const blockToImage: Record<Block, string> = {
   [Block.Dirt]: "dirt.jpg",
 };
 
-export { Block, blockToImage };
+const blockPrices: Record<Block, number> = {
+  [Block.Glass]: 15,
+  [Block.Grass]: 10,
+  [Block.Wood]: 10,
+  [Block.Log]: 10,
+  [Block.Dirt]: 10,
+};
+
+export { Block, blockToImage, blockPrices };

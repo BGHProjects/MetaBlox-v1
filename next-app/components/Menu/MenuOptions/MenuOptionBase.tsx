@@ -10,7 +10,7 @@ import Marketplace from "./Marketplace";
 import Sandbox from "./Sandbox";
 
 const MenuOptionBase = () => {
-  const { menuContent } = useAppContext();
+  const { menuContent, setMenuContent } = useAppContext();
 
   const optionContent: Record<
     Content,
@@ -19,7 +19,7 @@ const MenuOptionBase = () => {
     [Content.Exchange]: {
       title: "EXCHANGE",
       subtitle:
-        "Exchange your Mumbai MATIC tokens for our MBLOX tokens to use in the Marketplace. Current price is 0.1 MATIC for 1000 MBLOX.",
+        "Exchange your Mumbai MATIC tokens for our MBLOX tokens to spend in the game. Current exchange rate is 0.1 MATIC for 1000 MBLOX.",
       content: <Exchange />,
     },
     [Content.Marketplace]: {
@@ -50,7 +50,7 @@ const MenuOptionBase = () => {
         <BlurBackground />
         {/* @ts-ignore */}
         <ContentContainer>
-          <BackButton />
+          <BackButton action={() => setMenuContent(Content.None)} />
           <TitleText>{optionContent[menuContent].title}</TitleText>
           <SubtitleText>{optionContent[menuContent].subtitle}</SubtitleText>
           {optionContent[menuContent].content}

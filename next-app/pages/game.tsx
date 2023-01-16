@@ -4,6 +4,7 @@ import { Sky } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { FPV, Ground, Player } from "../components/Gameplay";
 import Cubes from "../components/Gameplay/Cubes/Cubes";
+import QuitCard from "../components/Gameplay/QuitCard";
 import TextureSelector from "../components/Gameplay/TextureSelector";
 
 const cursorSize = 15;
@@ -24,6 +25,7 @@ const Gameplay = () => {
           </Physics>
         </Canvas>
         <TextureSelector />
+        <QuitCard />
         <Cursor />
       </WindowContainer>
     </>
