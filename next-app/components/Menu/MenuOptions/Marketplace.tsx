@@ -53,7 +53,9 @@ const Marketplace = () => {
         closeFunction={() => closeFunction()}
         isOpen={open}
         title={(("PURCHASE " + selectedBlock) as string) + " BLOCK"}
-        content={<MarketplaceBlockConfirmModal block={selectedBlock} />}
+        content={
+          <MarketplaceBlockConfirmModal block={selectedBlock as Block} />
+        }
       />
     </>
   );

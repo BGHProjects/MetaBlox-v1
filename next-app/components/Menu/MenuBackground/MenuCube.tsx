@@ -24,8 +24,8 @@ const MenuCube = () => {
   );
   const flowSpeed = 0.01;
   const randomSpin = getRandomNumber(-30, 30) / 1000;
-  const ySpin = randomSpin;
-  const zSpin = randomSpin;
+  let ySpin = randomSpin;
+  let zSpin = randomSpin;
   const flowDelay = getRandomNumber(10, 1000) * 10;
   let xPos = getRandomNumber(30, 70) / 1000;
   let yPos = getRandomNumber(30, 150) / 1000;
@@ -94,8 +94,8 @@ const MenuCube = () => {
           x: xPos,
           y: yPos,
           z:
-            prevPosition.z >= OFF_SCREEN_LIMIT
-              ? (prevPosition.y = -OFF_SCREEN_LIMIT)
+            prevPosition.z >= OFF_SCREEN_LIMIT + 0.5
+              ? (prevPosition.z = -OFF_SCREEN_LIMIT)
               : (prevPosition.z += flowSpeed),
         }));
       }, 1000 / 60);
