@@ -1,15 +1,15 @@
-import { Center, chakra, Image, Flex, Text, HStack } from "@chakra-ui/react";
+import { Center, chakra, Image, Text, HStack } from "@chakra-ui/react";
 import { useEffect } from "react";
-import useKeyboard from "../../hooks/useKeyboard";
-import useStore from "../../hooks/useStore";
+import useKeyboard from "../../../hooks/useKeyboard";
+import useStore from "../../../hooks/useStore";
 import {
   dirtImg,
   grassImg,
   glassImg,
   woodImg,
   logImg,
-} from "../../public/images/images";
-import BlurBackground from "../Menu/BlurBackground";
+} from "../../../public/images/images";
+import BlurBackground from "../../Menu/BlurBackground";
 
 const images = {
   dirt: dirtImg,

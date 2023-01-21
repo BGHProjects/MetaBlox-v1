@@ -2,14 +2,18 @@ import { Center, chakra, Flex } from "@chakra-ui/react";
 import { Physics } from "@react-three/cannon";
 import { Sky } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import { useState } from "react";
 import { FPV, Ground, Player } from "../components/Gameplay";
 import Cubes from "../components/Gameplay/Cubes/Cubes";
-import QuitCard from "../components/Gameplay/QuitCard";
-import TextureSelector from "../components/Gameplay/TextureSelector";
+import ControlsCard from "../components/Gameplay/UI/ControlsCard";
+import QuitCard from "../components/Gameplay/UI/QuitCard";
+import TextureSelector from "../components/Gameplay/UI/TextureSelector";
 
 const cursorSize = 15;
 
 const Gameplay = () => {
+  const [showingSomething, setShowingSomething] = useState(false);
+
   return (
     <>
       {/* @ts-ignore */}
@@ -25,8 +29,9 @@ const Gameplay = () => {
           </Physics>
         </Canvas>
         <TextureSelector />
-        <QuitCard />
-        <Cursor />
+        <QuitCard setShowingSomething={setShowingSomething} />
+        <ControlsCard setShowingSomething={setShowingSomething} />
+        {!showingSomething && <Cursor />}
       </WindowContainer>
     </>
   );

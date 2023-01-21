@@ -1,5 +1,5 @@
 import { VStack, Center, Text } from "@chakra-ui/react";
-import { buttonBG } from "../../constants/colours";
+import { buttonBG } from "../../../constants/colours";
 
 interface IQuitCardOption {
   saveOption: boolean;
