@@ -1,4 +1,4 @@
-import { Center, Text, VStack } from "@chakra-ui/react";
+import { Center, Text, VStack, chakra } from "@chakra-ui/react";
 import { Status } from "../../../constants/worldTokens";
 import { useAppContext } from "../../../contexts/AppStateContext";
 import AppButton from "../AppButton";
@@ -44,9 +44,7 @@ const GridModalContent = ({ idx, status, colour }: IGridModalContent) => {
 
   return (
     <VStack alignItems="center" spacing={10} p="20px">
-      <Text color="white" fontWeight="bold" fontSize="20px" textAlign="center">
-        {textContent[status].title}
-      </Text>
+      <Title>{textContent[status].title}</Title>
       <Center
         border="2px solid white"
         borderRadius="10px"
@@ -75,5 +73,14 @@ const GridModalContent = ({ idx, status, colour }: IGridModalContent) => {
     </VStack>
   );
 };
+
+const Title = chakra(Text, {
+  baseStyle: {
+    color: "white",
+    fontFamily: "Aquire",
+    fontSize: "20px",
+    textAlign: "center",
+  },
+});
 
 export default GridModalContent;

@@ -7,7 +7,7 @@ import goldImg from "./gold.png";
 import opalImg from "./opal.png";
 import spaceinvadersImg from "./spaceinvaders.jpg";
 import pacmanImg from "./pacman.gif";
-import labrykImg from "./labrysl.png";
+import labrykImg from "./labrys.png";
 
 export {
   dirtImg,

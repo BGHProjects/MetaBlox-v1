@@ -21,7 +21,7 @@ const blockToImage: Record<Block, string> = {
   [Block.Opal]: "opal.png",
   [Block.SpaceInvaders]: "spaceinvaders.jpg",
   [Block.PacMan]: "pacman.gif",
-  [Block.Labryk]: "labrysl.png",
+  [Block.Labryk]: "labrys.png",
 };
 
 const blockPrices: Record<Block, number> = {

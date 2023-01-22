@@ -29,6 +29,8 @@ export default function App({ Component, pageProps }: AppProps) {
   const theme = extendTheme({
     fonts: {
       Iceland: `Iceland, sans-serif`,
+      Aquire: `Aquire, sans-serif`,
+      Play: `Play, sans-serif`,
     },
   });
 

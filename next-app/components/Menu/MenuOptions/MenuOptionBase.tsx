@@ -94,6 +94,7 @@ const SubtitleText = chakra(Text, {
     my: "30px",
     w: "80%",
     textAlign: "center",
+    fontFamily: "Play",
   },
 });
 
@@ -102,7 +103,7 @@ const TitleText = chakra(Text, {
     color: "white",
     fontSize: "30px",
     mt: "30px",
-    fontWeight: "bold",
+    fontFamily: "Aquire",
   },
 });
 

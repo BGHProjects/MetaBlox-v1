@@ -65,6 +65,7 @@ const MenuOption = ({ menuOption }: IMenuOption) => {
             <TextCenterer>
               {optionLabel[menuOption].split("").map((char, index) => (
                 <AnimatedSpan
+                  fontFamily="Aquire"
                   opacity={0}
                   color="white"
                   fontSize="40px"

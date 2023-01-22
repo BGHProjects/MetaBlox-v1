@@ -8,5 +8,5 @@ export const inputToImage: Record<string, string> = {
   opal: "opal.png",
   spaceinvaders: "spaceinvaders.jpg",
   pacman: "pacman.gif",
-  labryk: "labrysl.png",
+  labryk: "labrys.png",
 };

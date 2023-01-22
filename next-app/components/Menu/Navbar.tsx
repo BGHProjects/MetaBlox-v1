@@ -14,6 +14,7 @@ const NavBar = () => {
         <AnimatedSpan
           color="white"
           fontWeight="bold"
+          fontFamily="Aquire"
           transition={{
             duration: 1,
             fontSize: { delay: moveDelay },

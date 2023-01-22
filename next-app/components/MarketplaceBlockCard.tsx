@@ -161,7 +161,7 @@ const BlockTitle = chakra(Text, {
   baseStyle: {
     color: "white",
     textAlign: "center",
-    fontWeight: "bold",
+    fontFamily: "Aquire",
     fontSize: "18px",
   },
 });

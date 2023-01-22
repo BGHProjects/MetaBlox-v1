@@ -4,3 +4,17 @@
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: "Aquire";
+  src: url("/fonts/AquireBold.otf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Play";
+  src: url("/fonts/Play/Play-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
