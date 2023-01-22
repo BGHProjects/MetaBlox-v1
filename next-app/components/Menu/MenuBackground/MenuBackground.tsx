@@ -5,7 +5,11 @@ import MenuCube from "./MenuCube";
 import Landscape from "./Landscape";
 import Light from "./Light";
 
-const MenuBackground = () => {
+interface IMenuBackground {
+  animationDelay: number;
+}
+
+const MenuBackground = ({ animationDelay }: IMenuBackground) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -23,7 +27,7 @@ const MenuBackground = () => {
             <color attach="background" args={["#000000"]} />
             <fog attach="fog" args={["#000000", 1, 2.5]} />
             {range(30).map((number) => (
-              <MenuCube key={number} />
+              <MenuCube key={number} animationDelay={animationDelay} />
             ))}
             <Light />
             <Landscape />

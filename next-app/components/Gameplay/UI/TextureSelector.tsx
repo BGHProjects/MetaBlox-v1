@@ -8,6 +8,11 @@ import {
   glassImg,
   woodImg,
   logImg,
+  goldImg,
+  opalImg,
+  spaceinvadersImg,
+  pacmanImg,
+  labrykImg,
 } from "../../../public/images/images";
 import BlurBackground from "../../Menu/BlurBackground";
 
@@ -17,6 +22,11 @@ const images = {
   glass: glassImg,
   wood: woodImg,
   log: logImg,
+  gold: goldImg,
+  opal: opalImg,
+  spaceinvaders: spaceinvadersImg,
+  pacman: pacmanImg,
+  labryk: labrykImg,
 };
 
 const normalSize = 30;
@@ -28,7 +38,18 @@ const TextureSelector = () => {
     state.setTexture,
   ]);
 
-  const { dirt, grass, glass, wood, log } = useKeyboard();
+  const {
+    dirt,
+    grass,
+    glass,
+    wood,
+    log,
+    gold,
+    opal,
+    spaceinvaders,
+    pacman,
+    labryk,
+  } = useKeyboard();
 
   useEffect(() => {
     const textures = {
@@ -37,12 +58,30 @@ const TextureSelector = () => {
       glass,
       wood,
       log,
+      gold,
+      opal,
+      spaceinvaders,
+      pacman,
+      labryk,
     };
     const pressedTexture = Object.entries(textures).find(([k, v]) => v);
+
     if (pressedTexture) {
       setTexture(pressedTexture[0]);
     }
-  }, [setTexture, dirt, grass, glass, wood, log]);
+  }, [
+    setTexture,
+    dirt,
+    grass,
+    glass,
+    wood,
+    log,
+    gold,
+    opal,
+    spaceinvaders,
+    pacman,
+    labryk,
+  ]);
 
   return (
     <SelectorContainer>

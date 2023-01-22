@@ -29,6 +29,7 @@ const Grid = () => {
       >
         {test.map((item) => (
           <GridParcel
+            key={item}
             idx={item}
             colour={generateRandomColour()}
             gridSize={GRID_SIZE}

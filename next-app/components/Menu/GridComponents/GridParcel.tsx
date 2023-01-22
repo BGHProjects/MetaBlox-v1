@@ -22,8 +22,6 @@ const GridParcel = ({ idx, gridSize, colour, status }: IGridParcel) => {
     setHovering(true);
   };
 
-  const rotation = getRandomNumber(-60, 60);
-
   const handleClick = () => {
     setOpenModal(true);
   };
@@ -46,14 +44,13 @@ const GridParcel = ({ idx, gridSize, colour, status }: IGridParcel) => {
         cursor="pointer"
         border="0.5px solid white"
         animate={{
-          scale: hovering ? [1, 1.3] : justRendered ? 1 : [1.3, 1],
+          scale: hovering ? [1, 1.6] : justRendered ? 1 : [1.6, 1],
           borderRadius: hovering
-            ? ["0px", "5px"]
+            ? ["0px", `${gridSize / 10}px`]
             : justRendered
             ? "0px"
-            : ["5px", "0px"],
+            : [`${gridSize / 10}px`, "0px"],
           borderWidth: hovering ? 2 : 0.5,
-          rotate: hovering ? [0, rotation] : justRendered ? 0 : [rotation, 0],
         }}
         // @ts-ignore
         transition={{

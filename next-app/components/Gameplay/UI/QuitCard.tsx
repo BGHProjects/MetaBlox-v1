@@ -1,16 +1,15 @@
 import { Center, chakra, Text, HStack, VStack } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { useState, useEffect, Dispatch, SetStateAction, use } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import useKeyboard from "../../../hooks/useKeyboard";
 import BlurBackground from "../../Menu/BlurBackground";
 import QuitCardOption from "./QuitCardOption";
 
 interface IQuitCard {
   setShowingSomething: Dispatch<SetStateAction<boolean>>;
+  quitFunction: () => void;
 }
 
-const QuitCard = ({ setShowingSomething }: IQuitCard) => {
-  const route = useRouter();
+const QuitCard = ({ setShowingSomething, quitFunction }: IQuitCard) => {
   const { quit, quitWithoutSaving, quitWithSaving } = useKeyboard();
   const [show, setShow] = useState(false);
 
@@ -22,8 +21,8 @@ const QuitCard = ({ setShowingSomething }: IQuitCard) => {
 
   useEffect(() => {
     if (show) {
-      if (quitWithSaving) route.push("/");
-      if (quitWithoutSaving) route.push("/");
+      if (quitWithSaving) quitFunction();
+      if (quitWithoutSaving) quitFunction();
     }
   }, [quitWithSaving, quitWithoutSaving]);
 

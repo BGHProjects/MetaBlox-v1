@@ -15,6 +15,7 @@ const MenuOption = ({ menuOption }: IMenuOption) => {
   const { setMenuContent } = useAppContext();
   const [hovering, setHovering] = useState(false);
   const [justRendered, setJustRendered] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
 
   const optionLabel: Record<Content, string> = {
     [Content.Exchange]: "EXCHANGE",
@@ -43,6 +44,7 @@ const MenuOption = ({ menuOption }: IMenuOption) => {
         }}
         animate={{
           scale: hovering ? [1, 1.1] : justRendered ? 1 : [1.1, 1],
+          opacity: fadeOut ? [1, 0] : [0, 1],
         }}
       >
         <BlurBackground />

@@ -6,9 +6,4 @@ enum Content {
   None = "None",
 }
 
-enum Cursor {
-  Default = "Default",
-  Hover = "Hover",
-}
-
-export { Content, Cursor };
+export { Content };

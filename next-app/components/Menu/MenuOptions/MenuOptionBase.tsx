@@ -1,7 +1,8 @@
 import { chakra, Flex, Text } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Content } from "../../../constants/menu";
 import { useAppContext } from "../../../contexts/AppStateContext";
+import { AnimatedDiv } from "../../AnimatedComponents";
 import BackButton from "../BackButton";
 import BlurBackground from "../BlurBackground";
 import Exchange from "./Exchange";
@@ -43,14 +44,40 @@ const MenuOptionBase = () => {
     [Content.None]: { title: "", subtitle: "", content: <></> },
   };
 
+  const [initialLoad, setInitialLoad] = useState(true);
+  const [exiting, setExiting] = useState(false);
+
+  const animDuration = 0.2;
+
+  useEffect(() => {
+    setTimeout(() => {
+      setInitialLoad(false);
+    }, animDuration * 1000);
+  }, []);
+
+  const handleExit = () => {
+    setExiting(true);
+    setTimeout(() => {
+      setMenuContent(Content.None);
+    }, animDuration * 1000);
+  };
+
   return (
     <>
       {/* @ts-ignore */}
-      <OuterContainer>
+      <OuterContainer
+        transition={{
+          duration: animDuration,
+        }}
+        animate={{
+          opacity: initialLoad ? [0, 1] : exiting ? [1, 0] : 1,
+          scale: initialLoad ? [0.9, 1] : exiting ? [1, 0.9] : 1,
+        }}
+      >
         <BlurBackground />
         {/* @ts-ignore */}
         <ContentContainer>
-          <BackButton action={() => setMenuContent(Content.None)} />
+          <BackButton action={() => handleExit()} />
           <TitleText>{optionContent[menuContent].title}</TitleText>
           <SubtitleText>{optionContent[menuContent].subtitle}</SubtitleText>
           {optionContent[menuContent].content}
@@ -79,7 +106,7 @@ const TitleText = chakra(Text, {
   },
 });
 
-const OuterContainer = chakra(Flex, {
+const OuterContainer = chakra(AnimatedDiv, {
   baseStyle: {
     w: "100%",
     h: "100%",

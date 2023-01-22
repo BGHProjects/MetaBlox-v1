@@ -1,6 +1,6 @@
-import { VStack, Text, Center } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+import { Center, Text, VStack } from "@chakra-ui/react";
 import { Status } from "../../../constants/worldTokens";
+import { useAppContext } from "../../../contexts/AppStateContext";
 import AppButton from "../AppButton";
 
 interface IGridModalContent {
@@ -10,7 +10,7 @@ interface IGridModalContent {
 }
 
 const GridModalContent = ({ idx, status, colour }: IGridModalContent) => {
-  const router = useRouter();
+  const { setStartingGameplay } = useAppContext();
 
   const textContent: Record<
     Status,
@@ -70,7 +70,7 @@ const GridModalContent = ({ idx, status, colour }: IGridModalContent) => {
         h={60}
         w={300}
         title={textContent[status].buttonTitle}
-        action={() => router.push("/game")}
+        action={() => setStartingGameplay(true)}
       />
     </VStack>
   );

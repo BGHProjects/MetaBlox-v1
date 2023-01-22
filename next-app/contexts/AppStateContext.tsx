@@ -6,11 +6,13 @@ import {
   useContext,
   useState,
 } from "react";
-import { Content, Cursor } from "../constants/menu";
+import { Content } from "../constants/menu";
 
 interface IAppStateContext {
   menuContent: Content;
   setMenuContent: Dispatch<SetStateAction<Content>>;
+  startingGameplay: boolean;
+  setStartingGameplay: Dispatch<SetStateAction<boolean>>;
 }
 
 const AppStateContext = createContext<IAppStateContext>({} as IAppStateContext);
@@ -21,12 +23,15 @@ const AppStateContextProvider = ({
   children: ReactNode | ReactNode[];
 }) => {
   const [menuContent, setMenuContent] = useState<Content>(Content.None);
+  const [startingGameplay, setStartingGameplay] = useState(false);
 
   return (
     <AppStateContext.Provider
       value={{
         menuContent,
         setMenuContent,
+        startingGameplay,
+        setStartingGameplay,
       }}
     >
       {children}

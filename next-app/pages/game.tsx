@@ -2,17 +2,40 @@ import { Center, chakra, Flex } from "@chakra-ui/react";
 import { Physics } from "@react-three/cannon";
 import { Sky } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { AnimatedDiv } from "../components/AnimatedComponents";
 import { FPV, Ground, Player } from "../components/Gameplay";
 import Cubes from "../components/Gameplay/Cubes/Cubes";
 import ControlsCard from "../components/Gameplay/UI/ControlsCard";
 import QuitCard from "../components/Gameplay/UI/QuitCard";
 import TextureSelector from "../components/Gameplay/UI/TextureSelector";
+import { useAppContext } from "../contexts/AppStateContext";
 
 const cursorSize = 15;
+const animDuration = 3;
 
 const Gameplay = () => {
   const [showingSomething, setShowingSomething] = useState(false);
+  const [display, setDisplay] = useState("flex");
+  const [exiting, setExiting] = useState(false);
+  const router = useRouter();
+  const { setStartingGameplay } = useAppContext();
+
+  useEffect(() => {
+    setStartingGameplay(false);
+    setTimeout(() => {
+      setDisplay("none");
+    }, animDuration * 1000);
+  }, []);
+
+  const quitFunction = () => {
+    setDisplay("flex");
+    setExiting(true);
+    setTimeout(() => {
+      router.push("/");
+    }, animDuration * 1000);
+  };
 
   return (
     <>
@@ -29,8 +52,22 @@ const Gameplay = () => {
           </Physics>
         </Canvas>
         <TextureSelector />
-        <QuitCard setShowingSomething={setShowingSomething} />
+        <QuitCard
+          setShowingSomething={setShowingSomething}
+          quitFunction={quitFunction}
+        />
         <ControlsCard setShowingSomething={setShowingSomething} />
+        <FadeContainer
+          zIndex="3"
+          display={display}
+          initial={{ opacity: 1 }}
+          //@ts-ignore
+          transition={{
+            duration: animDuration,
+            ease: "easeIn",
+          }}
+          animate={{ opacity: exiting ? [0, 1] : [1, 0] }}
+        />
         {!showingSomething && <Cursor />}
       </WindowContainer>
     </>
@@ -57,6 +94,16 @@ const WindowContainer = chakra(Flex, {
   baseStyle: {
     h: "100vh",
     w: "100%",
+  },
+});
+
+const FadeContainer = chakra(AnimatedDiv, {
+  shouldForwardProp: () => true,
+  baseStyle: {
+    w: "100%",
+    h: "100vh",
+    bg: "black",
+    position: "absolute",
   },
 });
 

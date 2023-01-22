@@ -11,7 +11,11 @@ import getRandomNumber from "../../../helpers/getRandomNumber";
 const OFF_SCREEN_LIMIT = 2;
 const CUBE_SIZE = 0.03;
 
-const MenuCube = () => {
+interface IMenuCube {
+  animationDelay: number;
+}
+
+const MenuCube = ({ animationDelay }: IMenuCube) => {
   const [mounted, setMounted] = useState(false);
   const [rotation, setRotation] = useState({ x: 0, y: 0, z: 0 });
   const [position, setPosition] = useState({
@@ -26,7 +30,7 @@ const MenuCube = () => {
   const randomSpin = getRandomNumber(-30, 30) / 1000;
   let ySpin = randomSpin;
   let zSpin = randomSpin;
-  const flowDelay = getRandomNumber(10, 1000) * 10;
+  const flowDelay = animationDelay * 1000 + getRandomNumber(10, 1000) * 10;
   let xPos = getRandomNumber(30, 70) / 1000;
   let yPos = getRandomNumber(30, 150) / 1000;
 
@@ -38,6 +42,11 @@ const MenuCube = () => {
     [3]: "grass.jpg",
     [4]: "log.jpg",
     [5]: "dirt.jpg",
+    [6]: "gold.png",
+    [7]: "opal.png",
+    [8]: "spaceinvaders.jpg",
+    [9]: "pacman.gif",
+    [10]: "labrysl.png",
   };
 
   const randomColor: Record<number, string> = {
@@ -55,16 +64,13 @@ const MenuCube = () => {
 
   useEffect(() => {
     if (!typeof document === undefined) return;
-    setActiveTexture(() => {
-      let newTexture = new TextureLoader().load(
-        `images/${randomTexture[getRandomNumber(1, 5)]}`
-      );
-      newTexture.magFilter = NearestFilter;
-      newTexture.wrapS = RepeatWrapping;
-      newTexture.wrapT = RepeatWrapping;
 
-      return newTexture;
-    });
+    const randomImage = randomTexture[getRandomNumber(1, 10)];
+    let newTexture = new TextureLoader().load(`images/${randomImage}`);
+    newTexture.magFilter = NearestFilter;
+    newTexture.wrapS = RepeatWrapping;
+    newTexture.wrapT = RepeatWrapping;
+    setActiveTexture(newTexture);
   }, []);
 
   useEffect(() => {

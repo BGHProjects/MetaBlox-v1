@@ -1,9 +1,9 @@
 import { Flex } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { useAppContext } from "../../../contexts/AppStateContext";
 import AppButton from "../AppButton";
 
 const Sandbox = () => {
-  const router = useRouter();
+  const { setStartingGameplay } = useAppContext();
 
   return (
     <Flex alignItems="center" mt="30px">
@@ -11,7 +11,7 @@ const Sandbox = () => {
         w={300}
         h={80}
         title={"ENTER SANDBOX"}
-        action={() => router.push("/game")}
+        action={() => setStartingGameplay(true)}
         fontSize={26}
       />
     </Flex>
