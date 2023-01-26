@@ -22,14 +22,33 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
  * 
  */
 
-contract MBlox is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, AccessControlUpgradeable, IMBlox {
+contract MBlox is
+    Initializable,
+    ERC20Upgradeable,
+    ERC20BurnableUpgradeable,
+    AccessControlUpgradeable,
+    IMBlox
+{
+
+    /**
+    * =======================
+    *   VARIABLES
+    * =======================
+    */
+
+   // Roles used within the contract
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
 
-    string private _digitalKey; // Restricts use to authorised callers
+    // Restricts use to authorised callers
+    string private _digitalKey; 
 
-    function initialize(string memory digitalKey) initializer public {
-
+    /**
+     * =======================
+     *  INITIALIZE
+     * =======================
+     */
+    function initialize(string memory digitalKey) public initializer {
         // Assign the digitalKey
         _digitalKey = digitalKey;
 
@@ -44,27 +63,47 @@ contract MBlox is Initializable, ERC20Upgradeable, ERC20BurnableUpgradeable, Acc
         _setupRole(BURNER_ROLE, msg.sender);
     }
 
-    function mintMBlox(address to, uint256 amount, string memory digitalKey) public onlyRole(MINTER_ROLE){
-        if(to == address(0)) revert ZeroAddress();
-        if(amount < 1) revert NotPositiveValue();
-        if(keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey)))) revert InvalidDigitalKey();
+    /**
+     * =======================
+     *  MINT MBLOX
+     * =======================
+     */
+    function mintMBlox(
+        address to,
+        uint256 amount
+    ) public onlyRole(MINTER_ROLE) {
+        if (to == address(0)) revert ZeroAddress();
+        if (amount < 1) revert NotPositiveValue();
 
         _mint(to, amount);
         emit MBloxMinted(amount, to);
     }
 
-    function burnMBlox(address from, uint256 amount, string memory digitalKey) public onlyRole(BURNER_ROLE){
-        if(from == address(0)) revert ZeroAddress();
-        if(amount < 1) revert NotPositiveValue();
-        if(keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey)))) revert InvalidDigitalKey();
+    /**
+     * =======================
+     *  BURN MBLOX
+     * =======================
+     */
+    function burnMBlox(
+        address from,
+        uint256 amount
+    ) public onlyRole(BURNER_ROLE) {
+        if (from == address(0)) revert ZeroAddress();
+        if (amount < 1) revert NotPositiveValue();
 
         _burn(from, amount);
         emit MBloxBurned(amount, from);
     }
 
+    /**
+     * =======================
+     *  GRANT ROLES
+     * =======================
+     */
     function grantRoles(address account, string memory digitalKey) public {
-        if(account == address(0)) revert ZeroAddress();
-        if(keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey)))) revert InvalidDigitalKey();
+        if (account == address(0)) revert ZeroAddress();
+        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
+            revert InvalidDigitalKey();
 
         _setupRole(MINTER_ROLE, account);
         _setupRole(BURNER_ROLE, account);

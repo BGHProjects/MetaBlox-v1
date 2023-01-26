@@ -24,6 +24,12 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 contract MetaBlox is Initializable, ERC1155Upgradeable, AccessControlUpgradeable, ERC1155BurnableUpgradeable, IMetaBlox {
 
+    /**
+    * =======================
+    *   VARIABLES
+    * =======================
+    */
+
     // Roles used within the contract
     bytes32 public constant URI_SETTER_ROLE = keccak256("URI_SETTER_ROLE");
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
@@ -33,7 +39,7 @@ contract MetaBlox is Initializable, ERC1155Upgradeable, AccessControlUpgradeable
     string private _digitalKey; 
 
     // Stores the prices of the different blocks in ether
-    mapping(uint256 => uint256) private prices; 
+    mapping(uint256 => uint256) public prices; 
 
     // IDs for all the block variants
     uint256 private constant DIRT = 0;
@@ -46,6 +52,11 @@ contract MetaBlox is Initializable, ERC1155Upgradeable, AccessControlUpgradeable
     uint256 private constant SPACEINVADERS = 7;
     uint256 private constant PACMAN = 8;
 
+     /**
+     * =======================
+     *  INITIALIZE
+     * =======================
+     */
     function initialize(string memory digitalKey) initializer public {
         
         // Assign the digital key
@@ -74,8 +85,142 @@ contract MetaBlox is Initializable, ERC1155Upgradeable, AccessControlUpgradeable
         _grantRole(BURNER_ROLE, msg.sender); 
     }
 
+    /**
+     * =======================
+     *  MINT METABLOX
+     * =======================
+     */
+    function mintMetaBlox(address account, uint256 id, uint256 amount) public onlyRole(MINTER_ROLE)
+    {
+        if(account == address(0)) revert ZeroAddress();
+        if(prices[id] == 0) revert InvalidTokenID();
+        if(amount < 1) revert NotPositiveValue();
+        _mint(account, id, amount, "");
 
-    // The following functions are overrides required by Solidity.
+        uint256[] memory ids = new uint256[](1);
+        ids[0] = id;
+
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = amount;
+
+        emit MetaBloxMinted(ids, amounts, account);
+    }
+
+    /**
+     * =======================
+     *  BURN METABLOX
+     * =======================
+     */
+    function burnMetaBlox(address account, uint256 id, uint256 amount) public onlyRole(BURNER_ROLE)
+    {
+        if(account == address(0)) revert ZeroAddress();
+        if(prices[id] == 0) revert InvalidTokenID();
+        if(amount < 1) revert NotPositiveValue();
+        _burn(account, id, amount);
+
+        uint256[] memory ids = new uint256[](1);
+        ids[0] = id;
+
+        uint256[] memory amounts = new uint256[](1);
+        amounts[0] = amount;
+
+        emit MetaBloxBurned(ids, amounts, account);
+    }
+
+    /**
+     * =======================
+     *  BATCH MINT METABLOX
+     * =======================
+     */
+    function batchMintMetaBlox(address account, uint256[] calldata ids, uint256[] calldata amounts) public onlyRole(MINTER_ROLE)
+    {
+        if(account == address(0)) revert ZeroAddress();
+        for (uint256 i = 0; i < ids.length; i++)
+        {
+            if(prices[ids[i]] == 0) revert InvalidTokenID();
+        }
+
+        for (uint256 i = 0; i < amounts.length; i++)
+        {
+            if(amounts[i] < 1) revert NotPositiveValue();
+        }
+
+        _mintBatch(account, ids, amounts, "");
+        emit MetaBloxMinted(ids, amounts, account);
+    }
+
+    /**
+     * =======================
+     *  BATCH BURN METABLOX
+     * =======================
+     */
+    function batchBurnMetaBlox(address account, uint256[] calldata ids, uint256[] calldata amounts) public onlyRole(MINTER_ROLE)
+    {
+        if(account == address(0)) revert ZeroAddress();
+        for (uint256 i = 0; i < ids.length; i++)
+        {
+            if(prices[ids[i]] == 0) revert InvalidTokenID();
+        }
+
+        for (uint256 i = 0; i < amounts.length; i++)
+        {
+            if(amounts[i] < 1) revert NotPositiveValue();
+        }
+
+        _burnBatch(account, ids, amounts);
+        emit MetaBloxBurned(ids, amounts, account);
+    }
+
+    /**
+     * =======================
+     *  GRANT ROLES
+     * =======================
+     */
+    function grantRoles(address account, string memory digitalKey) public {
+        if (account == address(0)) revert ZeroAddress();
+        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
+            revert InvalidDigitalKey();
+
+        _setupRole(MINTER_ROLE, account);
+        _setupRole(BURNER_ROLE, account);
+        _setupRole(URI_SETTER_ROLE, account);
+    }
+
+    /**
+     * =======================
+     *  METABLOX PRICE
+     * =======================
+     */
+    function metaBloxPrice(uint256 id) public view returns (uint256 price)
+    {
+        if(prices[id] == 0) revert InvalidTokenID();
+        return prices[id];
+    }
+
+    /**
+     * =======================
+     *  CONTRACT URI
+     * =======================
+     */
+    function contractURI() public pure returns (string memory)
+    {
+       return "https://contracturi";
+    }
+
+    /**
+     * =======================
+     *  SET URI
+     * =======================
+     */
+    function setURI(string memory newuri) public onlyRole(URI_SETTER_ROLE) {
+        _setURI(newuri);
+    }
+
+    /**
+     * =======================
+     *  SUPPORTS INTERFACE
+     * =======================
+     */
     function supportsInterface(bytes4 interfaceId)
         public
         view
