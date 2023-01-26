@@ -51,9 +51,11 @@ interface IWorld {
    /// @dev Structure of the incoming data when minting a new World
    /// @param worldGridData The coordinates and owner of the World
    /// @param worldBlockDetails The total number of blocks and their layout in the world
+   /// @param colour The colour associated with the address that will own the new World
    struct WorldMetadata {
     WorldGridData worldGridData;
     WorldBlockDetails worldBlockDetails;
+    string colour;
    }
 
     /**
@@ -85,8 +87,9 @@ interface IWorld {
     function initialize(string memory digitalKey) external;
 
     /// @dev Creates a new World within the game
+    /// @param to The address that will be receiving the new World
     /// @param worldData The data of the new World
-    function mintWorld(WorldMetadata calldata worldData) external;
+    function mintWorld(address to, WorldMetadata calldata worldData) external;
 
     /// @dev Updates the block details of an existing World
     /// @param tokenId The ID of the World to be updated
@@ -108,6 +111,10 @@ interface IWorld {
 
     /// @dev Function required by OpenSea in order to view the URI of the contract's collection
     function contractURI() external returns (string memory);
+
+    /// @dev Burns a World token
+    /// @param tokenId The ID of the World token to be burned
+    function burnWorld(uint256 tokenId) external;
 
    /**
     * =======================
