@@ -215,7 +215,7 @@ contract MetaBlox is Initializable, ERC1155Upgradeable, AccessControlUpgradeable
     function setURI(string memory newuri) public onlyRole(URI_SETTER_ROLE) {
         _setURI(newuri);
     }
-
+    
     /**
      * =======================
      *  SUPPORTS INTERFACE
