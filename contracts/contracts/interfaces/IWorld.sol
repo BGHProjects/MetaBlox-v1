@@ -72,9 +72,8 @@ interface IWorld {
     event WorldMinted(address to, uint256 x, uint256 y, uint256 id);
 
     /// @dev Emmitted when a World has been updated
-    /// @param owner The owner of the World that has been updated
     /// @param id The World's token ID
-   event WorldUpdated(address owner, uint256 id);
+   event WorldUpdated(uint256 id);
 
    /**
     * =======================
@@ -130,4 +129,7 @@ interface IWorld {
 
     /// @dev World is attempting to be minted on a grid location that is already occupied
     error AlreadyOnGrid();
+
+    /// @dev An inputted ID does not match any existing worlds
+    error InvalidTokenID();
 }

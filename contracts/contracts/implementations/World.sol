@@ -8,6 +8,8 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721Burnab
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/utils/Base64.sol";
 
 /**
  * 
@@ -34,6 +36,15 @@ contract World is
 {
     /**
      * =======================
+     *   ASSOCIATIONS
+     * =======================
+     */
+
+    using Strings for uint256;
+    using CountersUpgradeable for CountersUpgradeable.Counter;
+
+    /**
+     * =======================
      *   VARIABLES
      * =======================
      */
@@ -49,6 +60,9 @@ contract World is
     // Holds World data to be accessed by the game
     mapping(uint256 => WorldMetadata) public worlds;
 
+    // Tracks token IDs
+    CountersUpgradeable.Counter private _tokenIdCounter;
+    
     /**
      * =======================
      *  INITIALIZE
@@ -76,10 +90,76 @@ contract World is
      *  GENERATE METADATA
      * =======================
      */
-    function generateMetadata(uint256 tokenId) private returns(string memory)
+    function generateImage(WorldMetadata storage worldMetaData) private view returns(string memory)
     {
-        // Generates metadata for a World token from scratch
-        // Finds the data about the World from the worlds mapping
+        return "";
+    }
+
+    /**
+     * =========================
+     *  GENERATE BLOCK METADATA
+     * =========================
+     */
+    function generateBlockMetadata(string memory blockType, uint256 blockTotal) private pure returns(string memory)
+    {
+        string memory result = '"';
+        result = string.concat(result, blockType);
+        result = string.concat(result, 'Blocks": "');
+        result = string.concat(result, blockTotal.toString());
+        result = string.concat(result, '",');
+        return result;
+    }
+
+     /**
+     * ===============================
+     *  GENERATE THREE BLOCK METADATA
+     * ===============================
+     */
+    function generateThreeBlockMetadata(string memory blockType1, uint256 blockTotal1,string memory blockType2, uint256 blockTotal2, string memory blockType3, uint256 blockTotal3) private pure returns(string memory)
+    {
+        string memory block1 = generateBlockMetadata(blockType1, blockTotal1);
+        string memory block2 = generateBlockMetadata(blockType2, blockTotal2);
+        string memory block3 = generateBlockMetadata(blockType3, blockTotal3);
+
+        string memory result = string.concat(block1, block2);
+        result = string.concat(result, block3);
+
+        return result;
+    }
+
+    /**
+     * =======================
+     *  GENERATE METADATA
+     * =======================
+     */
+    function generateMetadata(uint256 tokenId) private view returns(string memory)
+    {
+        WorldMetadata storage metadata = worlds[tokenId];
+
+        // Abbreviations for cleanliness
+        uint256[] memory blockTotals = metadata.worldBlockDetails.blockTotals;
+        Coordinates memory coords = metadata.worldGridData.coords;
+
+        bytes memory dataURI = abi.encodePacked(
+            '{',
+            '"name": "MetaBlox World #', tokenId.toString(), '",',
+            '"image": "', generateImage(metadata), '",',
+            '"X": "', coords.x.toString(), '",',
+            '"Y": "', coords.y.toString(), '",',
+            generateThreeBlockMetadata("Grass", blockTotals[0], "Log", blockTotals[1], "Dirt", blockTotals[2]),
+            generateThreeBlockMetadata( "Wood", blockTotals[3], "Glass", blockTotals[4], "Gold", blockTotals[5]),
+            generateThreeBlockMetadata( "Opal", blockTotals[6], "SpaceInvaders", blockTotals[7], "PacMan", blockTotals[8]),
+            generateBlockMetadata("Total", blockTotals[9]),
+            '"World Layout": "', metadata.worldBlockDetails.worldLayout, '",',
+            '}'
+        );
+
+        return string(
+            abi.encodePacked(
+                "data:application/json;base64,",
+                Base64.encode(dataURI)
+            )
+        );
     }
 
     /**
@@ -87,9 +167,34 @@ contract World is
      *  UPDATE METADATA
      * =======================
      */
-    function updateMetadata(uint256 tokenId, WorldBlockDetails calldata worldBlockDetails) private returns(string memory)
+    function updateMetadata(uint256 tokenId, WorldBlockDetails calldata worldBlockDetails) private view returns(string memory)
     {
-        // Updates a token's metadata with the inputted details
+        WorldMetadata storage metadata = worlds[tokenId];
+
+        // Abbreviations for cleanliness
+        Coordinates memory coords = metadata.worldGridData.coords;
+        uint256[] memory blockTotals = worldBlockDetails.blockTotals;
+
+        bytes memory dataURI = abi.encodePacked(
+            '{',
+            '"name": "MetaBlox World #', tokenId.toString(), '",',
+            '"image": "', generateImage(metadata), '",',
+            '"X": "', coords.x.toString(), '",',
+            '"Y": "', coords.y.toString(), '",',
+            generateThreeBlockMetadata("Grass", blockTotals[0], "Log", blockTotals[1], "Dirt", blockTotals[2]),
+            generateThreeBlockMetadata( "Wood", blockTotals[3], "Glass", blockTotals[4], "Gold", blockTotals[5]),
+            generateThreeBlockMetadata( "Opal", blockTotals[6], "SpaceInvaders", blockTotals[7], "PacMan", blockTotals[8]),
+            generateBlockMetadata("Total", blockTotals[9]),
+            '"World Layout": "', metadata.worldBlockDetails.worldLayout, '",',
+            '}'
+        );
+
+        return string(
+            abi.encodePacked(
+                "data:application/json;base64,",
+                Base64.encode(dataURI)
+            )
+        );
     }
 
     /**
@@ -98,15 +203,25 @@ contract World is
      * =======================
      */
     function mintWorld(address to, WorldMetadata calldata worldData) public onlyRole(MINTER_ROLE){
-        // Check if the to address is the zero address
-        // Check if the world at inputted grid positions already exists
-        // Set the tokenId counter
-        // Add the World to the worlds mapping
-        // Generate metadata
-        // safeMint the world
-        // set the tokenURI for the newly minted world
-        // increment the tokenId counter
-        // Emit event
+        if(to == address(0)) revert ZeroAddress();
+
+        uint256 totalWorlds = _tokenIdCounter.current() + 1;
+        Coordinates memory coords = worldData.worldGridData.coords;
+
+        for (uint256 i = 0; i < totalWorlds; i++)
+        {
+            if(worlds[i].worldGridData.coords.x == coords.x && worlds[i].worldGridData.coords.y == coords.y) revert AlreadyOnGrid();   
+        }
+
+        uint256 tokenId = _tokenIdCounter.current();
+        worlds[tokenId] = worldData; // Sets worlds entry so it can be used by generateMetadata
+        string memory uri = generateMetadata(tokenId);
+
+        _safeMint(to, tokenId);
+        _setTokenURI(tokenId, uri);
+
+        _tokenIdCounter.increment();
+        emit WorldMinted(to, worldData.worldGridData.coords.x, worldData.worldGridData.coords.y, tokenId);
     }
 
     /**
@@ -118,11 +233,13 @@ contract World is
         uint256 tokenId,
         WorldBlockDetails calldata worldBlockDetails
     ) public onlyRole(UPDATER_ROLE) {
-        // Check if the tokenId matches a World that already exists
-        // Generate new metadata based on the input
-        // Set the tokenURI for the updated world
-        // Update the World's entry in the worlds mapping
-        // Emit event
+        if(keccak256(bytes((worlds[tokenId].colour))) == keccak256(bytes(("")))) revert InvalidTokenID();
+
+        string memory updatedURI = updateMetadata(tokenId, worldBlockDetails);
+        _setTokenURI(tokenId, updatedURI);
+
+        worlds[tokenId].worldBlockDetails = worldBlockDetails;
+        emit WorldUpdated(tokenId);
     }
 
     /**
