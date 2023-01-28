@@ -41,10 +41,10 @@ interface IWorld {
    }
 
    /// @dev Structure of the information regarding the blocks in a World
-   /// @param blockTotals The total number of blocks of each variant
+   /// @param blockTotal The total number of blocks of each variant
    /// @param worldLayout A stringified version of the layout of the world
    struct WorldBlockDetails {
-    uint256[] blockTotals;
+    uint256 blockTotal;
     string worldLayout;
    }
 
@@ -74,6 +74,10 @@ interface IWorld {
     /// @dev Emmitted when a World has been updated
     /// @param id The World's token ID
    event WorldUpdated(uint256 id);
+
+    /// @dev Emmitted when a World has been burned
+    /// @param id The World's token ID
+   event WorldBurned(uint256 id);
 
    /**
     * =======================
@@ -106,10 +110,10 @@ interface IWorld {
 
     /// @dev Function required by Solidity to confirm the interface used by this contract
     /// @param interfaceId The id for the interface to be checked against this contract
-    function supportsInterface(bytes4 interfaceId) external returns (bool);
+    function supportsInterface(bytes4 interfaceId) external returns(bool);
 
     /// @dev Function required by OpenSea in order to view the URI of the contract's collection
-    function contractURI() external returns (string memory);
+    function contractURI() external returns(string memory);
 
     /// @dev Burns a World token
     /// @param tokenId The ID of the World token to be burned

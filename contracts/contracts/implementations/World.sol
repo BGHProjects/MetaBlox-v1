@@ -61,7 +61,7 @@ contract World is
     mapping(uint256 => WorldMetadata) public worlds;
 
     // Tracks token IDs
-    CountersUpgradeable.Counter private _tokenIdCounter;
+    CountersUpgradeable.Counter public _tokenIdCounter;
     
     /**
      * =======================
@@ -92,39 +92,7 @@ contract World is
      */
     function generateImage(WorldMetadata storage worldMetaData) private view returns(string memory)
     {
-        return "";
-    }
-
-    /**
-     * =========================
-     *  GENERATE BLOCK METADATA
-     * =========================
-     */
-    function generateBlockMetadata(string memory blockType, uint256 blockTotal) private pure returns(string memory)
-    {
-        string memory result = '"';
-        result = string.concat(result, blockType);
-        result = string.concat(result, 'Blocks": "');
-        result = string.concat(result, blockTotal.toString());
-        result = string.concat(result, '",');
-        return result;
-    }
-
-     /**
-     * ===============================
-     *  GENERATE THREE BLOCK METADATA
-     * ===============================
-     */
-    function generateThreeBlockMetadata(string memory blockType1, uint256 blockTotal1,string memory blockType2, uint256 blockTotal2, string memory blockType3, uint256 blockTotal3) private pure returns(string memory)
-    {
-        string memory block1 = generateBlockMetadata(blockType1, blockTotal1);
-        string memory block2 = generateBlockMetadata(blockType2, blockTotal2);
-        string memory block3 = generateBlockMetadata(blockType3, blockTotal3);
-
-        string memory result = string.concat(block1, block2);
-        result = string.concat(result, block3);
-
-        return result;
+        return "notYetImplemented";
     }
 
     /**
@@ -137,7 +105,6 @@ contract World is
         WorldMetadata storage metadata = worlds[tokenId];
 
         // Abbreviations for cleanliness
-        uint256[] memory blockTotals = metadata.worldBlockDetails.blockTotals;
         Coordinates memory coords = metadata.worldGridData.coords;
 
         bytes memory dataURI = abi.encodePacked(
@@ -146,11 +113,8 @@ contract World is
             '"image": "', generateImage(metadata), '",',
             '"X": "', coords.x.toString(), '",',
             '"Y": "', coords.y.toString(), '",',
-            generateThreeBlockMetadata("Grass", blockTotals[0], "Log", blockTotals[1], "Dirt", blockTotals[2]),
-            generateThreeBlockMetadata( "Wood", blockTotals[3], "Glass", blockTotals[4], "Gold", blockTotals[5]),
-            generateThreeBlockMetadata( "Opal", blockTotals[6], "SpaceInvaders", blockTotals[7], "PacMan", blockTotals[8]),
-            generateBlockMetadata("Total", blockTotals[9]),
-            '"World Layout": "', metadata.worldBlockDetails.worldLayout, '",',
+            '"Total Blocks": "', metadata.worldBlockDetails.blockTotal.toString(), '",',
+            '"World Layout": "', metadata.worldBlockDetails.worldLayout, '"',
             '}'
         );
 
@@ -173,7 +137,6 @@ contract World is
 
         // Abbreviations for cleanliness
         Coordinates memory coords = metadata.worldGridData.coords;
-        uint256[] memory blockTotals = worldBlockDetails.blockTotals;
 
         bytes memory dataURI = abi.encodePacked(
             '{',
@@ -181,11 +144,8 @@ contract World is
             '"image": "', generateImage(metadata), '",',
             '"X": "', coords.x.toString(), '",',
             '"Y": "', coords.y.toString(), '",',
-            generateThreeBlockMetadata("Grass", blockTotals[0], "Log", blockTotals[1], "Dirt", blockTotals[2]),
-            generateThreeBlockMetadata( "Wood", blockTotals[3], "Glass", blockTotals[4], "Gold", blockTotals[5]),
-            generateThreeBlockMetadata( "Opal", blockTotals[6], "SpaceInvaders", blockTotals[7], "PacMan", blockTotals[8]),
-            generateBlockMetadata("Total", blockTotals[9]),
-            '"World Layout": "', metadata.worldBlockDetails.worldLayout, '",',
+            '"Total Blocks": "', worldBlockDetails.blockTotal.toString(), '",',
+            '"World Layout": "', worldBlockDetails.worldLayout,'"',
             '}'
         );
 
@@ -204,6 +164,7 @@ contract World is
      */
     function mintWorld(address to, WorldMetadata calldata worldData) public onlyRole(MINTER_ROLE){
         if(to == address(0)) revert ZeroAddress();
+        if(worldData.worldGridData.owner == address(0)) revert ZeroAddress();
 
         uint256 totalWorlds = _tokenIdCounter.current() + 1;
         Coordinates memory coords = worldData.worldGridData.coords;
@@ -288,7 +249,6 @@ contract World is
      * =======================
      */
     function burnWorld(uint256 tokenId) public onlyRole(BURNER_ROLE) {
-        delete worlds[tokenId];
         _burn(tokenId);
     }
 
@@ -299,6 +259,9 @@ contract World is
      */
     function _burn(uint256 tokenId) internal override(ERC721Upgradeable, ERC721URIStorageUpgradeable) {
         super._burn(tokenId);
+        delete worlds[tokenId];
+        _tokenIdCounter.decrement();
+        emit WorldBurned(tokenId);
     }
 
     /**
