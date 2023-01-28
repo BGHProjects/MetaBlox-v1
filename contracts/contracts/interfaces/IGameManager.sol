@@ -59,10 +59,9 @@ interface IGameManager is IUtilities{
 
     /// @dev Emitted when a World has been purchased
     /// @param to The address of the player who purchased the World
-    /// @param id The ID of the World that has been purchased
     /// @param x The x-coordinate of the World being purchased
     /// @param y The y-coordinate of the World being purchased
-    event WorldPurchased(address to, uint256 id, uint256 x, uint256 y);
+    event WorldPurchased(address to, uint256 x, uint256 y);
 
     /// @dev Emitted when a player has purchased MBLOX
     /// @param to The address who purchased the MBLOX
@@ -122,7 +121,7 @@ interface IGameManager is IUtilities{
 
     /// @dev Converts inputted MATIC to MBLOX tokens
     /// @param receiver The recipient of the MBLOX tokens
-    function convertMATICtoMBLOX(address receiver) external;
+    function convertMATICtoMBLOX(address receiver) payable external;
 
     /// @dev Mints MBLOX for an inputted user equivalent to the difference between their current METR Balance and the last time they claimed
     /// @param claimant The user who is attempting to claim MBLOX from their METR Balance

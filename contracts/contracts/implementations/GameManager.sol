@@ -40,7 +40,7 @@ contract GameManager is IGameManager, Initializable {
     World private WorldContract;
 
     // Address that receives the MATIC payments
-    address _recipient;
+    address payable _recipient;
 
     // Holds all the used colours
     string[] usedColours;
@@ -105,6 +105,19 @@ contract GameManager is IGameManager, Initializable {
         return players[player].colour;
     }
 
+    function getPrice(uint256 blockID) private view returns(uint256 price)
+    {
+        uint256 blockPrice = MetaBloxContract.prices(blockID);
+        if(blockPrice == 0) revert InvalidTokenID();
+        return blockPrice;
+    }
+
+    /**
+     * =======================
+     *   INTERNAL HELPERS
+     * =======================
+     */
+
     /**
      * =======================
      *   SAVE WORLD CHANGES
@@ -127,7 +140,20 @@ contract GameManager is IGameManager, Initializable {
         uint256 id,
         uint256 amount,
         address purchaser
-    ) external override {}
+    ) public {
+        if(purchaser == address(0)) revert ZeroAddress();
+        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
+            revert InvalidDigitalKey();
+        
+        uint256 blockPrice = getPrice(id);
+        uint256 purchaseCost = blockPrice * amount;
+        if(purchaseCost > MBloxContract.balanceOf(purchaser)) revert InadequateMBLOX();
+
+        MBloxContract.burnMBlox(purchaser, purchaseCost);
+        MetaBloxContract.mintMetaBlox(purchaser, id, amount);
+
+        emit BlocksPurchased(purchaser, id, amount);
+    }
 
     /**
      * =======================
@@ -138,19 +164,45 @@ contract GameManager is IGameManager, Initializable {
         string memory digitalKey,
         WorldMetadata calldata worldData,
         address purchaser
-    ) external override {}
+    ) external override {
+        if(purchaser == address(0)) revert ZeroAddress();
+        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
+            revert InvalidDigitalKey();
+        if(MBloxContract.balanceOf(purchaser) < 100 ether) revert InadequateMBLOX();
+
+        MBloxContract.burnMBlox(purchaser, 100);
+        WorldContract.mintWorld(purchaser, worldData);
+        emit WorldPurchased(purchaser, worldData.worldGridData.coords.x, worldData.worldGridData.coords.y);
+    }
 
     /**
      * =========================
      *   CONVERT MATIC TO MBLOX
      * =========================
      */
-    function convertMATICtoMBLOX(address receiver) external override {}
+    function convertMATICtoMBLOX(address receiver) payable public {
+        if(receiver == address(0)) revert ZeroAddress();
+        if(msg.value < 0.1 ether) revert InadequateMATIC();
+
+        MBloxContract.mintMBlox(receiver, 1000);
+        _recipient.transfer(msg.value);
+        emit MBLOXPurchased(receiver, 100);
+        emit PaymentDistributed(msg.value);
+    }
 
     /**
      * =======================
      *   CLAIM METR BALANCE
      * =======================
      */
-    function claimMETRBalance(address claimant) external override {}
+    function claimMETRBalance(address claimant) external override {
+        if(claimant == address(0)) revert ZeroAddress();
+        uint256 previousClaim = players[claimant].claimedMETRBalance;
+        uint256 METRBalance = _metrContract.balanceOf(claimant);
+        if(previousClaim >= METRBalance) revert NoMETRToClaim();
+
+        players[claimant].claimedMETRBalance = METRBalance;
+        MBloxContract.mintMBlox(claimant, METRBalance - previousClaim);
+        emit METRBalanceClaimed(claimant, METRBalance - previousClaim);
+    }
 }
