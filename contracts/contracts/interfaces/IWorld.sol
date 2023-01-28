@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.17;
 
+import "./IUtilities.sol";
+import "./IGameToken.sol";
+import "./IGameItem.sol";
+
 /**
  * 
  * ███╗   ███╗███████╗████████╗ █████╗ ██████╗ ██╗      ██████╗ ██╗  ██╗
@@ -16,47 +20,7 @@ pragma solidity ^0.8.17;
  * 
  */
 
-interface IWorld {
-
-    /**
-    * =======================
-    *   STRUCTS
-    * =======================
-    */
-
-   /// @dev Structure to house the coordinates of a World
-   /// @param x The x-coordinate of the World within the grid
-   /// @param y The y-coordinate of the World within the grid
-   struct Coordinates {
-    uint256 x;
-    uint256 y;
-   }
-
-    /// @dev Structure to house the grid data of a World
-    /// @param owner The owner of the World
-    /// @param coords The coordinates of the World in the grid
-   struct WorldGridData {
-    address owner;
-    Coordinates coords;
-   }
-
-   /// @dev Structure of the information regarding the blocks in a World
-   /// @param blockTotal The total number of blocks of each variant
-   /// @param worldLayout A stringified version of the layout of the world
-   struct WorldBlockDetails {
-    uint256 blockTotal;
-    string worldLayout;
-   }
-
-   /// @dev Structure of the incoming data when minting a new World
-   /// @param worldGridData The coordinates and owner of the World
-   /// @param worldBlockDetails The total number of blocks and their layout in the world
-   /// @param colour The colour associated with the address that will own the new World
-   struct WorldMetadata {
-    WorldGridData worldGridData;
-    WorldBlockDetails worldBlockDetails;
-    string colour;
-   }
+interface IWorld is  IGameItem, IGameToken, IUtilities {
 
     /**
     * =======================
@@ -85,10 +49,6 @@ interface IWorld {
     * =======================
     */
 
-    /// @dev Intializing function required for upgradeable smart contracta
-    /// @param digitalKey Variable used to authenticate this contract's function calls
-    function initialize(string memory digitalKey) external;
-
     /// @dev Creates a new World within the game
     /// @param to The address that will be receiving the new World
     /// @param worldData The data of the new World
@@ -103,18 +63,6 @@ interface IWorld {
     /// @param tokenId The ID of the World token whose URI the user is trying to retrieve
     function tokenURI(uint256 tokenId) external returns(string memory);
 
-    /// @dev Grants the relevant roles to another account
-    /// @param account The account to be granted the roles
-    /// @param digitalKey Variable used to authorise this function call
-    function grantRoles(address account, string memory digitalKey) external;
-
-    /// @dev Function required by Solidity to confirm the interface used by this contract
-    /// @param interfaceId The id for the interface to be checked against this contract
-    function supportsInterface(bytes4 interfaceId) external returns(bool);
-
-    /// @dev Function required by OpenSea in order to view the URI of the contract's collection
-    function contractURI() external returns(string memory);
-
     /// @dev Burns a World token
     /// @param tokenId The ID of the World token to be burned
     function burnWorld(uint256 tokenId) external;
@@ -125,15 +73,6 @@ interface IWorld {
     * =======================
     */
 
-    /// @dev The Zero Address has been used as a variable
-    error ZeroAddress();
-
-    /// @dev The digital key supplied in invalid
-    error InvalidDigitalKey();
-
     /// @dev World is attempting to be minted on a grid location that is already occupied
     error AlreadyOnGrid();
-
-    /// @dev An inputted ID does not match any existing worlds
-    error InvalidTokenID();
 }

@@ -16,7 +16,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
  * ██║ ╚═╝ ██║███████╗   ██║   ██║  ██║██████╔╝███████╗╚██████╔╝██╔╝ ██╗
  * ╚═╝     ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═╝
  * 
- * @title The in-game currency used in the MetaBlox game
+ * @title MBlox contract implementation
  * @author BGHProjects
  * @notice Handles the minting and burning of MetaBlox's in-game currency, MBlox
  * 
@@ -29,19 +29,18 @@ contract MBlox is
     AccessControlUpgradeable,
     IMBlox
 {
-
     /**
-    * =======================
-    *   VARIABLES
-    * =======================
-    */
+     * =======================
+     *   VARIABLES
+     * =======================
+     */
 
-   // Roles used within the contract
+    // Roles used within the contract
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
 
     // Restricts use to authorised callers
-    string private _digitalKey; 
+    string private _digitalKey;
 
     /**
      * =======================

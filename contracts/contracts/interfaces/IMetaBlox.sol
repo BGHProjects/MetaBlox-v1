@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.17;
 
+import "./IUtilities.sol";
+import "./IGameToken.sol";
+import "./IGameItem.sol";
+
 /**
  * 
  * ███╗   ███╗███████╗████████╗ █████╗ ██████╗ ██╗      ██████╗ ██╗  ██╗
@@ -16,7 +20,7 @@ pragma solidity ^0.8.17;
  * 
  */
 
-interface IMetaBlox {
+interface IMetaBlox is IGameItem, IGameToken, IUtilities {
 
     /**
     * =======================
@@ -42,10 +46,6 @@ interface IMetaBlox {
     * =======================
     */
 
-    /// @dev Intializing function required for upgradeable smart contracta
-    /// @param digitalKey Variable used to authenticate this contract's function calls
-    function initialize(string memory digitalKey) external;
-
     /// @dev Mints one type of MetaBlox token to an inputted user
     /// @param account The account that is receiving the MetaBlox
     /// @param id The type of MetaBlox that the account is receiving
@@ -70,41 +70,11 @@ interface IMetaBlox {
     /// @param amounts The amounts of MetaBlox that are being burned
     function batchBurnMetaBlox(address account, uint256[] calldata ids, uint256[] calldata amounts) external;
 
-    /// @dev Grants the relevant roles to another account
-    /// @param account The account to be granted the roles
-    /// @param digitalKey Variable used to authorise this function call
-    function grantRoles(address account, string memory digitalKey) external;
-
     /// @dev Sets the URI for the contract to the inputted value
     /// @param newURI The new URI to be set to the contract
     function setURI(string memory newURI) external;
 
-    /// @dev Function required by Solidity to confirm the interface used by this contract
-    /// @param interfaceId The id for the interface to be checked against this contract
-    function supportsInterface(bytes4 interfaceId) external returns (bool);
-
-    /// @dev Function required by OpenSea in order to view the URI of the contract's collection
-    function contractURI() external returns (string memory);
-
     /// @dev Returns the price of a MetaBlox from a given id
     /// @param id The id for the MetaBlox the caller wishes to get the price of
     function metaBloxPrice(uint256 id) external returns (uint256);
-
-    /**
-    * =======================
-    *   ERRORS
-    * =======================
-    */
-
-    /// @dev The Zero Address has been used as a variable
-    error ZeroAddress();
-
-    /// @dev Amount supplied isn't a positive number
-    error NotPositiveValue();
-
-    /// @dev The digital key supplied in invalid
-    error InvalidDigitalKey();
-
-    /// @dev The token for the supplied ID doesn't exist on the contract
-    error InvalidTokenID();
 }

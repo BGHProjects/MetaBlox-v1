@@ -29,7 +29,7 @@
   "impls": {
     "f9c8ed91732b2d1a9b555eee815298afae52d65fa84adc7c699df7a75c3a84b4": {
       "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "txHash": "0x6bb52a362597e1ba798258d0f5aeb5e60fdbe71925be99a5f2e5c9b23036173a",
+      "txHash": "0xa0ba31fe13f776ad38ee08a9e1db242cce5a28e147d4776f43f2fe042bbfa21f",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -144,7 +144,7 @@
             "slot": "251",
             "type": "t_string_storage",
             "contract": "MBlox",
-            "src": "contracts\\implementations\\MBlox.sol:82"
+            "src": "contracts\\implementations\\MBlox.sol:81"
           }
         ],
         "types": {
@@ -223,7 +223,7 @@
     },
     "b6b18e0b75bfb3b9767ec32edddc726f2e8724888a83ec142fd26ad1bc088410": {
       "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
-      "txHash": "0x5980b596e2ffd27310816218b12abc4d31bb395af3aa3d97b4f230f6f57312e2",
+      "txHash": "0x115cbd7ba2e17abe76be918435fa9272bef3aaeda36a16854b47c9629f69d836",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -322,7 +322,7 @@
             "slot": "251",
             "type": "t_string_storage",
             "contract": "MetaBlox",
-            "src": "contracts\\implementations\\MetaBlox.sol:91"
+            "src": "contracts\\implementations\\MetaBlox.sol:92"
           },
           {
             "label": "prices",
@@ -330,7 +330,7 @@
             "slot": "252",
             "type": "t_mapping(t_uint256,t_uint256)",
             "contract": "MetaBlox",
-            "src": "contracts\\implementations\\MetaBlox.sol:92"
+            "src": "contracts\\implementations\\MetaBlox.sol:93"
           }
         ],
         "types": {
@@ -417,7 +417,7 @@
     },
     "c21acf2ea574fbdc1a29316f2c21aefc8599bcc7a5a9550b14edf415edcbd2fc": {
       "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
-      "txHash": "0x040022324f8bc38086dba98d39ab61521c71ea152db485cea90c1c00676f8cae",
+      "txHash": "0x801517edf998c77358ac9fea7e027cb1b612bc3e10660aa56742e597b2b3ea6a",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -556,23 +556,23 @@
             "slot": "301",
             "type": "t_string_storage",
             "contract": "World",
-            "src": "contracts\\implementations\\World.sol:102"
+            "src": "contracts\\implementations\\World.sol:103"
           },
           {
             "label": "worlds",
             "offset": 0,
             "slot": "302",
-            "type": "t_mapping(t_uint256,t_struct(WorldMetadata)5767_storage)",
+            "type": "t_mapping(t_uint256,t_struct(WorldMetadata)10428_storage)",
             "contract": "World",
-            "src": "contracts\\implementations\\World.sol:103"
+            "src": "contracts\\implementations\\World.sol:104"
           },
           {
             "label": "_tokenIdCounter",
             "offset": 0,
             "slot": "303",
-            "type": "t_struct(Counter)2235_storage",
+            "type": "t_struct(Counter)4526_storage",
             "contract": "World",
-            "src": "contracts\\implementations\\World.sol:105"
+            "src": "contracts\\implementations\\World.sol:106"
           }
         ],
         "types": {
@@ -624,7 +624,7 @@
             "label": "mapping(uint256 => string)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(WorldMetadata)5767_storage)": {
+          "t_mapping(t_uint256,t_struct(WorldMetadata)10428_storage)": {
             "label": "mapping(uint256 => struct IWorld.WorldMetadata)",
             "numberOfBytes": "32"
           },
@@ -632,7 +632,7 @@
             "label": "string",
             "numberOfBytes": "32"
           },
-          "t_struct(Coordinates)5747_storage": {
+          "t_struct(Coordinates)10413_storage": {
             "label": "struct IWorld.Coordinates",
             "members": [
               {
@@ -650,7 +650,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(Counter)2235_storage": {
+          "t_struct(Counter)4526_storage": {
             "label": "struct CountersUpgradeable.Counter",
             "members": [
               {
@@ -680,8 +680,8 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(WorldBlockDetails)5758_storage": {
-            "label": "struct IWorld.WorldBlockDetails",
+          "t_struct(WorldBlockDetails)10351_storage": {
+            "label": "struct IUtilities.WorldBlockDetails",
             "members": [
               {
                 "label": "blockTotal",
@@ -698,7 +698,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(WorldGridData)5753_storage": {
+          "t_struct(WorldGridData)10419_storage": {
             "label": "struct IWorld.WorldGridData",
             "members": [
               {
@@ -709,25 +709,25 @@
               },
               {
                 "label": "coords",
-                "type": "t_struct(Coordinates)5747_storage",
+                "type": "t_struct(Coordinates)10413_storage",
                 "offset": 0,
                 "slot": "1"
               }
             ],
             "numberOfBytes": "96"
           },
-          "t_struct(WorldMetadata)5767_storage": {
+          "t_struct(WorldMetadata)10428_storage": {
             "label": "struct IWorld.WorldMetadata",
             "members": [
               {
                 "label": "worldGridData",
-                "type": "t_struct(WorldGridData)5753_storage",
+                "type": "t_struct(WorldGridData)10419_storage",
                 "offset": 0,
                 "slot": "0"
               },
               {
                 "label": "worldBlockDetails",
-                "type": "t_struct(WorldBlockDetails)5758_storage",
+                "type": "t_struct(WorldBlockDetails)10351_storage",
                 "offset": 0,
                 "slot": "3"
               },

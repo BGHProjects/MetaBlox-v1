@@ -2,6 +2,7 @@
 pragma solidity 0.8.17;
 
 import "../interfaces/IWorld.sol";
+import "../interfaces/IGameItem.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721BurnableUpgradeable.sol";
@@ -20,9 +21,9 @@ import "@openzeppelin/contracts/utils/Base64.sol";
  * ██║ ╚═╝ ██║███████╗   ██║   ██║  ██║██████╔╝███████╗╚██████╔╝██╔╝ ██╗
  * ╚═╝     ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═╝
  * 
- * @title The token that represents the world that the player's build inside of
+ * @title World contract implementation
  * @author BGHProjects
- * @notice Handles all the functionality pertaining to the World token
+ * @notice Handles all the functionality pertaining to the World token, which represents the world that the players build inside of
  * 
  */
 
@@ -274,7 +275,7 @@ contract World is
     )
         public
         view
-        override(AccessControlUpgradeable, ERC721Upgradeable, IWorld)
+        override(AccessControlUpgradeable, ERC721Upgradeable, IGameItem)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);

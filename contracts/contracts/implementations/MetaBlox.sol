@@ -2,6 +2,7 @@
 pragma solidity 0.8.17;
 
 import "../interfaces/IMetaBlox.sol";
+import "../interfaces/IGameItem.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC1155/ERC1155Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC1155/extensions/ERC1155BurnableUpgradeable.sol";
@@ -16,9 +17,9 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
  * ██║ ╚═╝ ██║███████╗   ██║   ██║  ██║██████╔╝███████╗╚██████╔╝██╔╝ ██╗
  * ╚═╝     ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═╝
  * 
- * @title The blocks used to build within the game
+ * @title MetaBlox contract implementation
  * @author BGHProjects
- * @notice Handles all the functionality pertaining to the MetaBlox in-game item
+ * @notice Handles all the functionality pertaining to the MetaBlox in-game item, which represent the blocks used to build within the game
  * 
  */
 
@@ -224,7 +225,7 @@ contract MetaBlox is Initializable, ERC1155Upgradeable, AccessControlUpgradeable
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(AccessControlUpgradeable, ERC1155Upgradeable, IMetaBlox)
+        override(AccessControlUpgradeable, ERC1155Upgradeable, IGameItem)
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
