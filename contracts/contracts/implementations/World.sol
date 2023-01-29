@@ -98,41 +98,10 @@ contract World is
 
     /**
      * =======================
-     *  GENERATE METADATA
+     *  GENERATE HASH
      * =======================
      */
-    function generateMetadata(uint256 tokenId) private view returns(string memory)
-    {
-        WorldMetadata storage metadata = worlds[tokenId];
-
-        // Abbreviations for cleanliness
-        Coordinates memory coords = metadata.worldGridData.coords;
-
-        bytes memory dataURI = abi.encodePacked(
-            '{',
-            '"name": "MetaBlox World #', tokenId.toString(), '",',
-            '"image": "', generateImage(metadata), '",',
-            '"X": "', coords.x.toString(), '",',
-            '"Y": "', coords.y.toString(), '",',
-            '"Total Blocks": "', metadata.worldBlockDetails.blockTotal.toString(), '",',
-            '"World Layout": "', metadata.worldBlockDetails.worldLayout, '"',
-            '}'
-        );
-
-        return string(
-            abi.encodePacked(
-                "data:application/json;base64,",
-                Base64.encode(dataURI)
-            )
-        );
-    }
-
-    /**
-     * =======================
-     *  UPDATE METADATA
-     * =======================
-     */
-    function updateMetadata(uint256 tokenId, WorldBlockDetails calldata worldBlockDetails) private view returns(string memory)
+    function generateHash(uint256 tokenId, WorldBlockDetails memory worldBlockDetails) private view returns(string memory)
     {
         WorldMetadata storage metadata = worlds[tokenId];
 
@@ -160,23 +129,37 @@ contract World is
 
     /**
      * =======================
+     *  GENERATE METADATA
+     * =======================
+     */
+    function generateMetadata(uint256 tokenId) private view returns(string memory)
+    {
+        WorldMetadata storage metadata = worlds[tokenId];
+        string memory hash = generateHash(tokenId, metadata.worldBlockDetails);
+
+        return hash;
+    }
+
+    /**
+     * =======================
      *  MINT WORLD
      * =======================
      */
-    function mintWorld(address to, WorldMetadata calldata worldData) public onlyRole(MINTER_ROLE){
+    function mintWorld(address to, WorldMetadata memory worldData) public onlyRole(MINTER_ROLE){
         if(to == address(0)) revert ZeroAddress();
         if(worldData.worldGridData.owner == address(0)) revert ZeroAddress();
 
         uint256 totalWorlds = _tokenIdCounter.current() + 1;
         Coordinates memory coords = worldData.worldGridData.coords;
 
-        for (uint256 i = 0; i < totalWorlds; i++)
-        {
-            if(worlds[i].worldGridData.coords.x == coords.x && worlds[i].worldGridData.coords.y == coords.y) revert AlreadyOnGrid();   
-        }
+            for (uint256 i = 0; i < totalWorlds; i++)
+            {
+                if(worlds[i].worldGridData.coords.x == coords.x && worlds[i].worldGridData.coords.y == coords.y) revert AlreadyOnGrid();   
+            }
 
         uint256 tokenId = _tokenIdCounter.current();
-        worlds[tokenId] = worldData; // Sets worlds entry so it can be used by generateMetadata
+        worldData.id = tokenId;
+        worlds[tokenId] = worldData; // Sets worlds entry so it can be used by generateMetadata;
         string memory uri = generateMetadata(tokenId);
 
         _safeMint(to, tokenId);
@@ -193,11 +176,11 @@ contract World is
      */
     function updateWorld(
         uint256 tokenId,
-        WorldBlockDetails calldata worldBlockDetails
+        WorldBlockDetails memory worldBlockDetails
     ) public onlyRole(UPDATER_ROLE) {
         if(!_exists(tokenId)) revert InvalidTokenID();
 
-        string memory updatedURI = updateMetadata(tokenId, worldBlockDetails);
+        string memory updatedURI = generateHash(tokenId, worldBlockDetails);
         _setTokenURI(tokenId, updatedURI);
 
         worlds[tokenId].worldBlockDetails = worldBlockDetails;

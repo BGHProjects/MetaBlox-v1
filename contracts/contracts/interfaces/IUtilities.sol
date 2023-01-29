@@ -52,10 +52,12 @@ interface IUtilities {
    /// @param worldGridData The coordinates and owner of the World
    /// @param worldBlockDetails The total number of blocks and their layout in the world
    /// @param colour The colour associated with the address that will own the new World
+   /// @param id The token ID for the newly minted World
    struct WorldMetadata {
     WorldGridData worldGridData;
     WorldBlockDetails worldBlockDetails;
     string colour;
+    uint256 id;
    }
 
    /**

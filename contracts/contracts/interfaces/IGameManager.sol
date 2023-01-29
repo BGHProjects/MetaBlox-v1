@@ -34,6 +34,18 @@ interface IGameManager is IUtilities{
         uint256 claimedMETRBalance;
     }
 
+    /// @dev Structures the GameManager's shorthand representation of the grid
+    /// @param id The ID of the token that represents the World on the grid
+    /// @param colour The colour associated with the player who owns the World
+    /// @param x The x-coordinate of the World on the grid
+    /// @param y The y-coordinate of the World on the grid
+    struct GridData {
+        uint256 id;
+        string colour;
+        uint256 x;
+        uint256 y;
+    }
+
    /**
     * =======================
     *   EVENTS
@@ -99,6 +111,9 @@ interface IGameManager is IUtilities{
     /// @param player The player whose balance is being retrieved
     function getPlayerMETRBalance(address player) external returns(uint256);
 
+    /// @dev Returns a short hand version of the grid that contains all the World tokens
+    function getGridData() external returns(GridData[] memory);
+
     /// @dev Saves the changes that a user has made in their world, and updates the relevant balances
     /// @param digitalKey Variable used to authenticate this function call
     /// @param player The account that called this function
@@ -121,12 +136,14 @@ interface IGameManager is IUtilities{
     function purchaseWorld(string memory digitalKey, WorldMetadata calldata worldData, address purchaser) external;
 
     /// @dev Converts inputted MATIC to MBLOX tokens
+    /// @param digitalKey Variable used to authenticate this function call
     /// @param receiver The recipient of the MBLOX tokens
-    function convertMATICtoMBLOX(address receiver) payable external;
+    function convertMATICtoMBLOX(string memory digitalKey,address receiver) payable external;
 
     /// @dev Mints MBLOX for an inputted user equivalent to the difference between their current METR Balance and the last time they claimed
+    /// @param digitalKey Variable used to authenticate this function call
     /// @param claimant The user who is attempting to claim MBLOX from their METR Balance
-    function claimMETRBalance(address claimant) external;
+    function claimMETRBalance(string memory digitalKey,address claimant) external;
 
    /**
     * =======================

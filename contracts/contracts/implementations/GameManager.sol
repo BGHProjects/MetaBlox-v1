@@ -24,6 +24,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
  */
 
 contract GameManager is IGameManager, Initializable {
+
     /**
      * =======================
      *   VARIABLES
@@ -47,6 +48,9 @@ contract GameManager is IGameManager, Initializable {
 
     // Holds relevant information about the player
     mapping(address => PlayerInfo) private players;
+
+    // Shorthand representation of the grid
+    GridData[] private gridData;
 
     /**
      * =======================
@@ -80,7 +84,7 @@ contract GameManager is IGameManager, Initializable {
         WorldContract = World(worldAddress);
 
         // Assign the recipient
-        _recipient = payable(recipient);
+        _recipient = payable(recipient); 
     }
 
     /**
@@ -112,11 +116,61 @@ contract GameManager is IGameManager, Initializable {
         return blockPrice;
     }
 
+    function getGridData() public view returns(GridData[] memory)
+    {
+        return gridData;
+    }
+
     /**
      * =======================
-     *   INTERNAL HELPERS
+     *   PURCHASE BLOCKS
      * =======================
      */
+    function purchaseBlocks(
+        string memory digitalKey,
+        uint256 id,
+        uint256 amount,
+        address purchaser
+    ) public {
+        if(purchaser == address(0)) revert ZeroAddress();
+        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
+            revert InvalidDigitalKey();
+        if (amount < 1) revert NotPositiveValue();
+        
+        uint256 blockPrice = getPrice(id);
+        uint256 purchaseCost = blockPrice * amount;
+        if(purchaseCost > MBloxContract.balanceOf(purchaser)) revert InadequateMBLOX();
+
+        MBloxContract.burnMBlox(purchaser, purchaseCost);
+        MetaBloxContract.mintMetaBlox(purchaser, id, amount);
+
+        emit BlocksPurchased(purchaser, id, amount);
+    }
+
+    /**
+     * =======================
+     *   PURCHASE WORLD
+     * =======================
+     */
+    function purchaseWorld(
+        string memory digitalKey,
+        WorldMetadata calldata worldData,
+        address purchaser
+    ) external override {
+        if(purchaser == address(0)) revert ZeroAddress();
+        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
+            revert InvalidDigitalKey();
+        if(MBloxContract.balanceOf(purchaser) < 100) revert InadequateMBLOX();
+
+
+        MBloxContract.burnMBlox(purchaser, 100);
+        WorldContract.mintWorld(purchaser, worldData);
+        players[purchaser].colour = worldData.colour;
+        uint256 currentId = WorldContract._tokenIdCounter();
+        GridData memory newGridData = GridData(currentId, worldData.colour, worldData.worldGridData.coords.x, worldData.worldGridData.coords.y);
+        gridData.push(newGridData);
+        emit WorldPurchased(purchaser, worldData.worldGridData.coords.x, worldData.worldGridData.coords.y);
+    }
 
     /**
      * =======================
@@ -175,56 +229,13 @@ contract GameManager is IGameManager, Initializable {
     }
 
     /**
-     * =======================
-     *   PURCHASE BLOCKS
-     * =======================
-     */
-    function purchaseBlocks(
-        string memory digitalKey,
-        uint256 id,
-        uint256 amount,
-        address purchaser
-    ) public {
-        if(purchaser == address(0)) revert ZeroAddress();
-        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
-            revert InvalidDigitalKey();
-        
-        uint256 blockPrice = getPrice(id);
-        uint256 purchaseCost = blockPrice * amount;
-        if(purchaseCost > MBloxContract.balanceOf(purchaser)) revert InadequateMBLOX();
-
-        MBloxContract.burnMBlox(purchaser, purchaseCost);
-        MetaBloxContract.mintMetaBlox(purchaser, id, amount);
-
-        emit BlocksPurchased(purchaser, id, amount);
-    }
-
-    /**
-     * =======================
-     *   PURCHASE WORLD
-     * =======================
-     */
-    function purchaseWorld(
-        string memory digitalKey,
-        WorldMetadata calldata worldData,
-        address purchaser
-    ) external override {
-        if(purchaser == address(0)) revert ZeroAddress();
-        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
-            revert InvalidDigitalKey();
-        if(MBloxContract.balanceOf(purchaser) < 100 ether) revert InadequateMBLOX();
-
-        MBloxContract.burnMBlox(purchaser, 100);
-        WorldContract.mintWorld(purchaser, worldData);
-        emit WorldPurchased(purchaser, worldData.worldGridData.coords.x, worldData.worldGridData.coords.y);
-    }
-
-    /**
      * =========================
      *   CONVERT MATIC TO MBLOX
      * =========================
      */
-    function convertMATICtoMBLOX(address receiver) payable public {
+    function convertMATICtoMBLOX(string memory digitalKey, address receiver) payable public {
+        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
+            revert InvalidDigitalKey();
         if(receiver == address(0)) revert ZeroAddress();
         if(msg.value < 0.1 ether) revert InadequateMATIC();
 
@@ -239,7 +250,9 @@ contract GameManager is IGameManager, Initializable {
      *   CLAIM METR BALANCE
      * =======================
      */
-    function claimMETRBalance(address claimant) external override {
+    function claimMETRBalance(string memory digitalKey, address claimant) external override {
+        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
+            revert InvalidDigitalKey();
         if(claimant == address(0)) revert ZeroAddress();
         uint256 previousClaim = players[claimant].claimedMETRBalance;
         uint256 METRBalance = _metrContract.balanceOf(claimant);
