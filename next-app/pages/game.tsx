@@ -1,4 +1,4 @@
-import { Center, chakra, Flex } from "@chakra-ui/react";
+import { Center, chakra, Flex, Box } from "@chakra-ui/react";
 import { Physics } from "@react-three/cannon";
 import { Sky } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -15,6 +15,11 @@ import { useAppContext } from "../contexts/AppStateContext";
 const cursorSize = 15;
 const animDuration = 3;
 
+/**
+ * This page represents where the building gameplay acutally occurs,
+ * and includes the 2D menu UI, as well as the ThreeJS building environment
+ * @returns The UI component for page of the app where the gameplay occurs
+ */
 const Gameplay = () => {
   const [showingSomething, setShowingSomething] = useState(false);
   const [display, setDisplay] = useState("flex");
@@ -34,7 +39,7 @@ const Gameplay = () => {
     setExiting(true);
     setTimeout(() => {
       router.push("/");
-    }, animDuration * 1000);
+    }, (animDuration + 1) * 1000);
   };
 
   return (

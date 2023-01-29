@@ -27,9 +27,9 @@
     }
   ],
   "impls": {
-    "f9c8ed91732b2d1a9b555eee815298afae52d65fa84adc7c699df7a75c3a84b4": {
+    "0a11573b2701ab41e2ef0dc920d66f0f04309dce1afbf35207339fcad8c2d93b": {
       "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "txHash": "0xa0ba31fe13f776ad38ee08a9e1db242cce5a28e147d4776f43f2fe042bbfa21f",
+      "txHash": "0x6be4eaf8eadd90b2480c4f80f8d938cf08930b84722577acffc3e54ebe71f35d",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -221,9 +221,9 @@
         }
       }
     },
-    "b6b18e0b75bfb3b9767ec32edddc726f2e8724888a83ec142fd26ad1bc088410": {
+    "a5b950ea0f063fe5494c56609713d6f230fdcac07aeb3baff2418a29ae95abcf": {
       "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
-      "txHash": "0x115cbd7ba2e17abe76be918435fa9272bef3aaeda36a16854b47c9629f69d836",
+      "txHash": "0xb347ffbe9c0294647b432ed24e07693d408af0ecde08f1176ead8c4a49f6d6d7",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -415,9 +415,9 @@
         }
       }
     },
-    "c21acf2ea574fbdc1a29316f2c21aefc8599bcc7a5a9550b14edf415edcbd2fc": {
+    "8d42cb1cda042b35e9ecf89060294b14299e916c1061df0c3dc7d22e76bc6f9f": {
       "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
-      "txHash": "0x801517edf998c77358ac9fea7e027cb1b612bc3e10660aa56742e597b2b3ea6a",
+      "txHash": "0x55a5677d180eda5da965f92ad0eaa53c316123f39b1e9896679ad12848894bda",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -562,7 +562,7 @@
             "label": "worlds",
             "offset": 0,
             "slot": "302",
-            "type": "t_mapping(t_uint256,t_struct(WorldMetadata)10428_storage)",
+            "type": "t_mapping(t_uint256,t_struct(WorldMetadata)12300_storage)",
             "contract": "World",
             "src": "contracts\\implementations\\World.sol:104"
           },
@@ -624,16 +624,16 @@
             "label": "mapping(uint256 => string)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(WorldMetadata)10428_storage)": {
-            "label": "mapping(uint256 => struct IWorld.WorldMetadata)",
+          "t_mapping(t_uint256,t_struct(WorldMetadata)12300_storage)": {
+            "label": "mapping(uint256 => struct IUtilities.WorldMetadata)",
             "numberOfBytes": "32"
           },
           "t_string_storage": {
             "label": "string",
             "numberOfBytes": "32"
           },
-          "t_struct(Coordinates)10413_storage": {
-            "label": "struct IWorld.Coordinates",
+          "t_struct(Coordinates)12280_storage": {
+            "label": "struct IUtilities.Coordinates",
             "members": [
               {
                 "label": "x",
@@ -680,7 +680,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(WorldBlockDetails)10351_storage": {
+          "t_struct(WorldBlockDetails)12291_storage": {
             "label": "struct IUtilities.WorldBlockDetails",
             "members": [
               {
@@ -698,8 +698,8 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(WorldGridData)10419_storage": {
-            "label": "struct IWorld.WorldGridData",
+          "t_struct(WorldGridData)12286_storage": {
+            "label": "struct IUtilities.WorldGridData",
             "members": [
               {
                 "label": "owner",
@@ -709,25 +709,25 @@
               },
               {
                 "label": "coords",
-                "type": "t_struct(Coordinates)10413_storage",
+                "type": "t_struct(Coordinates)12280_storage",
                 "offset": 0,
                 "slot": "1"
               }
             ],
             "numberOfBytes": "96"
           },
-          "t_struct(WorldMetadata)10428_storage": {
-            "label": "struct IWorld.WorldMetadata",
+          "t_struct(WorldMetadata)12300_storage": {
+            "label": "struct IUtilities.WorldMetadata",
             "members": [
               {
                 "label": "worldGridData",
-                "type": "t_struct(WorldGridData)10419_storage",
+                "type": "t_struct(WorldGridData)12286_storage",
                 "offset": 0,
                 "slot": "0"
               },
               {
                 "label": "worldBlockDetails",
-                "type": "t_struct(WorldBlockDetails)10351_storage",
+                "type": "t_struct(WorldBlockDetails)12291_storage",
                 "offset": 0,
                 "slot": "3"
               },

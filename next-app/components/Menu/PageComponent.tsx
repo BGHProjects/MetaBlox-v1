@@ -23,6 +23,7 @@ const PageContainer = chakra(Flex, {
     minH: "100vh",
     alignItems: "center",
     position: "absolute",
+    justifyContent: "center",
   },
 });
 

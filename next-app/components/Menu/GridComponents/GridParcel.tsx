@@ -12,6 +12,13 @@ interface IGridParcel {
   status: Status;
 }
 
+/**
+ * Represents an individual parcel on the Grid, which itself is a World within the game
+ * @param idx The index of the parcel on the grid
+ * @param gridSize The overall size of the grid
+ * @param colour The colour of the parcel on the grid
+ * @returns The UI component for an individual Grid Parcel
+ */
 const GridParcel = ({ idx, gridSize, colour, status }: IGridParcel) => {
   const [hovering, setHovering] = useState(false);
   const [justRendered, setJustRendered] = useState(true);

@@ -91,13 +91,6 @@ interface IGameManager is IUtilities{
     /// @dev Returns all the currently used colours, so when generating another, there are no duplicates
     function getUsedColours() external returns(string[] memory);
 
-    /// @dev Saves the changes that a user has made in their world, and updates the relevant balances
-    /// @param digitalKey Variable used to authenticate this function call
-    /// @param worldID The ID of the world that is having its changes saved
-    /// @param blockAmounts The amounts of each respective block type that has been changed
-    /// @param worldBlockDetails The details about the World that have now been changed
-    function saveWorldChanges(string memory digitalKey, uint256 worldID, uint256[] memory blockAmounts, WorldBlockDetails memory worldBlockDetails) external;
-
     /// @dev Retrieves a player's colour
     /// @param player The player whose colour is being retrieved
     function getPlayerColour(address player) external returns(string memory);
@@ -105,6 +98,14 @@ interface IGameManager is IUtilities{
     /// @dev Retrieve's the balance of METR that the player last claimed as MBLOX
     /// @param player The player whose balance is being retrieved
     function getPlayerMETRBalance(address player) external returns(uint256);
+
+    /// @dev Saves the changes that a user has made in their world, and updates the relevant balances
+    /// @param digitalKey Variable used to authenticate this function call
+    /// @param player The account that called this function
+    /// @param worldID The ID of the world that is having its changes saved
+    /// @param blockAmounts The amounts of each respective block type that has been changed
+    /// @param worldBlockDetails The details about the World that have now been changed
+    function saveWorldChanges(string memory digitalKey, address player, uint256 worldID, uint256[] memory blockAmounts, WorldBlockDetails memory worldBlockDetails) external;
 
     /// @dev Completes the purchase of MetaBlox for an inputted address, including burning MBLOX and minting MetaBlox
     /// @param digitalKey Variable used to authenticate this function call

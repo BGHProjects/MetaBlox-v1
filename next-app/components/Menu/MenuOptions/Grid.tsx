@@ -6,6 +6,11 @@ import GridParcel from "../GridComponents/GridParcel";
 
 const GRID_SIZE = 375;
 
+/**
+ * Represents the Grid Menu option, including the Grid of World parcels
+ * that the player can view
+ * @returns The UI component for the Grid Menu Option
+ */
 const Grid = () => {
   const test = range(100);
 

@@ -195,7 +195,7 @@ contract World is
         uint256 tokenId,
         WorldBlockDetails calldata worldBlockDetails
     ) public onlyRole(UPDATER_ROLE) {
-        if(keccak256(bytes((worlds[tokenId].colour))) == keccak256(bytes(("")))) revert InvalidTokenID();
+        if(!_exists(tokenId)) revert InvalidTokenID();
 
         string memory updatedURI = updateMetadata(tokenId, worldBlockDetails);
         _setTokenURI(tokenId, updatedURI);

@@ -125,10 +125,54 @@ contract GameManager is IGameManager, Initializable {
      */
     function saveWorldChanges(
         string memory digitalKey,
+        address player,
         uint256 worldID,
         uint256[] memory blockAmounts,
         WorldBlockDetails memory worldBlockDetails
-    ) external override {}
+    ) public {
+        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
+            revert InvalidDigitalKey();
+        WorldContract.updateWorld(worldID, worldBlockDetails);
+
+        address[] memory addresses = new address[](9);
+        for(uint i = 0; i < 9; i++) {
+            addresses[i] = player;
+        }
+
+        uint256[] memory currentBalances = MetaBloxContract.balanceOfBatch(addresses, blockAmounts);
+
+        uint256[] memory increases;
+        uint256[] memory increaseIds;
+        uint256[] memory decreases;
+        uint256[] memory decreaseIds;
+
+        for(uint i = 0; i < currentBalances.length; i++)
+        {
+            uint256 contractBalance = MetaBloxContract.balanceOf(player, i);
+
+            if(currentBalances[i] > contractBalance)
+            {
+                increaseIds[i] = i;
+                increases[i] = currentBalances[i] - contractBalance;
+            }
+
+            if(currentBalances[i] < contractBalance)
+            {
+                decreaseIds[i] = i;
+                decreases[i] = contractBalance - currentBalances[i];
+            }
+        }
+
+        if(increases.length > 0)
+        {
+            MetaBloxContract.batchMintMetaBlox(player, increaseIds, increases);
+        }
+
+        if(decreases.length > 0)
+        {
+            MetaBloxContract.batchBurnMetaBlox(player, decreaseIds, decreases);
+        }
+    }
 
     /**
      * =======================

@@ -80,11 +80,10 @@ const MainPage = () => {
 
 const MenuContentContainer = chakra(Center, {
   baseStyle: {
-    mt: "100px",
+    mt: "60px",
     maxW: "1000px",
     w: "1000px",
     h: "600px",
-    border: "1px solid gold",
     flexDirection: "column",
     justifyContent: "space-evenly",
   },
