@@ -8,6 +8,8 @@ import "./World.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
+import "hardhat/console.sol";
+
 /**
  * 
  * ███╗   ███╗███████╗████████╗ █████╗ ██████╗ ██╗      ██████╗ ██╗  ██╗
@@ -166,6 +168,7 @@ contract GameManager is IGameManager, Initializable {
         MBloxContract.burnMBlox(purchaser, 100);
         WorldContract.mintWorld(purchaser, worldData);
         players[purchaser].colour = worldData.colour;
+        usedColours.push(worldData.colour);
         uint256 currentId = WorldContract._tokenIdCounter();
         GridData memory newGridData = GridData(currentId, worldData.colour, worldData.worldGridData.coords.x, worldData.worldGridData.coords.y);
         gridData.push(newGridData);
@@ -177,54 +180,26 @@ contract GameManager is IGameManager, Initializable {
      *   SAVE WORLD CHANGES
      * =======================
      */
+
     function saveWorldChanges(
         string memory digitalKey,
         address player,
         uint256 worldID,
-        uint256[] memory blockAmounts,
-        WorldBlockDetails memory worldBlockDetails
+        WorldBlockDetails memory worldBlockDetails,
+        BlockUpdates memory blockUpdates
     ) public {
         if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
             revert InvalidDigitalKey();
         WorldContract.updateWorld(worldID, worldBlockDetails);
 
-        address[] memory addresses = new address[](9);
-        for(uint i = 0; i < 9; i++) {
-            addresses[i] = player;
+        if(blockUpdates.increases.length > 0)
+        {
+            MetaBloxContract.batchMintMetaBlox(player, blockUpdates.increaseIds, blockUpdates.increases);
         }
 
-        uint256[] memory currentBalances = MetaBloxContract.balanceOfBatch(addresses, blockAmounts);
-
-        uint256[] memory increases;
-        uint256[] memory increaseIds;
-        uint256[] memory decreases;
-        uint256[] memory decreaseIds;
-
-        for(uint i = 0; i < currentBalances.length; i++)
+        if(blockUpdates.decreases.length > 0)
         {
-            uint256 contractBalance = MetaBloxContract.balanceOf(player, i);
-
-            if(currentBalances[i] > contractBalance)
-            {
-                increaseIds[i] = i;
-                increases[i] = currentBalances[i] - contractBalance;
-            }
-
-            if(currentBalances[i] < contractBalance)
-            {
-                decreaseIds[i] = i;
-                decreases[i] = contractBalance - currentBalances[i];
-            }
-        }
-
-        if(increases.length > 0)
-        {
-            MetaBloxContract.batchMintMetaBlox(player, increaseIds, increases);
-        }
-
-        if(decreases.length > 0)
-        {
-            MetaBloxContract.batchBurnMetaBlox(player, decreaseIds, decreases);
+            MetaBloxContract.batchBurnMetaBlox(player, blockUpdates.decreaseIds, blockUpdates.decreases);
         }
     }
 

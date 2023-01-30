@@ -11,18 +11,23 @@
       "kind": "transparent"
     },
     {
-      "address": "0x9A676e781A523b5d0C0e43731313A708CB607508",
-      "txHash": "0x228da5b5270a03e16e31f00f9ff52ddd9493bab088db0cfbbd4196850b095b99",
-      "kind": "transparent"
-    },
-    {
       "address": "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
       "txHash": "0xd00a426c931960d18f61868a2f5e1cfd27218f7b852c626921bfc049579f6a3b",
       "kind": "transparent"
     },
     {
-      "address": "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1",
-      "txHash": "0x4136a6d2bce561119da5c0a11d6bcde3111792c96d8724f97e1bd7c94e25ad45",
+      "address": "0x9A676e781A523b5d0C0e43731313A708CB607508",
+      "txHash": "0x228da5b5270a03e16e31f00f9ff52ddd9493bab088db0cfbbd4196850b095b99",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
+      "txHash": "0x1cbb6dd7f6fee5e74ea982ff4367459a8ae854a6fcbf91181d08233eea0fadb5",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE",
+      "txHash": "0x9e0c49796abe7bb6e085f0b502d52b0a2f91714fb93a7f7b76f97e95109e03b7",
       "kind": "transparent"
     },
     {
@@ -47,29 +52,29 @@
     },
     {
       "address": "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
-      "txHash": "0x7355e897d7197398a61cc00b4d39b912274e5b4773b9ed41ad02e635ea60dc96",
+      "txHash": "0xd3f5af1abb5d64fed69fe2dc19ae211f418192a5fdd9c0e415360319c8aa4aea",
       "kind": "transparent"
     },
     {
-      "address": "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
-      "txHash": "0x1cbb6dd7f6fee5e74ea982ff4367459a8ae854a6fcbf91181d08233eea0fadb5",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE",
-      "txHash": "0x9e0c49796abe7bb6e085f0b502d52b0a2f91714fb93a7f7b76f97e95109e03b7",
+      "address": "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1",
+      "txHash": "0xbdc13bc26cf14a4727c30e37eda7ef0154c183b5fe89165b52b4d35752d17049",
       "kind": "transparent"
     },
     {
       "address": "0x68B1D87F95878fE05B998F19b66F4baba5De1aed",
-      "txHash": "0xc6c8eb31ff2f967675f2a3548b2a86bf171ab18a5cf2d11801ccc6b9583725f5",
+      "txHash": "0x788fab3b05980eea2fc34aa68d6420c97317a7a78115eefd9f55aa615f3cdc9e",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x3Aa5ebB10DC797CAC828524e59A333d0A371443c",
+      "txHash": "0xa3791ab552a950b3e03dbf68dbc64de2e52f9924dc5ac486732477d54a115676",
       "kind": "transparent"
     }
   ],
   "impls": {
-    "4c5c43a630b7be52399e9a31dcda438d92926206ac09cee37dae64f38e3878f4": {
+    "c4f1f4211b78ca59ab71542f152e4cfb2033a1c771edd325ce150980cbce2c79": {
       "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "txHash": "0x9b1828c75f611c27427c5c315f10ce419f037362f634bce58ad11ede2d3f8056",
+      "txHash": "0xf8f7e59c3fa54fa1b37dc75db4061d9a4483cc62fd082efbdbe6c2d4c524dfef",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -261,9 +266,9 @@
         }
       }
     },
-    "981ac5c5c574bec9e231f94ba521998193e806b09d849f75e015183f345e9d4e": {
+    "22f002b56554e96f5e3727b5191c6ea3770e1c2eeee10a4a9571b4d69790f1c6": {
       "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
-      "txHash": "0xc22e1332c14db1ab46ab9519c84e90e1e6e39ae5078d972a7ccccfa226953757",
+      "txHash": "0x2eeff537db9e48678c77780a868d932fa10d26f64ba2ec815e9f3d7efb22d51b",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -455,9 +460,9 @@
         }
       }
     },
-    "d90020b2a579fa28e66ee581bf7d22912c9b1dea6d83b45e66bcab06eed442b6": {
+    "42a11c598ec38ab9b1daf511c8c13334ddd58f19d560fe5c56bc2703eff1bfb1": {
       "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
-      "txHash": "0xb4138e7726955c5c1e7d8ffc7415efb8101fda7fd3380bc26705f3efc8648689",
+      "txHash": "0x9d56ae90267bbf1a8bef56120ecc87a1bfb50444b5532fe07b8dd1145c60512a",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -602,7 +607,7 @@
             "label": "worlds",
             "offset": 0,
             "slot": "302",
-            "type": "t_mapping(t_uint256,t_struct(WorldMetadata)12830_storage)",
+            "type": "t_mapping(t_uint256,t_struct(WorldMetadata)12608_storage)",
             "contract": "World",
             "src": "contracts\\implementations\\World.sol:104"
           },
@@ -664,7 +669,7 @@
             "label": "mapping(uint256 => string)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(WorldMetadata)12830_storage)": {
+          "t_mapping(t_uint256,t_struct(WorldMetadata)12608_storage)": {
             "label": "mapping(uint256 => struct IUtilities.WorldMetadata)",
             "numberOfBytes": "32"
           },
@@ -672,7 +677,7 @@
             "label": "string",
             "numberOfBytes": "32"
           },
-          "t_struct(Coordinates)12808_storage": {
+          "t_struct(Coordinates)12586_storage": {
             "label": "struct IUtilities.Coordinates",
             "members": [
               {
@@ -720,7 +725,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(WorldBlockDetails)12819_storage": {
+          "t_struct(WorldBlockDetails)12597_storage": {
             "label": "struct IUtilities.WorldBlockDetails",
             "members": [
               {
@@ -738,7 +743,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(WorldGridData)12814_storage": {
+          "t_struct(WorldGridData)12592_storage": {
             "label": "struct IUtilities.WorldGridData",
             "members": [
               {
@@ -749,25 +754,25 @@
               },
               {
                 "label": "coords",
-                "type": "t_struct(Coordinates)12808_storage",
+                "type": "t_struct(Coordinates)12586_storage",
                 "offset": 0,
                 "slot": "1"
               }
             ],
             "numberOfBytes": "96"
           },
-          "t_struct(WorldMetadata)12830_storage": {
+          "t_struct(WorldMetadata)12608_storage": {
             "label": "struct IUtilities.WorldMetadata",
             "members": [
               {
                 "label": "worldGridData",
-                "type": "t_struct(WorldGridData)12814_storage",
+                "type": "t_struct(WorldGridData)12592_storage",
                 "offset": 0,
                 "slot": "0"
               },
               {
                 "label": "worldBlockDetails",
-                "type": "t_struct(WorldBlockDetails)12819_storage",
+                "type": "t_struct(WorldBlockDetails)12597_storage",
                 "offset": 0,
                 "slot": "3"
               },
@@ -797,9 +802,9 @@
         }
       }
     },
-    "0441a5a566cc8196d80e90f453a528ff8aa31946c710f16a01e1731234169fb9": {
+    "1b0d8ce4569cb4c7d714e78d156744c05ae74955d08cc5beab43f30e89d84e91": {
       "address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
-      "txHash": "0x28a6b4039f7e0cc8cfc002496acd94b0fd2807aa352bc239cc7c0298e813b4b9",
+      "txHash": "0x07db07f8a05be187cb0b5cb359ce08148f42fe7e88e6904a3cb9410d15734f59",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -826,7 +831,7 @@
             "slot": "1",
             "type": "t_string_storage",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:73"
+            "src": "contracts\\implementations\\GameManager.sol:75"
           },
           {
             "label": "_metrContract",
@@ -834,31 +839,31 @@
             "slot": "2",
             "type": "t_contract(ERC20)6277",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:75"
+            "src": "contracts\\implementations\\GameManager.sol:77"
           },
           {
             "label": "MBloxContract",
             "offset": 0,
             "slot": "3",
-            "type": "t_contract(MBlox)9720",
+            "type": "t_contract(MBlox)9485",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:76"
+            "src": "contracts\\implementations\\GameManager.sol:78"
           },
           {
             "label": "MetaBloxContract",
             "offset": 0,
             "slot": "4",
-            "type": "t_contract(MetaBlox)11130",
+            "type": "t_contract(MetaBlox)10895",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:77"
+            "src": "contracts\\implementations\\GameManager.sol:79"
           },
           {
             "label": "WorldContract",
             "offset": 0,
             "slot": "5",
-            "type": "t_contract(World)12295",
+            "type": "t_contract(World)12060",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:78"
+            "src": "contracts\\implementations\\GameManager.sol:80"
           },
           {
             "label": "_recipient",
@@ -866,7 +871,7 @@
             "slot": "6",
             "type": "t_address_payable",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:80"
+            "src": "contracts\\implementations\\GameManager.sol:82"
           },
           {
             "label": "usedColours",
@@ -874,23 +879,23 @@
             "slot": "7",
             "type": "t_array(t_string_storage)dyn_storage",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:83"
+            "src": "contracts\\implementations\\GameManager.sol:85"
           },
           {
             "label": "players",
             "offset": 0,
             "slot": "8",
-            "type": "t_mapping(t_address,t_struct(PlayerInfo)12376_storage)",
+            "type": "t_mapping(t_address,t_struct(PlayerInfo)12141_storage)",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:85"
+            "src": "contracts\\implementations\\GameManager.sol:87"
           },
           {
             "label": "gridData",
             "offset": 0,
             "slot": "9",
-            "type": "t_array(t_struct(GridData)12385_storage)dyn_storage",
+            "type": "t_array(t_struct(GridData)12150_storage)dyn_storage",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:86"
+            "src": "contracts\\implementations\\GameManager.sol:88"
           }
         ],
         "types": {
@@ -906,7 +911,7 @@
             "label": "string[]",
             "numberOfBytes": "32"
           },
-          "t_array(t_struct(GridData)12385_storage)dyn_storage": {
+          "t_array(t_struct(GridData)12150_storage)dyn_storage": {
             "label": "struct IGameManager.GridData[]",
             "numberOfBytes": "32"
           },
@@ -918,19 +923,19 @@
             "label": "contract ERC20",
             "numberOfBytes": "20"
           },
-          "t_contract(MBlox)9720": {
+          "t_contract(MBlox)9485": {
             "label": "contract MBlox",
             "numberOfBytes": "20"
           },
-          "t_contract(MetaBlox)11130": {
+          "t_contract(MetaBlox)10895": {
             "label": "contract MetaBlox",
             "numberOfBytes": "20"
           },
-          "t_contract(World)12295": {
+          "t_contract(World)12060": {
             "label": "contract World",
             "numberOfBytes": "20"
           },
-          "t_mapping(t_address,t_struct(PlayerInfo)12376_storage)": {
+          "t_mapping(t_address,t_struct(PlayerInfo)12141_storage)": {
             "label": "mapping(address => struct IGameManager.PlayerInfo)",
             "numberOfBytes": "32"
           },
@@ -938,7 +943,7 @@
             "label": "string",
             "numberOfBytes": "32"
           },
-          "t_struct(GridData)12385_storage": {
+          "t_struct(GridData)12150_storage": {
             "label": "struct IGameManager.GridData",
             "members": [
               {
@@ -968,7 +973,7 @@
             ],
             "numberOfBytes": "128"
           },
-          "t_struct(PlayerInfo)12376_storage": {
+          "t_struct(PlayerInfo)12141_storage": {
             "label": "struct IGameManager.PlayerInfo",
             "members": [
               {

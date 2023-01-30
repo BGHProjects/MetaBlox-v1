@@ -1,5 +1,7 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import {
+  emptyBlockUpdates,
+  testBlockUpdates,
   testWorld1,
   testWorld2,
   updatedWorldBlockDetails,
@@ -111,6 +113,8 @@ const deployFixture = async () => {
     testWorld1,
     testWorld2,
     updatedWorldBlockDetails,
+    testBlockUpdates,
+    emptyBlockUpdates,
     MBloxContract,
     TestMETRContract,
     WorldContract,

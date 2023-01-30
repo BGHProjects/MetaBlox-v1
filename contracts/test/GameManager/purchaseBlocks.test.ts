@@ -35,10 +35,10 @@ describe("GameManager purchaseBlocks tests", () => {
 
   /**
    * =====================================================================
-   *   SHOULD NOT ALLOW PURCHASE WITH AN NON-POSITIVE AMOUNT
+   *   SHOULD NOT ALLOW PURCHASE WITH A NON-POSITIVE AMOUNT
    * =====================================================================
    */
-  it("Should not allow purchase by the zero address", async () => {
+  it("Should not allow purchase with a non-positive amount", async () => {
     const { GameManagerContract, Alice } = await loadFixture(deployFixture);
     await expect(
       GameManagerContract.purchaseBlocks("testDigitalKey", 1, 0, Alice.address)

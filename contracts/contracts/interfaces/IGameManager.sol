@@ -46,6 +46,18 @@ interface IGameManager is IUtilities{
         uint256 y;
     }
 
+    /// @dev Variables used to update the user's MetaBlox balance based on their gameplay
+    /// @param increaseIds The IDs of the blocks whose balances have been increased following gameplay
+    /// @param increases The amount that each increased block has increased by following gameplay
+    /// @param decreaseIds The IDs of the blocks whose balances have been decreased following gameplay
+    /// @param decreases The amount that each decreased block has decreased by following gameplay
+    struct BlockUpdates {
+        uint256[] increaseIds;
+        uint256[] increases;
+        uint256[] decreaseIds;
+        uint256[] decreases;
+    }
+
    /**
     * =======================
     *   EVENTS
@@ -118,9 +130,9 @@ interface IGameManager is IUtilities{
     /// @param digitalKey Variable used to authenticate this function call
     /// @param player The account that called this function
     /// @param worldID The ID of the world that is having its changes saved
-    /// @param blockAmounts The amounts of each respective block type that has been changed
     /// @param worldBlockDetails The details about the World that have now been changed
-    function saveWorldChanges(string memory digitalKey, address player, uint256 worldID, uint256[] memory blockAmounts, WorldBlockDetails memory worldBlockDetails) external;
+    /// @param blockUpdates The increases and decreases that were made to the user's MetaBlox balances following gameplay
+    function saveWorldChanges(string memory digitalKey, address player, uint256 worldID, WorldBlockDetails memory worldBlockDetails, BlockUpdates memory blockUpdates) external;
 
     /// @dev Completes the purchase of MetaBlox for an inputted address, including burning MBLOX and minting MetaBlox
     /// @param digitalKey Variable used to authenticate this function call

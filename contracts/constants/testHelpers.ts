@@ -54,3 +54,17 @@ export const updatedWorldBlockDetails = {
   blockTotal: 10,
   worldLayout: "updatedWorldLayout",
 };
+
+export const testBlockUpdates = {
+  increases: [2, 3],
+  increaseIds: [0, 1],
+  decreases: [1, 4],
+  decreaseIds: [2, 3],
+};
+
+export const emptyBlockUpdates = {
+  increases: [],
+  increaseIds: [],
+  decreases: [],
+  decreaseIds: [],
+};
