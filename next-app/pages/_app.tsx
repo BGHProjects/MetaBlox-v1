@@ -12,7 +12,10 @@ import "../styles/App.css";
 export default function App({ Component, pageProps }: AppProps) {
   const { chains, provider } = configureChains(
     [polygonMumbai],
-    [alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY }), publicProvider()]
+    [
+      alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY as string }),
+      publicProvider(),
+    ]
   );
 
   const { connectors } = getDefaultWallets({

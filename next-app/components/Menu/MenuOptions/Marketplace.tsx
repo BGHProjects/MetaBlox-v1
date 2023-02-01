@@ -3,9 +3,12 @@ import { useState } from "react";
 import { Block } from "../../../constants/blocks";
 import { orangeMain } from "../../../constants/colours";
 import AppModal from "../../AppModal";
-import MarketplaceBlockCard from "../../MarketplaceBlockCard";
-import MarketplaceBlockConfirmModal from "../../MarketplaceBlockConfirmModal";
+import MarketplaceBlockCard from "../MarketplaceBlock/MarketplaceBlockCard";
+import MarketplaceBlockConfirmModal from "../MarketplaceBlock/MarketplaceBlockConfirmModal";
 
+/**
+ * Displays the Marketplace content in the Menu Option
+ */
 const Marketplace = () => {
   const blocks = Object.keys(Block);
   const [open, setOpen] = useState(false);

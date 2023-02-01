@@ -41,7 +41,7 @@ const MainPage = () => {
     <>
       {/*//@ts-ignore */}
       <WindowContainer>
-        <MenuBackground animationDelay={DELAY + DURATION} />
+        <MenuBackground animationDelay={DELAY} />
       </WindowContainer>
 
       <PageComponent>

@@ -8,13 +8,17 @@ import {
 } from "@chakra-ui/react";
 import { capitalize } from "lodash";
 import { useEffect, useState } from "react";
-import { Block, blockPrices } from "../constants/blocks";
-import AppButton from "./Menu/AppButton";
+import { Block, blockPrices } from "../../../constants/blocks";
+import AppButton from "../AppButton";
 
 interface IMarketplaceBlockConfirmModal {
   block: Block;
 }
 
+/**
+ * Modal that is displayed when a user is attempting to purchase a block from the Marketplace
+ * @param block The block that is being purchased
+ */
 const MarketplaceBlockConfirmModal = ({
   block,
 }: IMarketplaceBlockConfirmModal) => {
@@ -45,6 +49,7 @@ const MarketplaceBlockConfirmModal = ({
       <NumberInput defaultValue={1} min={1}>
         <NumberInputField
           color="white"
+          fontFamily="Play"
           onChange={(e) => setNumberOfBlocks(Number(e.target.value))}
         />
       </NumberInput>
@@ -65,6 +70,7 @@ const PriceText = chakra(Text, {
     textAlign: "center",
     fontWeight: "bold",
     fontSize: "20px",
+    fontFamily: "Play",
   },
 });
 
@@ -72,6 +78,7 @@ const SubheadingText = chakra(Text, {
   baseStyle: {
     color: "white",
     textAlign: "center",
+    fontFamily: "Play",
   },
 });
 

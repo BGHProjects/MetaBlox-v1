@@ -14,6 +14,7 @@ import {
   pacmanImg,
   labrykImg,
 } from "../../../public/images/images";
+import { AnimatedDiv } from "../../AnimatedComponents";
 import BlurBackground from "../../Menu/BlurBackground";
 
 const images = {
@@ -30,8 +31,10 @@ const images = {
 };
 
 const normalSize = 30;
-const selectedSize = 40;
 
+/**
+ * UI Component in gameplay that shows the player which block type they have selected
+ */
 const TextureSelector = () => {
   const [activeTexture, setTexture] = useStore((state) => [
     state.texture,
@@ -88,26 +91,37 @@ const TextureSelector = () => {
       <BlurBackground />
       <Center>
         {Object.entries(images).map(([k, src]) => {
-          const size =
-            k === activeTexture ? `${selectedSize}px` : `${normalSize}px`;
+          const selected = k === activeTexture;
+
           return (
             <>
-              {/* @ts-ignore */}
-              <TextureImg
-                key={k}
-                src={src.src}
-                alt={k}
-                h={size}
-                a
-                w={size}
-                border={k === activeTexture ? "3px solid orange" : "none"}
-              />
+              <ImageContainer
+                // @ts-ignore
+                transition={{
+                  duration: 0.5,
+                  ease: "easeInOut",
+                }}
+                animate={{
+                  scale: selected ? [1, 1.5] : [1.5, 1],
+                }}
+              >
+                {/* @ts-ignore */}
+                <TextureImg
+                  key={k}
+                  src={src.src}
+                  alt={k}
+                  h={`${normalSize}px`}
+                  w={`${normalSize}px`}
+                  border={selected ? "3px solid orange" : "none"}
+                />
+              </ImageContainer>
             </>
           );
         })}
       </Center>
 
-      <HStack spacing={10} mt="5px" zIndex="1">
+      <HStack spacing={10} mt="15px" zIndex="1">
+        {/* @ts-ignore */}
         <HelpText>Press C for Controls</HelpText>
         <HelpText>Press Q to Quit</HelpText>
       </HStack>
@@ -115,9 +129,19 @@ const TextureSelector = () => {
   );
 };
 
+const ImageContainer = chakra(AnimatedDiv, {
+  shouldForwardProp: () => true,
+  baseStyle: {
+    mx: "10px",
+    borderRadius: "10px",
+    zIndex: "1",
+  },
+});
+
 const HelpText = chakra(Text, {
   baseStyle: {
     color: "white",
+    fontFamily: "Play",
   },
 });
 
@@ -138,7 +162,6 @@ const SelectorContainer = chakra(Center, {
 
 const TextureImg = chakra(Image, {
   baseStyle: {
-    mx: "10px",
     borderRadius: "10px",
     zIndex: "1",
   },

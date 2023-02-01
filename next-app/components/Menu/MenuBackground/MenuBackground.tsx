@@ -9,6 +9,10 @@ interface IMenuBackground {
   animationDelay: number;
 }
 
+/**
+ * The 3D component that rendered behind the UI in the main menu
+ * @param animatedDelay The delay before any animations begin
+ */
 const MenuBackground = ({ animationDelay }: IMenuBackground) => {
   const [mounted, setMounted] = useState(false);
 

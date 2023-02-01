@@ -1,18 +1,31 @@
 import { Center, chakra, Text, VStack } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import useKeyboard from "../../../hooks/useKeyboard";
+import { AnimatedDiv } from "../../AnimatedComponents";
 import BlurBackground from "../../Menu/BlurBackground";
 
 interface IControlsCard {
+  showingSomething: boolean;
   setShowingSomething: Dispatch<SetStateAction<boolean>>;
 }
 
-const ControlsCard = ({ setShowingSomething }: IControlsCard) => {
+/**
+ * UI component in gameplay that shows the user what the controls are
+ * @param showingSomething Whether or not the UI is showing something at the moment
+ * @param setShowingSomething State function that lets the parent know that something is now showing
+ */
+const ControlsCard = ({
+  showingSomething,
+  setShowingSomething,
+}: IControlsCard) => {
   const [show, setShow] = useState(false);
   const { toggleControls } = useKeyboard();
 
   useEffect(() => {
-    if (toggleControls) setShow(!show);
+    if (toggleControls) {
+      if (!show && showingSomething) return;
+      setShow(!show);
+    }
   }, [toggleControls]);
 
   useEffect(() => {
@@ -20,7 +33,15 @@ const ControlsCard = ({ setShowingSomething }: IControlsCard) => {
   }, [show]);
 
   return (
-    show && (
+    <AnimContainer
+      // @ts-ignore
+      transition={{
+        duration: 0.5,
+      }}
+      animate={{
+        opacity: show ? [0, 1] : [1, 0],
+      }}
+    >
       <CardContainer>
         <BlurBackground />
         <VStack zIndex="1" spacing={5}>
@@ -43,13 +64,22 @@ const ControlsCard = ({ setShowingSomething }: IControlsCard) => {
           <ContentLabel>Press C to close these instructions.</ContentLabel>
         </VStack>
       </CardContainer>
-    )
+    </AnimContainer>
   );
 };
+
+const AnimContainer = chakra(AnimatedDiv, {
+  shouldForwardProp: () => true,
+  baseStyle: {
+    h: "fit-content",
+    w: "fit-content",
+  },
+});
 
 const ContentLabel = chakra(Text, {
   baseStyle: {
     color: "white",
+    fontFamily: "Play",
   },
 });
 
@@ -58,6 +88,7 @@ const HeadingLabel = chakra(Text, {
     color: "white",
     fontWeight: "bold",
     fontSize: "20px",
+    fontFamily: "Play",
   },
 });
 

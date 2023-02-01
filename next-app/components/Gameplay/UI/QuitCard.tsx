@@ -1,20 +1,34 @@
 import { Center, chakra, Text, HStack, VStack } from "@chakra-ui/react";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import useKeyboard from "../../../hooks/useKeyboard";
+import { AnimatedDiv } from "../../AnimatedComponents";
 import BlurBackground from "../../Menu/BlurBackground";
 import QuitCardOption from "./QuitCardOption";
 
 interface IQuitCard {
+  showingSomething: boolean;
   setShowingSomething: Dispatch<SetStateAction<boolean>>;
   quitFunction: () => void;
 }
 
-const QuitCard = ({ setShowingSomething, quitFunction }: IQuitCard) => {
+/**
+ * UI component rendered during gameplay that shows the player their options
+ * should they chose to quit the game
+ * @param showingSomething Whether or not the UI is showing something at the moment
+ * @param setShowingSomething State function that lets the parent know that something is now showing
+ * @param quitFunction Function that quits the game when pressed
+ */
+const QuitCard = ({
+  showingSomething,
+  setShowingSomething,
+  quitFunction,
+}: IQuitCard) => {
   const { quit, quitWithoutSaving, quitWithSaving } = useKeyboard();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (quit) {
+      if (!show && showingSomething) return;
       setShow(!show);
     }
   }, [quit]);
@@ -31,7 +45,15 @@ const QuitCard = ({ setShowingSomething, quitFunction }: IQuitCard) => {
   }, [show]);
 
   return (
-    show && (
+    <AnimContainer
+      // @ts-ignore
+      transition={{
+        duration: 0.5,
+      }}
+      animate={{
+        opacity: show ? [0, 1] : [1, 0],
+      }}
+    >
       <CardContainer>
         <BlurBackground />
         <VStack zIndex="1" spacing={5}>
@@ -40,20 +62,35 @@ const QuitCard = ({ setShowingSomething, quitFunction }: IQuitCard) => {
           <HStack w="100%" justifyContent="space-evenly">
             <QuitCardOption saveOption /> <QuitCardOption saveOption={false} />
           </HStack>
-          <Text textAlign="center" color="white">
-            Press Q to Cancel
-          </Text>
+          <CancelLabel>Press Q to Cancel</CancelLabel>
         </VStack>
       </CardContainer>
-    )
+    </AnimContainer>
   );
 };
+
+const AnimContainer = chakra(AnimatedDiv, {
+  shouldForwardProp: () => true,
+  baseStyle: {
+    h: "fit-content",
+    w: "fit-content",
+  },
+});
+
+const CancelLabel = chakra(Text, {
+  baseStyle: {
+    textAlign: "center",
+    color: "white",
+    fontFamily: "Play",
+  },
+});
 
 const HeadingLabel = chakra(Text, {
   baseStyle: {
     color: "white",
     fontWeight: "bold",
     fontSize: "20px",
+    fontFamily: "Play",
   },
 });
 

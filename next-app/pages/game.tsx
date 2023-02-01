@@ -1,4 +1,4 @@
-import { Center, chakra, Flex, Box } from "@chakra-ui/react";
+import { Center, chakra, Flex } from "@chakra-ui/react";
 import { Physics } from "@react-three/cannon";
 import { Sky } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
@@ -58,10 +58,14 @@ const Gameplay = () => {
         </Canvas>
         <TextureSelector />
         <QuitCard
+          showingSomething={showingSomething}
           setShowingSomething={setShowingSomething}
           quitFunction={quitFunction}
         />
-        <ControlsCard setShowingSomething={setShowingSomething} />
+        <ControlsCard
+          showingSomething={showingSomething}
+          setShowingSomething={setShowingSomething}
+        />
         <FadeContainer
           zIndex="3"
           display={display}

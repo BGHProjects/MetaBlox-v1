@@ -5,6 +5,10 @@ import Terrain from "./Terrain";
 
 const SPEED = 0.1;
 
+/**
+ * Represents the geometric grid chamber that the camera
+ * "passes through" in the Menu screen
+ */
 const Landscape = () => {
   const terrain1Ref = useRef<Mesh>();
   const terrain2Ref = useRef<Mesh>();

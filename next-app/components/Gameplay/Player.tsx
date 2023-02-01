@@ -7,6 +7,9 @@ import useKeyboard from "../../hooks/useKeyboard";
 const JUMP_FORCE = 4;
 const SPEED = 4;
 
+/**
+ * Represents the player within the game
+ */
 const Player = () => {
   const { moveBackward, moveForward, moveRight, moveLeft, jump } =
     useKeyboard();

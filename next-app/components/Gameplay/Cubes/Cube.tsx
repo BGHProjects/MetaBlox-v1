@@ -4,6 +4,11 @@ import { NearestFilter, RepeatWrapping, TextureLoader } from "three";
 import { inputToImage } from "../../../constants/game";
 import useStore from "../../../hooks/useStore";
 
+/**
+ * 3D component that represents a Cube within gameplay
+ * @param position Where the Cube is in the World
+ * @param texture The texture of the Cube
+ */
 export const Cube = ({ position, texture }: any) => {
   const [isHovered, setIsHovered] = useState(false);
   const [ref] = useBox(() => ({

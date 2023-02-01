@@ -9,6 +9,12 @@ interface IGridModalContent {
   colour: string;
 }
 
+/**
+ * Represents the UI content within the modal from the Grid component
+ * @param idx The index passed in
+ * @param status Whether this World is Vacant, Unavailable, or Owned
+ * @param colour The colour passed in
+ */
 const GridModalContent = ({ idx, status, colour }: IGridModalContent) => {
   const { setStartingGameplay } = useAppContext();
 
@@ -44,6 +50,7 @@ const GridModalContent = ({ idx, status, colour }: IGridModalContent) => {
 
   return (
     <VStack alignItems="center" spacing={10} p="20px">
+      {/* @ts-ignore */}
       <Title>{textContent[status].title}</Title>
       <Center
         border="2px solid white"
@@ -53,17 +60,11 @@ const GridModalContent = ({ idx, status, colour }: IGridModalContent) => {
         w="100px"
       >
         <VStack alignItems="center">
-          <Text color="white" textAlign="center">
-            X : {calculateXY(idx).x}
-          </Text>
-          <Text color="white" textAlign="center">
-            Y : {calculateXY(idx).y}
-          </Text>
+          <ModalTextContent>X : {calculateXY(idx).x}</ModalTextContent>
+          <ModalTextContent>Y : {calculateXY(idx).y}</ModalTextContent>
         </VStack>
       </Center>
-      <Text color="white" textAlign="center">
-        {textContent[status].subtitle}
-      </Text>
+      <ModalTextContent>{textContent[status].subtitle}</ModalTextContent>
       <AppButton
         h={60}
         w={300}
@@ -73,6 +74,14 @@ const GridModalContent = ({ idx, status, colour }: IGridModalContent) => {
     </VStack>
   );
 };
+
+const ModalTextContent = chakra(Text, {
+  baseStyle: {
+    color: "white",
+    textAlign: "center",
+    fontFamily: "center",
+  },
+});
 
 const Title = chakra(Text, {
   baseStyle: {

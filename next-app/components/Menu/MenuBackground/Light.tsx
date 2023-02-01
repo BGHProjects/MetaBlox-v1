@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { gridBlue, gridPink } from "../../../constants/colours";
 import useColourAnimation from "../../../hooks/useColorAnimation";
 
+/**
+ * Represents the lights that are shone down the chamber
+ * in the Menu background
+ */
 const Light = () => {
   const spotlight1Ref = useRef();
   const spotlight2Ref = useRef();

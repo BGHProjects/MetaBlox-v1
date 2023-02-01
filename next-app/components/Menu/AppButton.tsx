@@ -15,6 +15,16 @@ interface IAppButton {
   metrButton?: boolean;
 }
 
+/**
+ * Common component that represents the button used throughout the app
+ * @param h The height of the button
+ * @param w The width of the button
+ * @param title The text that is displayed on the button
+ * @param action The action that is performed by pressing the button
+ * @param fontSize The size of the font of the text within the button
+ * @param component The component that is rendered within the button
+ * @param metrButton Whether or not this button is the METR Button
+ */
 const AppButton = ({
   h,
   w,
@@ -62,19 +72,26 @@ const AppButton = ({
           </HStack>
         ) : (
           component ?? (
-            <Text
-              textAlign="center"
-              color="white"
-              fontSize={fontSize ? `${fontSize}px` : "20px"}
-            >
-              {title}
-            </Text>
+            <>
+              {/* @ts-ignore */}
+              <ButtonLabel fontSize={fontSize ? `${fontSize}px` : "20px"}>
+                {title}
+              </ButtonLabel>
+            </>
           )
         )}
       </Center>
     </AnimatedDiv>
   );
 };
+
+const ButtonLabel = chakra(Text, {
+  baseStyle: {
+    fontFamily: "Play",
+    textAlign: "center",
+    color: "white",
+  },
+});
 
 const METRLabel = chakra(Text, {
   baseStyle: {

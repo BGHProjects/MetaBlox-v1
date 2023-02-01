@@ -1,17 +1,10 @@
 import { Center, chakra, Flex, Text } from "@chakra-ui/react";
-import { Canvas } from "@react-three/fiber";
-import { useEffect, useRef, useState } from "react";
-import {
-  Mesh,
-  NearestFilter,
-  RepeatWrapping,
-  Texture,
-  TextureLoader,
-} from "three";
-import { Block, blockToImage } from "../constants/blocks";
-import { mainBG } from "../constants/colours";
-import getRandomNumber from "../helpers/getRandomNumber";
-import { AnimatedDiv } from "./AnimatedComponents";
+import { useEffect, useState } from "react";
+import { NearestFilter, RepeatWrapping, Texture, TextureLoader } from "three";
+import { Block, blockToImage } from "../../../constants/blocks";
+import { mainBG } from "../../../constants/colours";
+import { AnimatedDiv } from "../../AnimatedComponents";
+import MarketplaceBlockPreview from "./MarketplaceBlockPreview";
 
 const ANIM_DURATION = 0.3;
 
@@ -20,6 +13,11 @@ interface IMarketplaceBlockCard {
   handleClick: () => void;
 }
 
+/**
+ * UI component that represents a block for sale in the Marketplace
+ * @param block The type of block
+ * @param handleClick The action that is performed when this is clicked on
+ */
 const MarketplaceBlockCard = ({
   block,
   handleClick,
@@ -30,12 +28,6 @@ const MarketplaceBlockCard = ({
   const [activeTexture, setActiveTexture] = useState<Texture | undefined>(
     undefined
   );
-  const [rotation, setRotation] = useState({ x: 0, y: 0, z: 0 });
-  const randomSpin = getRandomNumber(3, 5) / 1000;
-  let ySpin = randomSpin;
-  let zSpin = randomSpin;
-
-  const cubeRef = useRef<Mesh>();
 
   const handleEnter = () => {
     setJustRendered(false);
@@ -60,30 +52,6 @@ const MarketplaceBlockCard = ({
     });
   }, []);
 
-  useEffect(() => {
-    let coinFlip1 = getRandomNumber(1, 2);
-    let coinFlip2 = getRandomNumber(1, 2);
-
-    if (coinFlip1 === 1) ySpin *= -1;
-    if (coinFlip2 === 2) zSpin *= -1;
-
-    setTimeout(() => {
-      const interval = setInterval(() => {
-        setRotation((prevRotation) => ({
-          x: prevRotation.x,
-          y: prevRotation.y + ySpin,
-          z: prevRotation.z + zSpin,
-        }));
-      }, 1000 / 60);
-      return () => clearInterval(interval);
-    }, 100);
-  }, []);
-
-  useEffect(() => {
-    if (!cubeRef.current) return;
-    cubeRef.current!.rotation.set(rotation.x, rotation.y, rotation.z);
-  }, [cubeRef.current, rotation]);
-
   return (
     <CardContainer
       onMouseEnter={() => handleEnter()}
@@ -107,18 +75,10 @@ const MarketplaceBlockCard = ({
       <BlockRepContainer>
         <BlockCanvasContainer>
           {mounted ? (
-            <Canvas style={{ width: "95%", height: "95%" }}>
-              <color attach="background" args={["#000"]} />
-              <mesh ref={cubeRef}>
-                <boxGeometry attach="geometry" args={[3, 3, 3]} />
-                <meshBasicMaterial
-                  attach="material"
-                  map={activeTexture}
-                  transparent={true}
-                  opacity={block === Block.Glass ? 0.6 : 1}
-                />
-              </mesh>
-            </Canvas>
+            <MarketplaceBlockPreview
+              activeTexture={activeTexture}
+              block={block}
+            />
           ) : undefined}
         </BlockCanvasContainer>
       </BlockRepContainer>
@@ -170,6 +130,7 @@ const BlockPrice = chakra(Text, {
   baseStyle: {
     color: "white",
     fontSize: "18px",
+    fontFamily: "Play",
   },
 });
 
@@ -177,6 +138,7 @@ const BalanceText = chakra(Text, {
   baseStyle: {
     color: "white",
     textAlign: "center",
+    fontFamily: "Play",
   },
 });
 

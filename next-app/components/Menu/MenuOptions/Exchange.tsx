@@ -1,4 +1,4 @@
-import { Link, Text, VStack } from "@chakra-ui/react";
+import { chakra, Link, Text, VStack } from "@chakra-ui/react";
 import NextLink from "next/link";
 import AppButton from "../AppButton";
 
@@ -11,7 +11,8 @@ const Exchange = () => {
         title={"CONVERT MATIC TO MBLOX"}
         action={() => console.log("This will be implemented later")}
       />
-      <Text color="white" textAlign="center" w="80%" fontSize={20}>
+      {/* @ts-ignore */}
+      <METRButtonExplainerText>
         If you have played{" "}
         <Link
           as={NextLink}
@@ -24,7 +25,7 @@ const Exchange = () => {
         , you can claim a lump sum of MBLOX tokens equal to your METR token
         balance. If you earn further METR since your last claim, you can claim
         that difference as well.
-      </Text>
+      </METRButtonExplainerText>
       <AppButton
         w={350}
         h={60}
@@ -35,5 +36,15 @@ const Exchange = () => {
     </VStack>
   );
 };
+
+const METRButtonExplainerText = chakra(Text, {
+  baseStyle: {
+    color: "white",
+    textAlign: "center",
+    w: "80%",
+    fontSize: "20px",
+    fontFamily: "Play",
+  },
+});
 
 export default Exchange;

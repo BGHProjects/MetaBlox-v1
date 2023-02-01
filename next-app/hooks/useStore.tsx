@@ -1,10 +1,11 @@
 import create from "zustand";
 import { nanoid } from "nanoid";
+import { ICube } from "../interfaces/cube";
 
 const useStore = create((set) => ({
   texture: "dirt",
   cubes: [],
-  addCube: (x, y, z) => {
+  addCube: (x: number, y: number, z: number) => {
     set((prev) => ({
       cubes: [
         ...prev.cubes,
@@ -16,9 +17,9 @@ const useStore = create((set) => ({
       ],
     }));
   },
-  removeCube: (x, y, z) => {
+  removeCube: (x: number, y: number, z: number) => {
     set((prev) => ({
-      cubes: prev.cubes.filter((cube) => {
+      cubes: prev.cubes.filter((cube: ICube) => {
         const [X, Y, Z] = cube.pos;
         return X !== x || Y !== y || Z !== z;
       }),

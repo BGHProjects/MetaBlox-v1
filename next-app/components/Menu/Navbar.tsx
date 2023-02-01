@@ -1,4 +1,4 @@
-import { chakra, Flex, Text } from "@chakra-ui/react";
+import { chakra, Flex } from "@chakra-ui/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { AnimatedSpan } from "../AnimatedComponents";
 

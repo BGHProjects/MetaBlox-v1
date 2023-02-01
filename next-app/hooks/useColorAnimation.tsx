@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const ANIMATION_DURATION = 10000; // 10 seconds
 

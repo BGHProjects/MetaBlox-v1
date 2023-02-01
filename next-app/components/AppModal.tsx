@@ -18,6 +18,13 @@ interface IAppModal {
   closeFunction: () => void;
 }
 
+/**
+ * Common component used for modals throughout the application
+ * @param content The content of the modal
+ * @param title The title that is displayed in the modal
+ * @param isOpen The boolean that represents whether the modal is open or not
+ * @param closeFunction The function that will close the modal
+ */
 const AppModal = ({ content, title, isOpen, closeFunction }: IAppModal) => {
   return (
     <>
@@ -48,6 +55,7 @@ const TitleText = chakra(Text, {
     fontSize: "20px",
     fontWeight: "bold",
     textAlign: "center",
+    fontFamily: "Play",
   },
 });
 

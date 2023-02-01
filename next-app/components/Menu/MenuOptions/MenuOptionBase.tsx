@@ -108,6 +108,7 @@ const TitleText = chakra(Text, {
 });
 
 const OuterContainer = chakra(AnimatedDiv, {
+  shouldForwardProp: () => true,
   baseStyle: {
     w: "100%",
     h: "100%",

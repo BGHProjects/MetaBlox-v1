@@ -6,6 +6,10 @@ interface IBackButton {
   action: () => void;
 }
 
+/**
+ * Common component that represents all back buttons used within the app
+ * @param action The action that will occur when the button is pressed
+ */
 const BackButton = ({ action }: IBackButton) => {
   const size = 40;
 
