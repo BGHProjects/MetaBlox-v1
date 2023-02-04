@@ -16,6 +16,7 @@ export const testWorld1 = {
   },
   colour: "#fff000",
   id: 0,
+  tokenURI: "ipfs://tokenURI",
 };
 
 export const testWorld2 = {
@@ -32,6 +33,7 @@ export const testWorld2 = {
   },
   colour: "#fff000",
   id: 0,
+  tokenURI: "ipfs://tokenURI",
 };
 
 export const zeroAddressWorld = {
@@ -48,6 +50,7 @@ export const zeroAddressWorld = {
   },
   colour: "#fff000",
   id: 0,
+  tokenURI: "ipfs://tokenURI",
 };
 
 export const updatedWorldBlockDetails = {

@@ -16,11 +16,11 @@ const actionByKey = (key: string) => {
     Digit3: "glass",
     Digit4: "wood",
     Digit5: "log",
-    Digit6: "gold",
-    Digit7: "opal",
-    Digit8: "spaceinvaders",
-    Digit9: "pacman",
-    Digit0: "labryk",
+    Digit6: "lava",
+    Digit7: "gold",
+    Digit8: "opal",
+    Digit9: "amethyst",
+    Digit0: "space",
   };
   return keyActionMap[key];
 };
@@ -41,14 +41,14 @@ const useKeyboard = () => {
     glass: false,
     wood: false,
     log: false,
+    lava: false,
     gold: false,
     opal: false,
-    spaceinvaders: false,
-    pacman: false,
-    labryk: false,
+    amethyst: false,
+    space: false,
   });
 
-  const handleKeyDown = useCallback((e) => {
+  const handleKeyDown = useCallback((e: any) => {
     const action = actionByKey(e.code);
     if (action) {
       setActions((prev) => {
@@ -60,7 +60,7 @@ const useKeyboard = () => {
     }
   }, []);
 
-  const handleKeyUp = useCallback((e) => {
+  const handleKeyUp = useCallback((e: any) => {
     const action = actionByKey(e.code);
     if (action) {
       setActions((prev) => {

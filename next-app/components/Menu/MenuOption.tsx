@@ -1,4 +1,5 @@
 import { Center, chakra, Flex, Image } from "@chakra-ui/react";
+import { toLower } from "lodash";
 import { useState } from "react";
 import { Content } from "../../constants/menu";
 import { useAppContext } from "../../contexts/AppStateContext";
@@ -60,7 +61,11 @@ const MenuOption = ({ menuOption }: IMenuOption) => {
                 opacity: hovering ? 0 : 1,
               }}
             >
-              <Image w="100%" h="100%" src="/images/test_circle.svg" />
+              <Image
+                w="100%"
+                h="100%"
+                src={`/images/${toLower(menuOption)}-icon.svg`}
+              />
             </OptionIcon>
             <TextCenterer>
               {optionLabel[menuOption].split("").map((char, index) => (

@@ -58,6 +58,7 @@ interface IUtilities {
     WorldBlockDetails worldBlockDetails;
     string colour;
     uint256 id;
+    string tokenURI;
    }
 
    /**

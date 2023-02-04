@@ -10,9 +10,9 @@ import {
   logImg,
   goldImg,
   opalImg,
-  spaceinvadersImg,
-  pacmanImg,
-  labrykImg,
+  lavaImg,
+  spaceImg,
+  amethystImg,
 } from "../../../public/images/images";
 import { AnimatedDiv } from "../../AnimatedComponents";
 import BlurBackground from "../../Menu/BlurBackground";
@@ -23,11 +23,11 @@ const images = {
   glass: glassImg,
   wood: woodImg,
   log: logImg,
+  lava: lavaImg,
   gold: goldImg,
   opal: opalImg,
-  spaceinvaders: spaceinvadersImg,
-  pacman: pacmanImg,
-  labryk: labrykImg,
+  amethyst: amethystImg,
+  space: spaceImg,
 };
 
 const normalSize = 30;
@@ -41,18 +41,8 @@ const TextureSelector = () => {
     state.setTexture,
   ]);
 
-  const {
-    dirt,
-    grass,
-    glass,
-    wood,
-    log,
-    gold,
-    opal,
-    spaceinvaders,
-    pacman,
-    labryk,
-  } = useKeyboard();
+  const { dirt, grass, glass, wood, log, gold, opal, lava, amethyst, space } =
+    useKeyboard();
 
   useEffect(() => {
     const textures = {
@@ -61,11 +51,11 @@ const TextureSelector = () => {
       glass,
       wood,
       log,
+      lava,
       gold,
       opal,
-      spaceinvaders,
-      pacman,
-      labryk,
+      amethyst,
+      space,
     };
     const pressedTexture = Object.entries(textures).find(([k, v]) => v);
 
@@ -81,9 +71,9 @@ const TextureSelector = () => {
     log,
     gold,
     opal,
-    spaceinvaders,
-    pacman,
-    labryk,
+    lava,
+    amethyst,
+    space,
   ]);
 
   return (

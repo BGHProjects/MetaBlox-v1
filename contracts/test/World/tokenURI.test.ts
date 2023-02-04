@@ -28,16 +28,6 @@ describe("World tokenURI tests", () => {
       .reverted;
 
     const tokenURI = await WorldContract.tokenURI(0);
-    const tokenURIDecoded = Buffer.from(
-      tokenURI.substring(tokenURI.indexOf(",") + 1),
-      "base64"
-    ).toString();
-    const tokenURIJSON = JSON.parse(tokenURIDecoded);
-
-    expect(tokenURIJSON.name).eq("MetaBlox World #0");
-    expect(tokenURIJSON.X).eq("1");
-    expect(tokenURIJSON.Y).eq("2");
-    expect(tokenURIJSON["Total Blocks"]).eq("5");
-    expect(tokenURIJSON["World Layout"]).eq("testWorldLayout1");
+    expect(tokenURI).eq("ipfs://tokenURI");
   });
 });

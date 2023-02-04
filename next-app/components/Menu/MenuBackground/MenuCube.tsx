@@ -44,9 +44,9 @@ const MenuCube = ({ animationDelay }: IMenuCube) => {
     [5]: "dirt.jpg",
     [6]: "gold.png",
     [7]: "opal.png",
-    [8]: "spaceinvaders.jpg",
-    [9]: "pacman.gif",
-    [10]: "labrys.png",
+    [8]: "lava.jpg",
+    [9]: "space.png",
+    [10]: "amethyst.png",
   };
 
   const randomColor: Record<number, string> = {

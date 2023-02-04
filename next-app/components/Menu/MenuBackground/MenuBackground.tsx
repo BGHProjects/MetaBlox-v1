@@ -30,7 +30,7 @@ const MenuBackground = ({ animationDelay }: IMenuBackground) => {
           <Suspense fallback={null}>
             <color attach="background" args={["#000000"]} />
             <fog attach="fog" args={["#000000", 1, 2.5]} />
-            {range(30).map((number) => (
+            {range(100).map((number) => (
               <MenuCube key={number} animationDelay={animationDelay} />
             ))}
             <Light />

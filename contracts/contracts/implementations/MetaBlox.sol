@@ -48,10 +48,11 @@ contract MetaBlox is Initializable, ERC1155Upgradeable, AccessControlUpgradeable
     uint256 private constant LOG = 2;
     uint256 private constant WOOD = 3;
     uint256 private constant GLASS = 4;
-    uint256 private constant GOLD = 5;
-    uint256 private constant OPAL = 6;
-    uint256 private constant SPACEINVADERS = 7;
-    uint256 private constant PACMAN = 8;
+    uint256 private constant LAVA = 5;
+    uint256 private constant GOLD = 6;
+    uint256 private constant OPAL = 7;
+    uint256 private constant AMETHYST = 8;
+    uint256 private constant SPACE = 9;
 
      /**
      * =======================
@@ -71,8 +72,9 @@ contract MetaBlox is Initializable, ERC1155Upgradeable, AccessControlUpgradeable
         prices[4] = 15;
         prices[5] = 15;
         prices[6] = 15;
-        prices[7] = 20;
-        prices[8] = 20;
+        prices[7] = 15;
+        prices[8] = 15;
+        prices[9] = 20;
 
         // Upgradeable contract required initializations
         __ERC1155_init("");

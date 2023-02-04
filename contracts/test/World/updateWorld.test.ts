@@ -45,27 +45,19 @@ describe("World updateWorld tests", () => {
     await expect(WorldContract.mintWorld(Alice.address, testWorld1)).to.not.be
       .reverted;
 
-    let tokenURI = await WorldContract.tokenURI(0);
-    let tokenURIDecoded = Buffer.from(
-      tokenURI.substring(tokenURI.indexOf(",") + 1),
-      "base64"
-    ).toString();
-    let tokenURIJSON = JSON.parse(tokenURIDecoded);
+    let currentWorldLayout = await WorldContract.worlds(0);
 
-    expect(tokenURIJSON["Total Blocks"]).eq("5");
-    expect(tokenURIJSON["World Layout"]).eq("testWorldLayout1");
+    expect(currentWorldLayout.worldBlockDetails.worldLayout).eq(
+      "testWorldLayout1"
+    );
 
     await expect(WorldContract.updateWorld(0, updatedWorldBlockDetails)).to.not
       .be.reverted;
 
-    tokenURI = await WorldContract.tokenURI(0);
-    tokenURIDecoded = Buffer.from(
-      tokenURI.substring(tokenURI.indexOf(",") + 1),
-      "base64"
-    ).toString();
-    tokenURIJSON = JSON.parse(tokenURIDecoded);
+    currentWorldLayout = await WorldContract.worlds(0);
 
-    expect(tokenURIJSON["Total Blocks"]).eq("10");
-    expect(tokenURIJSON["World Layout"]).eq("updatedWorldLayout");
+    expect(currentWorldLayout.worldBlockDetails.worldLayout).eq(
+      "updatedWorldLayout"
+    );
   });
 });

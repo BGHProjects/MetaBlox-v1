@@ -4,11 +4,11 @@ enum Block {
   Wood = "WOOD",
   Log = "LOG",
   Glass = "GLASS",
+  Lava = "LAVA",
   Gold = "GOLD",
   Opal = "OPAL",
-  SpaceInvaders = "SPACEINVADERS",
-  PacMan = "PACMAN",
-  Labryk = "LABRYK",
+  Amethyst = "AMETHYST",
+  Space = "SPACE",
 }
 
 const blockToImage: Record<Block, string> = {
@@ -17,25 +17,24 @@ const blockToImage: Record<Block, string> = {
   [Block.Log]: "log.jpg",
   [Block.Dirt]: "dirt.jpg",
   [Block.Glass]: "glass.png",
+  [Block.Lava]: "lava.jpg",
   [Block.Gold]: "gold.png",
   [Block.Opal]: "opal.png",
-  [Block.SpaceInvaders]: "spaceinvaders.jpg",
-  [Block.PacMan]: "pacman.gif",
-  [Block.Labryk]: "labrys.png",
+  [Block.Amethyst]: "amethyst.png",
+  [Block.Space]: "space.png",
 };
 
 const blockPrices: Record<Block, number> = {
-  [Block.Glass]: 15,
-  [Block.Glass]: 15,
   [Block.Grass]: 10,
   [Block.Wood]: 10,
   [Block.Log]: 10,
   [Block.Dirt]: 10,
+  [Block.Glass]: 15,
+  [Block.Lava]: 15,
   [Block.Gold]: 15,
   [Block.Opal]: 15,
-  [Block.SpaceInvaders]: 15,
-  [Block.PacMan]: 15,
-  [Block.Labryk]: 20,
+  [Block.Amethyst]: 15,
+  [Block.Space]: 20,
 };
 
 export { Block, blockToImage, blockPrices };

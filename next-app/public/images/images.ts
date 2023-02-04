@@ -5,9 +5,9 @@ import logImg from "./log.jpg";
 import woodImg from "./wood.png";
 import goldImg from "./gold.png";
 import opalImg from "./opal.png";
-import spaceinvadersImg from "./spaceinvaders.jpg";
-import pacmanImg from "./pacman.gif";
-import labrykImg from "./labrys.png";
+import lavaImg from "./lava.jpg";
+import amethystImg from "./amethyst.png";
+import spaceImg from "./space.png";
 
 export {
   dirtImg,
@@ -17,7 +17,7 @@ export {
   logImg,
   goldImg,
   opalImg,
-  spaceinvadersImg,
-  pacmanImg,
-  labrykImg,
+  lavaImg,
+  amethystImg,
+  spaceImg,
 };
