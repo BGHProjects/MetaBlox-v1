@@ -10,7 +10,9 @@ import Cubes from "../components/Gameplay/Cubes/Cubes";
 import ControlsCard from "../components/Gameplay/UI/ControlsCard";
 import QuitCard from "../components/Gameplay/UI/QuitCard";
 import TextureSelector from "../components/Gameplay/UI/TextureSelector";
+import { GameState } from "../constants/game";
 import { useAppContext } from "../contexts/AppStateContext";
+import useKeyboard from "../hooks/useKeyboard";
 
 const cursorSize = 15;
 const animDuration = 3;
@@ -25,7 +27,8 @@ const Gameplay = () => {
   const [display, setDisplay] = useState("flex");
   const [exiting, setExiting] = useState(false);
   const router = useRouter();
-  const { setStartingGameplay } = useAppContext();
+  const { setStartingGameplay, setGameState, gameState } = useAppContext();
+  const { quit } = useKeyboard();
 
   useEffect(() => {
     setStartingGameplay(false);
@@ -37,10 +40,17 @@ const Gameplay = () => {
   const quitFunction = () => {
     setDisplay("flex");
     setExiting(true);
+    setGameState(GameState.None);
     setTimeout(() => {
       router.push("/");
     }, (animDuration + 1) * 1000);
   };
+
+  useEffect(() => {
+    if (quit && gameState !== GameState.Building) {
+      quitFunction();
+    }
+  }, [quit]);
 
   return (
     <>

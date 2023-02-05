@@ -39,7 +39,6 @@ const MainPage = () => {
 
   return (
     <>
-      {/*//@ts-ignore */}
       <WindowContainer>
         <MenuBackground animationDelay={DELAY} />
       </WindowContainer>
@@ -48,14 +47,13 @@ const MainPage = () => {
         <MenuContentContainer>
           {menuContent === Content.None && (
             <>
-              {/*//@ts-ignore */}
               <RowContainer>
                 <MenuOption menuOption={Content.Grid} />
                 <MenuOption menuOption={Content.Sandbox} />
               </RowContainer>
               <RowContainer>
-                <MenuOption menuOption={Content.Exchange} />
-                <MenuOption menuOption={Content.Marketplace} />
+                <MenuOption menuOption={Content.Exchange} requiresWallet />
+                <MenuOption menuOption={Content.Marketplace} requiresWallet />
               </RowContainer>
             </>
           )}

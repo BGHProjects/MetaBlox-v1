@@ -6,7 +6,7 @@ const useStore = create((set) => ({
   texture: "dirt",
   cubes: [],
   addCube: (x: number, y: number, z: number) => {
-    set((prev) => ({
+    set((prev: any) => ({
       cubes: [
         ...prev.cubes,
         {
@@ -18,7 +18,7 @@ const useStore = create((set) => ({
     }));
   },
   removeCube: (x: number, y: number, z: number) => {
-    set((prev) => ({
+    set((prev: any) => ({
       cubes: prev.cubes.filter((cube: ICube) => {
         const [X, Y, Z] = cube.pos;
         return X !== x || Y !== y || Z !== z;

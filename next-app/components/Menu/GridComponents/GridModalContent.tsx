@@ -1,4 +1,5 @@
-import { Center, Text, VStack, chakra } from "@chakra-ui/react";
+import { Center, Text, VStack, chakra, useToast } from "@chakra-ui/react";
+import { GameState } from "../../../constants/game";
 import { Status } from "../../../constants/worldTokens";
 import { useAppContext } from "../../../contexts/AppStateContext";
 import AppButton from "../AppButton";
@@ -16,7 +17,8 @@ interface IGridModalContent {
  * @param colour The colour passed in
  */
 const GridModalContent = ({ idx, status, colour }: IGridModalContent) => {
-  const { setStartingGameplay } = useAppContext();
+  const { setStartingGameplay, setGameState } = useAppContext();
+  const toast = useToast();
 
   const textContent: Record<
     Status,
@@ -48,9 +50,26 @@ const GridModalContent = ({ idx, status, colour }: IGridModalContent) => {
     return { x, y };
   };
 
+  const handleClick = () => {
+    if (status !== Status.Vacant) {
+      setGameState(
+        status === Status.Owned ? GameState.Building : GameState.Visiting
+      );
+      setStartingGameplay(true);
+      return;
+    }
+
+    toast({
+      title: "Not yet implemented",
+      description: "This functionality is not yet implemented",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
+  };
+
   return (
     <VStack alignItems="center" spacing={10} p="20px">
-      {/* @ts-ignore */}
       <Title>{textContent[status].title}</Title>
       <Center
         border="2px solid white"
@@ -69,7 +88,7 @@ const GridModalContent = ({ idx, status, colour }: IGridModalContent) => {
         h={60}
         w={300}
         title={textContent[status].buttonTitle}
-        action={() => setStartingGameplay(true)}
+        action={() => handleClick()}
       />
     </VStack>
   );
@@ -79,7 +98,7 @@ const ModalTextContent = chakra(Text, {
   baseStyle: {
     color: "white",
     textAlign: "center",
-    fontFamily: "center",
+    fontFamily: "Play",
   },
 });
 

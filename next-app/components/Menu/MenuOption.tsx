@@ -1,6 +1,7 @@
-import { Center, chakra, Flex, Image } from "@chakra-ui/react";
+import { Center, chakra, Flex, Image, useToast } from "@chakra-ui/react";
 import { toLower } from "lodash";
 import { useState } from "react";
+import { useAccount } from "wagmi";
 import { Content } from "../../constants/menu";
 import { useAppContext } from "../../contexts/AppStateContext";
 import { AnimatedDiv, AnimatedSpan } from "../AnimatedComponents";
@@ -8,15 +9,19 @@ import BlurBackground from "./BlurBackground";
 
 interface IMenuOption {
   menuOption: Content;
+  requiresWallet?: boolean;
 }
 
 const ANIM_DURATION = 0.3;
 
-const MenuOption = ({ menuOption }: IMenuOption) => {
+const MenuOption = ({ menuOption, requiresWallet }: IMenuOption) => {
   const { setMenuContent } = useAppContext();
   const [hovering, setHovering] = useState(false);
   const [justRendered, setJustRendered] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
+  const toast = useToast();
+
+  const { isDisconnected } = useAccount();
 
   const optionLabel: Record<Content, string> = {
     [Content.Exchange]: "EXCHANGE",
@@ -31,13 +36,27 @@ const MenuOption = ({ menuOption }: IMenuOption) => {
     setHovering(true);
   };
 
+  const handleClick = () => {
+    if (requiresWallet && isDisconnected) {
+      toast({
+        title: "Wallet not connected",
+        description: "You must connect a wallet to use this feature.",
+        duration: 5000,
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    }
+    setFadeOut(true);
+    setMenuContent(menuOption);
+  };
+
   return (
     <>
-      {/*@ts-ignore */}
       <TotalContainer
         onMouseEnter={() => handleEnter()}
         onMouseLeave={() => setHovering(false)}
-        onClick={() => setMenuContent(menuOption)}
+        onClick={handleClick}
         //@ts-ignore
         transition={{
           duration: ANIM_DURATION,
@@ -49,7 +68,7 @@ const MenuOption = ({ menuOption }: IMenuOption) => {
         }}
       >
         <BlurBackground />
-        {/*@ts-ignore */}
+        {/* @ts-ignore */}
         <OptionContainer>
           <ContainerCenterer>
             <OptionIcon

@@ -65,7 +65,6 @@ const AppButton = ({
         {metrButton ? (
           <HStack>
             <Image src="/images/METR_icon.svg" />
-            {/* @ts-ignore */}
             <METRLabel fontSize={fontSize ? `${fontSize}px` : "30px"}>
               {title}
             </METRLabel>
@@ -73,7 +72,6 @@ const AppButton = ({
         ) : (
           component ?? (
             <>
-              {/* @ts-ignore */}
               <ButtonLabel fontSize={fontSize ? `${fontSize}px` : "20px"}>
                 {title}
               </ButtonLabel>

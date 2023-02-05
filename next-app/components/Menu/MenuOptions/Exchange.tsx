@@ -11,7 +11,6 @@ const Exchange = () => {
         title={"CONVERT MATIC TO MBLOX"}
         action={() => console.log("This will be implemented later")}
       />
-      {/* @ts-ignore */}
       <METRButtonExplainerText>
         If you have played{" "}
         <Link

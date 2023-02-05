@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Status } from "../../../constants/worldTokens";
-import getRandomNumber from "../../../helpers/getRandomNumber";
 import { AnimatedDiv } from "../../AnimatedComponents";
 import AppModal from "../../AppModal";
 import GridModalContent from "./GridModalContent";

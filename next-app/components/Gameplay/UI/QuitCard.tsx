@@ -1,5 +1,7 @@
 import { Center, chakra, Text, HStack, VStack } from "@chakra-ui/react";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { GameState } from "../../../constants/game";
+import { useAppContext } from "../../../contexts/AppStateContext";
 import useKeyboard from "../../../hooks/useKeyboard";
 import { AnimatedDiv } from "../../AnimatedComponents";
 import BlurBackground from "../../Menu/BlurBackground";
@@ -23,11 +25,12 @@ const QuitCard = ({
   setShowingSomething,
   quitFunction,
 }: IQuitCard) => {
+  const { gameState } = useAppContext();
   const { quit, quitWithoutSaving, quitWithSaving } = useKeyboard();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    if (quit) {
+    if (quit && gameState === GameState.Building) {
       if (!show && showingSomething) return;
       setShow(!show);
     }
@@ -57,7 +60,6 @@ const QuitCard = ({
       <CardContainer>
         <BlurBackground />
         <VStack zIndex="1" spacing={5}>
-          {/* @ts-ignore */}
           <HeadingLabel>Would you like to save your progress?</HeadingLabel>
           <HStack w="100%" justifyContent="space-evenly">
             <QuitCardOption saveOption /> <QuitCardOption saveOption={false} />

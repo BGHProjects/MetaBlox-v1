@@ -8,7 +8,6 @@ interface IPageComponent {
 
 const PageComponent = ({ children }: IPageComponent) => {
   return (
-    // @ts-ignore
     <PageContainer>
       <NavBar />
       {children}

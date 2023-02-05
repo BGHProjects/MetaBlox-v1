@@ -1,7 +1,8 @@
 import { useBox } from "@react-three/cannon";
 import { useState } from "react";
 import { NearestFilter, RepeatWrapping, TextureLoader } from "three";
-import { inputToImage } from "../../../constants/game";
+import { GameState, inputToImage } from "../../../constants/game";
+import { useAppContext } from "../../../contexts/AppStateContext";
 import useStore from "../../../hooks/useStore";
 
 /**
@@ -10,6 +11,7 @@ import useStore from "../../../hooks/useStore";
  * @param texture The texture of the Cube
  */
 export const Cube = ({ position, texture }: any) => {
+  const { gameState } = useAppContext();
   const [isHovered, setIsHovered] = useState(false);
   const [ref] = useBox(() => ({
     type: "Static",
@@ -31,17 +33,23 @@ export const Cube = ({ position, texture }: any) => {
     return newTexture;
   });
 
+  const noInteraction =
+    gameState === GameState.None || gameState === GameState.Visiting;
+
   return (
     <mesh
       onPointerMove={(e) => {
+        if (noInteraction) return;
         e.stopPropagation();
         setIsHovered(true);
       }}
       onPointerOut={(e) => {
+        if (noInteraction) return;
         e.stopPropagation();
         setIsHovered(false);
       }}
       onClick={(e: any) => {
+        if (noInteraction) return;
         e.stopPropagation();
         const clickedFace = Math.floor(e.faceIndex / 2);
         const { x, y, z } = ref.current.position;

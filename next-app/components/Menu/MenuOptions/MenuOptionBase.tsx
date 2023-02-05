@@ -64,7 +64,6 @@ const MenuOptionBase = () => {
 
   return (
     <>
-      {/* @ts-ignore */}
       <OuterContainer
         transition={{
           duration: animDuration,
@@ -75,7 +74,6 @@ const MenuOptionBase = () => {
         }}
       >
         <BlurBackground />
-        {/* @ts-ignore */}
         <ContentContainer>
           <BackButton action={() => handleExit()} />
           <TitleText>{optionContent[menuContent].title}</TitleText>

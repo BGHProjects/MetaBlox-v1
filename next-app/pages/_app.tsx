@@ -8,12 +8,13 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { AppStateContextProvider } from "../contexts/AppStateContext";
 import "../styles/App.css";
+import Head from "next/head";
 
 export default function App({ Component, pageProps }: AppProps) {
   const { chains, provider } = configureChains(
     [polygonMumbai],
     [
-      alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY as string }),
+      // alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY as string }),
       publicProvider(),
     ]
   );
@@ -42,6 +43,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <RainbowKitProvider chains={chains}>
         <ChakraProvider theme={theme}>
           <AppStateContextProvider>
+            <Head>
+              <title>METABLOX</title>
+            </Head>
             <Component {...pageProps} />
           </AppStateContextProvider>
         </ChakraProvider>

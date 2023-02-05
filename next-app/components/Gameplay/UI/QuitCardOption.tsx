@@ -40,13 +40,11 @@ const QuitCardOption = ({ saveOption }: IQuitCardOption) => {
         }}
       >
         <LabelContainer>
-          {/* @ts-ignore */}
           <ButtonLabel>
             {displayItems[saveOption.toString()].button}
           </ButtonLabel>
         </LabelContainer>
       </ButtonContainer>
-      {/* @ts-ignore */}
       <ButtonExplanation>
         {`Press ${displayItems[saveOption.toString()].button} to ${
           displayItems[saveOption.toString()].label

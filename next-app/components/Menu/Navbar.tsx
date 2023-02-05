@@ -1,6 +1,6 @@
 import { chakra, Flex } from "@chakra-ui/react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { AnimatedSpan } from "../AnimatedComponents";
+import WalletConnectButton from "./WalletConnectButton";
 
 const METABLOX = "METABLOX";
 const char_anim_duration = 1;
@@ -9,7 +9,6 @@ const moveDelay = 3;
 const NavBar = () => {
   return (
     <Flex position="absolute" top="0" w="100%">
-      {/*@ts-ignore */}
       <Container>
         <Flex position="absolute" zIndex="3">
           <AnimatedSpan
@@ -45,8 +44,8 @@ const NavBar = () => {
             ))}
           </AnimatedSpan>
         </Flex>
-        <Flex alignSelf="flex-end" position="absolute" top="5" left="80%">
-          <ConnectButton />
+        <Flex alignSelf="flex-end" position="absolute" top="5" right="5%">
+          <WalletConnectButton />
         </Flex>
       </Container>
     </Flex>

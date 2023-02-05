@@ -26,7 +26,6 @@ const Marketplace = () => {
 
   return (
     <>
-      {/* @ts-ignore */}
       <CardContainer
         sx={{
           "&::-webkit-scrollbar": {

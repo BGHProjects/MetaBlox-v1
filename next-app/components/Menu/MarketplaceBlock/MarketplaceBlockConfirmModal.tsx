@@ -42,7 +42,6 @@ const MarketplaceBlockConfirmModal = ({
 
   return (
     <VStack w="100%" h="100%" spacing={5}>
-      {/* @ts-ignore */}
       <SubheadingText>
         How many {capitalize(block)} blocks would you like to purchase?
       </SubheadingText>

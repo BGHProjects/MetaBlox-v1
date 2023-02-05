@@ -10,3 +10,10 @@ export const inputToImage: Record<string, string> = {
   amethyst: "amethyst.png",
   space: "space.png",
 };
+
+export enum GameState {
+  Visiting = "Visiting",
+  Building = "Building",
+  Sandbox = "Sandbox",
+  None = "None",
+}

@@ -15,7 +15,6 @@ const BackButton = ({ action }: IBackButton) => {
 
   return (
     <>
-      {/* @ts-ignore */}
       <ButtonPlacer>
         <AppButton
           w={size}

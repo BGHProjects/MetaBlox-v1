@@ -1,5 +1,7 @@
 import { Center, chakra, Image, Text, HStack } from "@chakra-ui/react";
 import { useEffect } from "react";
+import { GameState } from "../../../constants/game";
+import { useAppContext } from "../../../contexts/AppStateContext";
 import useKeyboard from "../../../hooks/useKeyboard";
 import useStore from "../../../hooks/useStore";
 import {
@@ -36,7 +38,8 @@ const normalSize = 30;
  * UI Component in gameplay that shows the player which block type they have selected
  */
 const TextureSelector = () => {
-  const [activeTexture, setTexture] = useStore((state) => [
+  const { gameState } = useAppContext();
+  const [activeTexture, setTexture] = useStore((state: any) => [
     state.texture,
     state.setTexture,
   ]);
@@ -76,41 +79,48 @@ const TextureSelector = () => {
     space,
   ]);
 
+  const notVisiting =
+    gameState !== GameState.Visiting && gameState !== GameState.None;
+
+  if (gameState === GameState.None) return <></>;
+
   return (
     <SelectorContainer>
       <BlurBackground />
-      <Center>
-        {Object.entries(images).map(([k, src]) => {
-          const selected = k === activeTexture;
+      {notVisiting && (
+        <Center>
+          {Object.entries(images).map(([k, src]) => {
+            const selected = k === activeTexture;
 
-          return (
-            <>
-              <ImageContainer
-                // @ts-ignore
-                transition={{
-                  duration: 0.5,
-                  ease: "easeInOut",
-                }}
-                animate={{
-                  scale: selected ? [1, 1.5] : [1.5, 1],
-                }}
-              >
-                {/* @ts-ignore */}
-                <TextureImg
-                  key={k}
-                  src={src.src}
-                  alt={k}
-                  h={`${normalSize}px`}
-                  w={`${normalSize}px`}
-                  border={selected ? "3px solid orange" : "none"}
-                />
-              </ImageContainer>
-            </>
-          );
-        })}
-      </Center>
+            return (
+              <>
+                <ImageContainer
+                  // @ts-ignore
+                  transition={{
+                    duration: 0.5,
+                    ease: "easeInOut",
+                  }}
+                  animate={{
+                    scale: selected ? [1, 1.5] : [1.5, 1],
+                  }}
+                >
+                  {/* @ts-ignore */}
+                  <TextureImg
+                    key={k}
+                    src={src.src}
+                    alt={k}
+                    h={`${normalSize}px`}
+                    w={`${normalSize}px`}
+                    border={selected ? "3px solid orange" : "none"}
+                  />
+                </ImageContainer>
+              </>
+            );
+          })}
+        </Center>
+      )}
 
-      <HStack spacing={10} mt="15px" zIndex="1">
+      <HStack spacing={10} mt={notVisiting ? "15px" : undefined} zIndex="1">
         {/* @ts-ignore */}
         <HelpText>Press C for Controls</HelpText>
         <HelpText>Press Q to Quit</HelpText>
