@@ -1,18 +1,71 @@
-import { ethers } from "hardhat";
+const { ethers, upgrades } = require("hardhat");
+
+const digitalKey = "testDigitalKey"; // Change this when actually deploying to env variable
+const METRAddress = "0x22ac36f2932c73559df2b288a375e12c8fa9b7db"; // Also maybe save this to env
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  // =======================
+  //  DEPLOY MBLOX
+  // =======================
 
-  const lockedAmount = ethers.utils.parseEther("1");
+  console.log("\n\tBeginning to deploy the MBlox contract...");
+  const MBlox_Contract = await ethers.getContractFactory("MBlox");
+  const MBloxContract = await upgrades.deployProxy(MBlox_Contract, [
+    digitalKey,
+  ]);
+  await MBloxContract.deployed();
+  console.log("\n\tMBlox deployed: ", MBloxContract.address);
 
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  // =======================
+  //  DEPLOY METABLOX
+  // =======================
 
-  await lock.deployed();
+  console.log("\n\tBeginning to deploy the MetaBlox contract...");
+  const MetaBlox_Contract = await ethers.getContractFactory("MetaBlox");
+  const MetaBloxContract = await upgrades.deployProxy(MetaBlox_Contract, [
+    digitalKey,
+  ]);
+  await MetaBloxContract.deployed();
+  console.log("\n\tMetaBlox deployed: ", MetaBloxContract.address);
 
-  console.log(`Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`);
+  // =======================
+  //  DEPLOY WORLD
+  // =======================
+
+  console.log("\n\tBeginning to deploy the World contract...");
+  const World_Contract = await ethers.getContractFactory("World");
+  const WorldContract = await upgrades.deployProxy(World_Contract, [
+    digitalKey,
+  ]);
+  await WorldContract.deployed();
+  console.log("\n\tWorld deployed: ", WorldContract.address);
+
+  // =======================
+  //  DEPLOY GAME MANAGER
+  // =======================
+
+  console.log("\n\tBeginning to deploy the Game Manager contract...");
+  const GameManager_Contract = await ethers.getContractFactory("GameManager");
+  const GameManagerContract = await upgrades.deployProxy(GameManager_Contract, [
+    digitalKey,
+    METRAddress,
+    MBloxContract.address,
+    MetaBloxContract.address,
+    WorldContract.address,
+    process.env.PUBLIC_KEY,
+  ]);
+  await GameManagerContract.deployed();
+  console.log("\n\tGame Manager deployed: ", GameManagerContract.address);
+
+  // ==========================
+  //  GRANT GAME MANAGER ROLES
+  // ==========================
+
+  console.log("\n\tGranting roles to other contracts...");
+  await MBloxContract.grantRoles(GameManagerContract.address, digitalKey);
+  await MetaBloxContract.grantRoles(GameManagerContract.address, digitalKey);
+  await WorldContract.grantRoles(GameManagerContract.address, digitalKey);
+  console.log("\n\tRoles granted");
 }
 
 // We recommend this pattern to be able to use async/await everywhere

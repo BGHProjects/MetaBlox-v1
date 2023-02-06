@@ -10,6 +10,12 @@ import {
 import { useAccount, useSigner } from "wagmi";
 import { GameState } from "../constants/game";
 import { Content } from "../constants/menu";
+import {
+  getGameManagerContract,
+  getMBloxContract,
+  getMetaBloxContract,
+  getWorldContract,
+} from "../contract-helpers/contractInstantiations";
 import useStore from "../hooks/useStore";
 
 interface IAppStateContext {
@@ -72,6 +78,17 @@ const AppStateContextProvider = ({
   useEffect(() => {
     if (signer) {
       console.log("signer", signer);
+      const MBlox = getMBloxContract(signer);
+      console.log("MBlox contract: ", MBlox);
+
+      const MetaBlox = getMetaBloxContract(signer);
+      console.log("MetaBlox contract ", MetaBlox);
+
+      const World = getWorldContract(signer);
+      console.log("World contract ", World);
+
+      const GameManager = getGameManagerContract(signer);
+      console.log("Gamemanager contract ", GameManager);
     }
   }, [signer]);
 
