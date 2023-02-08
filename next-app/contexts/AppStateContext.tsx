@@ -1,3 +1,4 @@
+import { Signer } from "ethers";
 import {
   createContext,
   Dispatch,
@@ -7,15 +8,10 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useAccount, useSigner } from "wagmi";
+import { useAccount, useProvider, useSigner } from "wagmi";
 import { GameState } from "../constants/game";
 import { Content } from "../constants/menu";
-import {
-  getGameManagerContract,
-  getMBloxContract,
-  getMetaBloxContract,
-  getWorldContract,
-} from "../contract-helpers/contractInstantiations";
+import getMBloxBalance from "../contract-helpers/getMBloxBalance";
 import useStore from "../hooks/useStore";
 
 interface IAppStateContext {
@@ -25,6 +21,8 @@ interface IAppStateContext {
   setStartingGameplay: Dispatch<SetStateAction<boolean>>;
   gameState: GameState;
   setGameState: Dispatch<SetStateAction<GameState>>;
+  mBloxBalance: number;
+  retrieveBalance: (signer: Signer, address: string) => Promise<void>;
 }
 
 const AppStateContext = createContext<IAppStateContext>({} as IAppStateContext);
@@ -39,9 +37,28 @@ const AppStateContextProvider = ({
   const [gameState, setGameState] = useState<GameState>(GameState.None);
 
   const { data: signer } = useSigner();
-  const { address, isDisconnected } = useAccount();
+  const { address } = useAccount();
+  const provider = useProvider();
 
   const [cubes] = useStore((state) => [state.cubes]);
+  const [mBloxBalance, setMBloxBalance] = useState(0);
+
+  const retrieveBalance = async (signer: Signer, address: string) => {
+    const balance = await getMBloxBalance(signer, address);
+    setMBloxBalance(balance ?? 0.0);
+  };
+
+  useEffect(() => {
+    if (signer && address) {
+      retrieveBalance(signer, address);
+    }
+  }, [signer, address]);
+
+  provider.on("block", () => {
+    if (signer && address) {
+      retrieveBalance(signer, address);
+    }
+  });
 
   /**
    * Just used for testing
@@ -75,33 +92,6 @@ const AppStateContextProvider = ({
     }
   }, [cubes]);
 
-  useEffect(() => {
-    if (signer) {
-      console.log("signer", signer);
-      const MBlox = getMBloxContract(signer);
-      console.log("MBlox contract: ", MBlox);
-
-      const MetaBlox = getMetaBloxContract(signer);
-      console.log("MetaBlox contract ", MetaBlox);
-
-      const World = getWorldContract(signer);
-      console.log("World contract ", World);
-
-      const GameManager = getGameManagerContract(signer);
-      console.log("Gamemanager contract ", GameManager);
-    }
-  }, [signer]);
-
-  useEffect(() => {
-    if (!address || isDisconnected) {
-      console.log("There is no wallet connected");
-    }
-  }, [address, isDisconnected]);
-
-  useEffect(() => {
-    console.log("GameState ", gameState);
-  }, [gameState]);
-
   return (
     <AppStateContext.Provider
       value={{
@@ -111,6 +101,8 @@ const AppStateContextProvider = ({
         setStartingGameplay,
         gameState,
         setGameState,
+        mBloxBalance,
+        retrieveBalance,
       }}
     >
       {children}

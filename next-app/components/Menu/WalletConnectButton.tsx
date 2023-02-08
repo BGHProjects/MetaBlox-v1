@@ -1,9 +1,6 @@
-import { Flex, HStack, Text, Image, chakra } from "@chakra-ui/react";
+import { chakra, Flex, HStack, Image, Text } from "@chakra-ui/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { ethers } from "ethers";
-import { useEffect, useState } from "react";
-import { useAccount, useSigner } from "wagmi";
-import { getMBloxContract } from "../../contract-helpers/contractInstantiations";
+import { useAppContext } from "../../contexts/AppStateContext";
 import AppButton from "./AppButton";
 import BlurBackground from "./BlurBackground";
 
@@ -12,22 +9,7 @@ import BlurBackground from "./BlurBackground";
  * which allows users to connect their wallets to the application
  */
 const WalletConnectButton = () => {
-  const { data: signer } = useSigner();
-  const { address } = useAccount();
-  const [mbloxBalance, setMBloxBalance] = useState(0);
-
-  const getMBloxBalance = async () => {
-    if (!signer) return;
-    const contract = getMBloxContract(signer);
-    const balance = await contract.balanceOf(address);
-    setMBloxBalance(Number(balance.toString()));
-  };
-
-  useEffect(() => {
-    if (signer) {
-      getMBloxBalance();
-    }
-  }, [signer]);
+  const { mBloxBalance } = useAppContext();
 
   return (
     <ConnectButton.Custom>
@@ -74,7 +56,7 @@ const WalletConnectButton = () => {
               {/* @ts-ignore */}
               <BalanceContainer>
                 <Text color="white" fontFamily="Play">
-                  {mbloxBalance}
+                  {mBloxBalance}
                 </Text>
                 <Image h="20px" w="20px" src="/images/mblox-logo.svg" />
               </BalanceContainer>

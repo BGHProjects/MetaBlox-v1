@@ -95,6 +95,7 @@ const TextureSelector = () => {
             return (
               <>
                 <ImageContainer
+                  key={k}
                   // @ts-ignore
                   transition={{
                     duration: 0.5,
