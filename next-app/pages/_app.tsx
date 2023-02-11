@@ -3,7 +3,7 @@ import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import type { AppProps } from "next/app";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { polygonMumbai, hardhat } from "wagmi/chains";
+import { polygonMumbai, hardhat, localhost } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { AppStateContextProvider } from "../contexts/AppStateContext";
@@ -12,8 +12,8 @@ import Head from "next/head";
 
 export default function App({ Component, pageProps }: AppProps) {
   const { chains, provider } = configureChains(
-    // [polygonMumbai],
-    [hardhat],
+    [polygonMumbai, hardhat],
+    // [localhost],
     [
       // alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY as string }),
       publicProvider(),

@@ -66,6 +66,7 @@ const MarketplaceBlockCard = ({
         scale: hovering ? [1, 1.1] : justRendered ? 1 : [1.1, 1],
       }}
     >
+      {/* @ts-ignore */}
       <BlockTitle>{block}</BlockTitle>
       <BlockPriceContainer>
         <BlockPrice>M 1000</BlockPrice>

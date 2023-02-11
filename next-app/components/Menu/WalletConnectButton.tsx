@@ -10,7 +10,6 @@ import BlurBackground from "./BlurBackground";
  */
 const WalletConnectButton = () => {
   const { mBloxBalance } = useAppContext();
-
   return (
     <ConnectButton.Custom>
       {({

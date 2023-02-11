@@ -1,7 +1,8 @@
 import { chakra, Flex } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Block } from "../../../constants/blocks";
 import { orangeMain } from "../../../constants/colours";
+import { useAppContext } from "../../../contexts/AppStateContext";
 import AppModal from "../../AppModal";
 import MarketplaceBlockCard from "../MarketplaceBlock/MarketplaceBlockCard";
 import MarketplaceBlockConfirmModal from "../MarketplaceBlock/MarketplaceBlockConfirmModal";
@@ -13,6 +14,7 @@ const Marketplace = () => {
   const blocks = Object.keys(Block);
   const [open, setOpen] = useState(false);
   const [selectedBlock, setSelectedBlock] = useState<Block | undefined>();
+  const { metaBloxBalances } = useAppContext();
 
   const handleSelectBlock = (block: Block) => {
     setSelectedBlock(block);
@@ -24,8 +26,13 @@ const Marketplace = () => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    console.log({ metaBloxBalances });
+  }, []);
+
   return (
     <>
+      {/* @ts-ignore */}
       <CardContainer
         sx={{
           "&::-webkit-scrollbar": {

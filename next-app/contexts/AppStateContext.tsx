@@ -1,4 +1,3 @@
-import { Signer } from "ethers";
 import {
   createContext,
   Dispatch,
@@ -8,10 +7,10 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useAccount, useProvider, useSigner } from "wagmi";
 import { GameState } from "../constants/game";
 import { Content } from "../constants/menu";
-import getMBloxBalance from "../contract-helpers/getMBloxBalance";
+import useCheckMBloxBalance from "../hooks/context/useCheckMBloxBalance";
+import useCheckMetaBlockBalances from "../hooks/context/useCheckMetaBloxBalances";
 import useStore from "../hooks/useStore";
 
 interface IAppStateContext {
@@ -22,7 +21,8 @@ interface IAppStateContext {
   gameState: GameState;
   setGameState: Dispatch<SetStateAction<GameState>>;
   mBloxBalance: number;
-  retrieveBalance: (signer: Signer, address: string) => Promise<void>;
+  setExpectedMBloxBalance: Dispatch<SetStateAction<number>>;
+  metaBloxBalances: any[];
 }
 
 const AppStateContext = createContext<IAppStateContext>({} as IAppStateContext);
@@ -36,29 +36,9 @@ const AppStateContextProvider = ({
   const [startingGameplay, setStartingGameplay] = useState(false);
   const [gameState, setGameState] = useState<GameState>(GameState.None);
 
-  const { data: signer } = useSigner();
-  const { address } = useAccount();
-  const provider = useProvider();
-
-  const [cubes] = useStore((state) => [state.cubes]);
-  const [mBloxBalance, setMBloxBalance] = useState(0);
-
-  const retrieveBalance = async (signer: Signer, address: string) => {
-    const balance = await getMBloxBalance(signer, address);
-    setMBloxBalance(balance ?? 0.0);
-  };
-
-  useEffect(() => {
-    if (signer && address) {
-      retrieveBalance(signer, address);
-    }
-  }, [signer, address]);
-
-  provider.on("block", () => {
-    if (signer && address) {
-      retrieveBalance(signer, address);
-    }
-  });
+  const [cubes] = useStore((state: any) => [state.cubes]);
+  const { mBloxBalance, setExpectedMBloxBalance } = useCheckMBloxBalance();
+  const { metaBloxBalances } = useCheckMetaBlockBalances();
 
   /**
    * Just used for testing
@@ -102,7 +82,8 @@ const AppStateContextProvider = ({
         gameState,
         setGameState,
         mBloxBalance,
-        retrieveBalance,
+        setExpectedMBloxBalance,
+        metaBloxBalances,
       }}
     >
       {children}

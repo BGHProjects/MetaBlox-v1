@@ -1,9 +1,9 @@
 import { Canvas } from "@react-three/fiber";
 import { range } from "lodash";
 import { Suspense, useEffect, useState } from "react";
-import MenuCube from "./MenuCube";
 import Landscape from "./Landscape";
 import Light from "./Light";
+import MenuCube from "./MenuCube";
 
 interface IMenuBackground {
   animationDelay: number;
@@ -24,7 +24,12 @@ const MenuBackground = ({ animationDelay }: IMenuBackground) => {
     <>
       {!mounted ? null : (
         <Canvas
-          camera={{ position: [0, 0.06, 1.1], fov: 75, near: 0.01, far: 20 }}
+          camera={{
+            position: [0, 0.06, 0.8],
+            fov: 75,
+            near: 0.01,
+            far: 20,
+          }}
           style={{ width: "100%", height: "100vh" }}
         >
           <Suspense fallback={null}>

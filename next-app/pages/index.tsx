@@ -39,6 +39,7 @@ const MainPage = () => {
 
   return (
     <>
+      {/* @ts-ignore */}
       <WindowContainer>
         <MenuBackground animationDelay={DELAY} />
       </WindowContainer>
