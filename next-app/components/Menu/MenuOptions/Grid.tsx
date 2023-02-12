@@ -1,10 +1,10 @@
 import { Center, SimpleGrid } from "@chakra-ui/react";
-import { range } from "lodash";
-import { Status } from "../../../constants/worldTokens";
-import getRandomNumber from "../../../helpers/getRandomNumber";
+import { memo, useEffect } from "react";
+import useCheckGrid from "../../../hooks/context/useCheckGrid";
 import GridParcel from "../GridComponents/GridParcel";
 
 const GRID_SIZE = 375;
+const test = Array.from(Array(100).keys());
 
 /**
  * Represents the Grid Menu option, including the Grid of World parcels
@@ -12,15 +12,6 @@ const GRID_SIZE = 375;
  * @returns The UI component for the Grid Menu Option
  */
 const Grid = () => {
-  const test = range(100);
-
-  const generateRandomColour = () => {
-    return `rgb(${getRandomNumber(0, 255)}, ${getRandomNumber(
-      0,
-      255
-    )}, ${getRandomNumber(0, 255)})`;
-  };
-
   return (
     <Center w="100%" h="100%" mt="-20px">
       <SimpleGrid
@@ -32,18 +23,12 @@ const Grid = () => {
         p={0}
         border="0.75 solid white"
       >
-        {test.map((item) => (
-          <GridParcel
-            key={item}
-            idx={item}
-            colour={generateRandomColour()}
-            gridSize={GRID_SIZE}
-            status={Status.Unavailable}
-          />
+        {test.map((item: number) => (
+          <GridParcel key={item} idx={item} gridSize={GRID_SIZE} />
         ))}
       </SimpleGrid>
     </Center>
   );
 };
 
-export default Grid;
+export default memo(Grid);

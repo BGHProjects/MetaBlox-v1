@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { memo } from "react";
 import { Status } from "../../../constants/worldTokens";
+import useGridParcel from "../../../hooks/components/grid/useGridParcel";
 import { AnimatedDiv } from "../../AnimatedComponents";
 import AppModal from "../../AppModal";
 import GridModalContent from "./GridModalContent";
@@ -7,46 +8,36 @@ import GridModalContent from "./GridModalContent";
 interface IGridParcel {
   idx: number;
   gridSize: number;
-  colour: string;
-  status: Status;
 }
 
 /**
  * Represents an individual parcel on the Grid, which itself is a World within the game
  * @param idx The index of the parcel on the grid
  * @param gridSize The overall size of the grid
- * @param colour The colour of the parcel on the grid
  * @returns The UI component for an individual Grid Parcel
  */
-const GridParcel = ({ idx, gridSize, colour, status }: IGridParcel) => {
-  const [hovering, setHovering] = useState(false);
-  const [justRendered, setJustRendered] = useState(true);
-  const [openModal, setOpenModal] = useState(false);
-
-  const handleEnter = () => {
-    setJustRendered(false);
-    setHovering(true);
-  };
-
-  const handleClick = () => {
-    setOpenModal(true);
-  };
-
-  const actualStatus = () => {
-    if (idx % 3 === 0) return Status.Owned;
-    if (idx % 2 === 0) return Status.Unavailable;
-    return Status.Vacant;
-  };
+const GridParcel = ({ idx, gridSize }: IGridParcel) => {
+  const {
+    handleEnter,
+    handleClick,
+    hovering,
+    justRendered,
+    openModal,
+    setOpenModal,
+    setHovering,
+    colour,
+    status,
+    coords,
+  } = useGridParcel(idx + 1);
 
   return (
     <>
       <AnimatedDiv
-        onMouseEnter={() => handleEnter()}
+        onMouseEnter={handleEnter}
         onMouseLeave={() => setHovering(false)}
-        onClick={() => handleClick()}
+        onClick={handleClick}
         bg={colour}
-        h={`${gridSize / 10}px`}
-        w={`${gridSize / 10}px`}
+        flex={gridSize}
         cursor="pointer"
         border="0.5px solid white"
         animate={{
@@ -70,8 +61,9 @@ const GridParcel = ({ idx, gridSize, colour, status }: IGridParcel) => {
         title={""}
         content={
           <GridModalContent
-            idx={idx + 1}
-            status={actualStatus()}
+            x={coords.x}
+            y={coords.y}
+            status={status}
             colour={colour}
           />
         }
@@ -80,4 +72,4 @@ const GridParcel = ({ idx, gridSize, colour, status }: IGridParcel) => {
   );
 };
 
-export default GridParcel;
+export default memo(GridParcel);

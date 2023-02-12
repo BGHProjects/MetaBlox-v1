@@ -1,98 +1,83 @@
-import { Center, Text, VStack, chakra, useToast } from "@chakra-ui/react";
-import { GameState } from "../../../constants/game";
-import { Status } from "../../../constants/worldTokens";
-import { useAppContext } from "../../../contexts/AppStateContext";
+import { Center, chakra, Spinner, Text, VStack } from "@chakra-ui/react";
+import { memo } from "react";
+import { gridBlue } from "../../../constants/colours";
+import { Status, textContent } from "../../../constants/worldTokens";
+import useGridModal from "../../../hooks/components/grid/useGridModal";
 import AppButton from "../AppButton";
 
 interface IGridModalContent {
-  idx: number;
+  x: number;
+  y: number;
   status: Status;
   colour: string;
 }
 
 /**
  * Represents the UI content within the modal from the Grid component
- * @param idx The index passed in
+ * @param x The x coordinate of this grid parcel
+ * @param y The y coordinate of this grid parcel
  * @param status Whether this World is Vacant, Unavailable, or Owned
  * @param colour The colour passed in
  */
-const GridModalContent = ({ idx, status, colour }: IGridModalContent) => {
-  const { setStartingGameplay, setGameState } = useAppContext();
-  const toast = useToast();
-
-  const textContent: Record<
-    Status,
-    { title: string; subtitle: string; buttonTitle: string }
-  > = {
-    [Status.Vacant]: {
-      title: "VACANT WORLD",
-      subtitle:
-        "This world is unowned and available for purchase! You may purchase this world token for 100 MBLOX.",
-      buttonTitle: "PURCHASE WORLD",
-    },
-    [Status.Unavailable]: {
-      title: "OWNED WORLD",
-      subtitle:
-        "This world is owned by user 0xq09qjcjw9q80ecjqwe. You may visit their world to see what they have created!",
-      buttonTitle: "VISIT WORLD",
-    },
-    [Status.Owned]: {
-      title: "YOUR WORLD",
-      subtitle:
-        "You own this world. You may enter now and build to your heart's content.",
-      buttonTitle: "START BUILDING",
-    },
-  };
-
-  const calculateXY = (idx: number) => {
-    let x = idx % 10;
-    let y = Math.ceil(idx / 10);
-    return { x, y };
-  };
-
-  const handleClick = () => {
-    if (status !== Status.Vacant) {
-      setGameState(
-        status === Status.Owned ? GameState.Building : GameState.Visiting
-      );
-      setStartingGameplay(true);
-      return;
-    }
-
-    toast({
-      title: "Not yet implemented",
-      description: "This functionality is not yet implemented",
-      status: "error",
-      duration: 5000,
-      isClosable: true,
-    });
-  };
+const GridModalContent = ({ x, y, status, colour }: IGridModalContent) => {
+  const { coords, handleClick, loading } = useGridModal(x, y, status);
 
   return (
-    <VStack alignItems="center" spacing={10} p="20px">
-      <Title>{textContent[status].title}</Title>
-      <Center
-        border="2px solid white"
-        borderRadius="10px"
-        bg={colour}
-        h="100px"
-        w="100px"
-      >
-        <VStack alignItems="center">
-          <ModalTextContent>X : {calculateXY(idx).x}</ModalTextContent>
-          <ModalTextContent>Y : {calculateXY(idx).y}</ModalTextContent>
-        </VStack>
-      </Center>
-      <ModalTextContent>{textContent[status].subtitle}</ModalTextContent>
-      <AppButton
-        h={60}
-        w={300}
-        title={textContent[status].buttonTitle}
-        action={() => handleClick()}
-      />
-    </VStack>
+    <Center position="relative" w="100%" h="100%">
+      <VStack alignItems="center" spacing={10} p="20px">
+        {/* @ts-ignore */}
+        <Title>{textContent[status].title}</Title>
+        <Center
+          border="2px solid white"
+          borderRadius="10px"
+          bg={colour}
+          h="100px"
+          w="100px"
+        >
+          <VStack alignItems="center">
+            <ModalTextContent>X : {coords.x}</ModalTextContent>
+            <ModalTextContent>Y : {coords.y}</ModalTextContent>
+          </VStack>
+        </Center>
+        <ModalTextContent>{textContent[status].subtitle}</ModalTextContent>
+        <AppButton
+          h={60}
+          w={300}
+          title={textContent[status].buttonTitle}
+          action={() => handleClick()}
+        />
+      </VStack>
+      {loading && (
+        <LoadingOverlay>
+          <LoadingText>Completing Transaction</LoadingText>
+          <Spinner size="xl" color={gridBlue} />
+        </LoadingOverlay>
+      )}
+    </Center>
   );
 };
+
+const LoadingText = chakra(Text, {
+  baseStyle: {
+    color: "white",
+    fontFamily: "Play",
+    fontSize: "20px",
+    mb: "20px",
+  },
+});
+
+const LoadingOverlay = chakra(Center, {
+  baseStyle: {
+    bottom: "-3.5",
+    w: "115%",
+    h: "114%",
+    bg: "rgba(0,0,0,0.8)",
+    zIndex: 1,
+    position: "absolute",
+    borderRadius: "10px",
+    flexDir: "column",
+  },
+});
 
 const ModalTextContent = chakra(Text, {
   baseStyle: {
@@ -111,4 +96,4 @@ const Title = chakra(Text, {
   },
 });
 
-export default GridModalContent;
+export default memo(GridModalContent);

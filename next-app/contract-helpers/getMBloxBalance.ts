@@ -9,8 +9,8 @@ import { getMBloxContract } from "./contractInstantiations";
  */
 const getMBloxBalance = async (signer: Signer, address: string) => {
   if (!signer) return;
-  const contract = getMBloxContract(signer);
-  const balance = await contract.balanceOf(address);
+  const MBloxContract = getMBloxContract(signer);
+  const balance = await MBloxContract.balanceOf(address);
   return balance ? Number(balance.toString()) : 0.0;
 };
 

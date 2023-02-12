@@ -7,8 +7,11 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useAccount, useProvider } from "wagmi";
+import { Provider } from "../constants/app";
 import { GameState } from "../constants/game";
 import { Content } from "../constants/menu";
+import { getGameManagerContract } from "../contract-helpers/contractInstantiations";
 import useCheckMBloxBalance from "../hooks/context/useCheckMBloxBalance";
 import useCheckMetaBlockBalances from "../hooks/context/useCheckMetaBloxBalances";
 import useStore from "../hooks/useStore";
@@ -23,6 +26,8 @@ interface IAppStateContext {
   mBloxBalance: number;
   setExpectedMBloxBalance: Dispatch<SetStateAction<number>>;
   metaBloxBalances: any[];
+  playerColour: string;
+  usedColours: string[];
 }
 
 const AppStateContext = createContext<IAppStateContext>({} as IAppStateContext);
@@ -35,10 +40,34 @@ const AppStateContextProvider = ({
   const [menuContent, setMenuContent] = useState<Content>(Content.None);
   const [startingGameplay, setStartingGameplay] = useState(false);
   const [gameState, setGameState] = useState<GameState>(GameState.None);
+  const [playerColour, setPlayerColour] = useState("");
+  const [usedColours, setUsedColours] = useState([]);
 
   const [cubes] = useStore((state: any) => [state.cubes]);
   const { mBloxBalance, setExpectedMBloxBalance } = useCheckMBloxBalance();
   const { metaBloxBalances } = useCheckMetaBlockBalances();
+
+  const provider = useProvider();
+  const { address } = useAccount();
+
+  const getPlayerColour = async (provider: Provider, address: string) => {
+    const GameManager = getGameManagerContract(provider);
+    const colour = await GameManager.getPlayerColour(address);
+    setPlayerColour(colour);
+  };
+
+  const getUsedColours = async (provider: Provider) => {
+    const GameManager = getGameManagerContract(provider);
+    const usedColours = await GameManager.getUsedColours();
+    setUsedColours(usedColours ?? []);
+  };
+
+  useEffect(() => {
+    if (address && provider) {
+      getPlayerColour(provider, address);
+      getUsedColours(provider);
+    }
+  }, [provider, address]);
 
   /**
    * Just used for testing
@@ -84,6 +113,8 @@ const AppStateContextProvider = ({
         mBloxBalance,
         setExpectedMBloxBalance,
         metaBloxBalances,
+        playerColour,
+        usedColours,
       }}
     >
       {children}

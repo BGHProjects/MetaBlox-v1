@@ -15,9 +15,9 @@ const getAllMetaBloxBalances = async (signer: Signer, address: string) => {
   const balances = await contract.balanceOfBatch(addresses, allIds);
 
   const formatted = balances.map((item: BigNumberish) =>
-    Math.round(Number(ethers.utils.formatUnits(item)))
+    Math.round(Number(ethers.utils.formatUnits(item, "wei")))
   );
-  return balances ?? Array(10).fill(0);
+  return formatted ?? Array(10).fill(0);
 };
 
 export default getAllMetaBloxBalances;

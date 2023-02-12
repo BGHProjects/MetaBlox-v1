@@ -22,6 +22,9 @@ const useCheckMBloxBalance = () => {
     setMBloxBalance(balance ?? 0.0);
   };
 
+  /**
+   * Handles stopping the check
+   */
   useEffect(() => {
     if (mBloxBalance === expectedMBloxBalance) {
       clearInterval(interval);
@@ -30,15 +33,16 @@ const useCheckMBloxBalance = () => {
     }
   }, [mBloxBalance, expectedMBloxBalance]);
 
+  /**
+   * Continuously checks for the new balance
+   */
   useEffect(() => {
     if (signer && address && expectedMBloxBalance) {
       if (!checkingMBlox) {
         setCheckingMBlox(true);
-        {
-          interval = setInterval(() => {
-            retrieveBalance(signer, address);
-          }, 1000);
-        }
+        interval = setInterval(() => {
+          retrieveBalance(signer, address);
+        }, 1000);
       }
     }
     return () => {
@@ -46,6 +50,9 @@ const useCheckMBloxBalance = () => {
     };
   }, [signer, address, expectedMBloxBalance, mBloxBalance]);
 
+  /**
+   * Initially retrieves the balance
+   */
   useEffect(() => {
     if (signer && address) {
       retrieveBalance(signer, address);

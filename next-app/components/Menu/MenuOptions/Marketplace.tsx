@@ -1,5 +1,5 @@
 import { chakra, Flex } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Block } from "../../../constants/blocks";
 import { orangeMain } from "../../../constants/colours";
 import { useAppContext } from "../../../contexts/AppStateContext";
@@ -26,10 +26,6 @@ const Marketplace = () => {
     setOpen(false);
   };
 
-  useEffect(() => {
-    console.log({ metaBloxBalances });
-  }, []);
-
   return (
     <>
       {/* @ts-ignore */}
@@ -48,10 +44,12 @@ const Marketplace = () => {
           },
         }}
       >
-        {blocks.map((block) => (
+        {blocks.map((block, idx) => (
           <MarketplaceBlockCard
             key={block}
             block={Block[block as keyof typeof Block]}
+            /* @ts-ignore */
+            balance={metaBloxBalances[idx]}
             handleClick={() =>
               handleSelectBlock(Block[block as keyof typeof Block])
             }
@@ -63,7 +61,10 @@ const Marketplace = () => {
         isOpen={open}
         title={(("PURCHASE " + selectedBlock) as string) + " BLOCK"}
         content={
-          <MarketplaceBlockConfirmModal block={selectedBlock as Block} />
+          <MarketplaceBlockConfirmModal
+            block={selectedBlock as Block}
+            closeFunction={() => closeFunction()}
+          />
         }
       />
     </>

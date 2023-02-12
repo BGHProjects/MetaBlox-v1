@@ -1,10 +1,9 @@
+import { Contract, Signer } from "ethers";
+import { Provider } from "../constants/app";
+import GameManagerJSON from "../contract-jsons/gamemanager.json";
 import MBloxJSON from "../contract-jsons/mblox.json";
 import MetaBloxJSON from "../contract-jsons/metablox.json";
 import WorldJSON from "../contract-jsons/world.json";
-import GameManagerJSON from "../contract-jsons/gamemanager.json";
-import { Contract, providers, Signer } from "ethers";
-
-type Provider = providers.Provider;
 
 /**
  * Instantiates an instance of the MBlox contract

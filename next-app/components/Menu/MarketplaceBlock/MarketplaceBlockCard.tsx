@@ -1,8 +1,7 @@
-import { Center, chakra, Flex, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { NearestFilter, RepeatWrapping, Texture, TextureLoader } from "three";
-import { Block, blockToImage } from "../../../constants/blocks";
+import { Center, chakra, Flex, HStack, Image, Text } from "@chakra-ui/react";
+import { Block, blockPrices } from "../../../constants/blocks";
 import { mainBG } from "../../../constants/colours";
+import useMarketplaceBlockCard from "../../../hooks/components/marketplace/useMarketplaceBlockCard";
 import { AnimatedDiv } from "../../AnimatedComponents";
 import MarketplaceBlockPreview from "./MarketplaceBlockPreview";
 
@@ -11,46 +10,28 @@ const ANIM_DURATION = 0.3;
 interface IMarketplaceBlockCard {
   block: Block;
   handleClick: () => void;
+  balance: number;
 }
 
 /**
  * UI component that represents a block for sale in the Marketplace
  * @param block The type of block
  * @param handleClick The action that is performed when this is clicked on
+ * @param balance The amount of this type of block that the current user owns
  */
 const MarketplaceBlockCard = ({
   block,
   handleClick,
+  balance,
 }: IMarketplaceBlockCard) => {
-  const [mounted, setMounted] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const [justRendered, setJustRendered] = useState(true);
-  const [activeTexture, setActiveTexture] = useState<Texture | undefined>(
-    undefined
-  );
-
-  const handleEnter = () => {
-    setJustRendered(false);
-    setHovering(true);
-  };
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!typeof document === undefined) return;
-    setActiveTexture(() => {
-      let newTexture = new TextureLoader().load(
-        `images/${blockToImage[block]}`
-      );
-      newTexture.magFilter = NearestFilter;
-      newTexture.wrapS = RepeatWrapping;
-      newTexture.wrapT = RepeatWrapping;
-
-      return newTexture;
-    });
-  }, []);
+  const {
+    handleEnter,
+    setHovering,
+    hovering,
+    justRendered,
+    mounted,
+    activeTexture,
+  } = useMarketplaceBlockCard(block);
 
   return (
     <CardContainer
@@ -69,7 +50,10 @@ const MarketplaceBlockCard = ({
       {/* @ts-ignore */}
       <BlockTitle>{block}</BlockTitle>
       <BlockPriceContainer>
-        <BlockPrice>M 1000</BlockPrice>
+        <HStack spacing={1}>
+          <BlockPrice> {blockPrices[block]}</BlockPrice>
+          <Image h="20px" w="20px" src="/images/mblox-logo.svg" />
+        </HStack>
       </BlockPriceContainer>
 
       <BlockRepContainer>
@@ -84,7 +68,7 @@ const MarketplaceBlockCard = ({
       </BlockRepContainer>
       <Flex justifyContent="space-between" p="5px">
         <BalanceText>Balance:</BalanceText>
-        <BalanceText>0</BalanceText>
+        <BalanceText>{balance}</BalanceText>
       </Flex>
     </CardContainer>
   );

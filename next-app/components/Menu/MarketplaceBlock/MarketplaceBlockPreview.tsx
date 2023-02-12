@@ -1,8 +1,7 @@
 import { Canvas } from "@react-three/fiber";
-import { useEffect, useRef, useState } from "react";
-import { Mesh, Texture } from "three";
+import { Texture } from "three";
 import { Block } from "../../../constants/blocks";
-import getRandomNumber from "../../../helpers/getRandomNumber";
+import useMarketplaceBlockPreview from "../../../hooks/components/marketplace/useMarketplaceBlockPreview";
 
 interface IMarketplaceBlockPreview {
   activeTexture: Texture | undefined;
@@ -18,36 +17,7 @@ const MarketplaceBlockPreview = ({
   activeTexture,
   block,
 }: IMarketplaceBlockPreview) => {
-  const [rotation, setRotation] = useState({ x: 0, y: 0, z: 0 });
-  const randomSpin = getRandomNumber(3, 5) / 1000;
-  let ySpin = randomSpin;
-  let zSpin = randomSpin;
-
-  const cubeRef = useRef<Mesh>();
-
-  useEffect(() => {
-    let coinFlip1 = getRandomNumber(1, 2);
-    let coinFlip2 = getRandomNumber(1, 2);
-
-    if (coinFlip1 === 1) ySpin *= -1;
-    if (coinFlip2 === 2) zSpin *= -1;
-
-    setTimeout(() => {
-      const interval = setInterval(() => {
-        setRotation((prevRotation) => ({
-          x: prevRotation.x,
-          y: prevRotation.y + ySpin,
-          z: prevRotation.z + zSpin,
-        }));
-      }, 1000 / 60);
-      return () => clearInterval(interval);
-    }, 100);
-  }, []);
-
-  useEffect(() => {
-    if (!cubeRef.current) return;
-    cubeRef.current!.rotation.set(rotation.x, rotation.y, rotation.z);
-  }, [cubeRef.current, rotation]);
+  const { cubeRef } = useMarketplaceBlockPreview();
 
   return (
     <Canvas style={{ width: "95%", height: "95%" }}>
