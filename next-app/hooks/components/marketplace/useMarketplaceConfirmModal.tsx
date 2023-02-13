@@ -21,7 +21,12 @@ const useMarketplaceConfirmModal = (
   const toast = useToast();
   const { address } = useAccount();
   const { data: signer } = useSigner();
-  const { mBloxBalance, setExpectedMBloxBalance } = useAppContext();
+  const {
+    mBloxBalance,
+    setOldMBloxBalance,
+    metaBloxBalances,
+    setOldMetaBloxBalances,
+  } = useAppContext();
 
   useEffect(() => {
     setPrice(numberOfBlocks * blockPrices[block]);
@@ -76,7 +81,8 @@ const useMarketplaceConfirmModal = (
           isClosable: true,
         });
 
-        setExpectedMBloxBalance(mBloxBalance - price);
+        setOldMetaBloxBalances(metaBloxBalances);
+        setOldMBloxBalance(mBloxBalance);
         setLoading(false);
         closeFunction();
       }

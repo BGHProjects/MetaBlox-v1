@@ -1,15 +1,16 @@
-import { BigNumberish, ethers, Signer } from "ethers";
+import { BigNumberish, ethers } from "ethers";
+import { Provider } from "../constants/app";
 import { getMetaBloxContract } from "./contractInstantiations";
 
 /**
  * Retrieves the user's current balances for every type of MetaBlox block
- * @param signer The signer within the app
+ * @param provider The provider within the app
  * @param address The address of the player whose balance is being returned
  * @returns The balances of every MetaBlox block for an inputted user
  */
-const getAllMetaBloxBalances = async (signer: Signer, address: string) => {
-  if (!signer) return;
-  const contract = getMetaBloxContract(signer);
+const getAllMetaBloxBalances = async (provider: Provider, address: string) => {
+  if (!provider) return;
+  const contract = getMetaBloxContract(provider);
   const addresses = Array(10).fill(address);
   const allIds = Array.from(Array(10).keys());
   const balances = await contract.balanceOfBatch(addresses, allIds);

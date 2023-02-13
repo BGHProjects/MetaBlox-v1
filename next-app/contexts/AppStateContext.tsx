@@ -1,8 +1,10 @@
+import { isEqual } from "lodash";
 import {
   createContext,
   Dispatch,
   ReactNode,
   SetStateAction,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -13,6 +15,8 @@ import { Provider } from "../constants/app";
 import { GameState } from "../constants/game";
 import { Content } from "../constants/menu";
 import { getGameManagerContract } from "../contract-helpers/contractInstantiations";
+import getAllMetaBloxBalances from "../contract-helpers/getAllMetaBloxBalances";
+import getMBloxBalance from "../contract-helpers/getMBloxBalance";
 import useCheckMBloxBalance from "../hooks/context/useCheckMBloxBalance";
 import useCheckMetaBlockBalances from "../hooks/context/useCheckMetaBloxBalances";
 import useStore from "../hooks/useStore";
@@ -25,8 +29,9 @@ interface IAppStateContext {
   gameState: GameState;
   setGameState: Dispatch<SetStateAction<GameState>>;
   mBloxBalance: number;
-  setExpectedMBloxBalance: Dispatch<SetStateAction<number>>;
+  setOldMBloxBalance: Dispatch<SetStateAction<number>>;
   metaBloxBalances: any[];
+  setOldMetaBloxBalances: Dispatch<SetStateAction<any[]>>;
   playerColour: string;
   usedColours: string[];
 }
@@ -44,14 +49,106 @@ const AppStateContextProvider = ({
   const [playerColour, setPlayerColour] = useState("");
   const [usedColours, setUsedColours] = useState([]);
 
-  const [mBloxBalance, setExpectedMBloxBalance] = useState(0);
-  const metaBloxBalances = [];
+  const [mBloxBalance, setMBloxBalance] = useState(0);
+  const [oldMBloxBalance, setOldMBloxBalance] = useState(0);
+  const [checkingMBlox, setCheckingMBlox] = useState(false);
 
-  // const { mBloxBalance, setExpectedMBloxBalance } = useCheckMBloxBalance();
-  // const { metaBloxBalances } = useCheckMetaBlockBalances();
+  const [metaBloxBalances, setMetaBloxBalances] = useState(Array(10).fill(0));
+  const [oldMetaBloxBalances, setOldMetaBloxBalances] = useState(
+    Array(10).fill(0)
+  );
+  const [checkingMetaBlox, setCheckingMetaBlox] = useState(false);
 
   const provider = useProvider();
   const { address } = useAccount();
+
+  /**
+   * ===========================
+   *  MBLOX
+   * ===========================
+   */
+
+  let mbloxInterval: any = null;
+
+  const retrieveBalance = useCallback(
+    async (provider: Provider, address: string) => {
+      const balance = await getMBloxBalance(provider, address);
+      console.log("Balance ", balance);
+      setMBloxBalance(balance ?? 0.0);
+    },
+    [provider, address]
+  );
+
+  useEffect(() => {
+    if (mBloxBalance !== oldMBloxBalance && checkingMBlox) {
+      clearInterval(mbloxInterval);
+      setOldMBloxBalance(0);
+      setCheckingMBlox(false);
+    }
+  }, [mBloxBalance, oldMBloxBalance]);
+
+  useEffect(() => {
+    if (provider && address && oldMBloxBalance) {
+      if (!checkingMBlox) {
+        setCheckingMBlox(true);
+        mbloxInterval = setInterval(() => {
+          retrieveBalance(provider, address);
+        }, 1000);
+      }
+    }
+    return () => {
+      clearInterval(mbloxInterval);
+    };
+  }, [provider, address, oldMBloxBalance, mBloxBalance]);
+
+  /**
+   * ===========================
+   *  METABLOX
+   * ===========================
+   */
+
+  let metabloxInterval: any = null;
+
+  const retrieveBalances = useCallback(
+    async (provider: Provider, address: string) => {
+      const balances = await getAllMetaBloxBalances(provider, address);
+      console.log("Balances ", balances);
+      setMetaBloxBalances(balances as Array<number>);
+    },
+    [provider, address]
+  );
+
+  useEffect(() => {
+    if (
+      checkingMetaBlox &&
+      !isEqual(oldMetaBloxBalances, Array(10).fill(0)) &&
+      !isEqual(metaBloxBalances, oldMetaBloxBalances)
+    ) {
+      console.log("\n\t ==== Cleared ======");
+      clearInterval(metabloxInterval);
+      setOldMetaBloxBalances(Array(10).fill(0));
+      setCheckingMetaBlox(false);
+    }
+  }, [metaBloxBalances, oldMetaBloxBalances]);
+
+  useEffect(() => {
+    if (
+      provider &&
+      address &&
+      !isEqual(oldMetaBloxBalances, Array(10).fill(0))
+    ) {
+      if (!checkingMetaBlox) {
+        console.log("\n\t ===== Firing this one off =====");
+        setCheckingMetaBlox(true);
+        metabloxInterval = setInterval(() => {
+          retrieveBalances(provider, address);
+        }, 1000);
+      }
+    }
+    return () => {
+      clearInterval(metabloxInterval);
+    };
+  }, [provider, address, oldMetaBloxBalances, metaBloxBalances]);
 
   const GameManager = useMemo(() => {
     return getGameManagerContract(provider);
@@ -66,6 +163,13 @@ const AppStateContextProvider = ({
     const usedColours = await GameManager.getUsedColours();
     setUsedColours(usedColours ?? []);
   };
+
+  useEffect(() => {
+    if (provider && address) {
+      retrieveBalance(provider, address);
+      retrieveBalances(provider, address);
+    }
+  }, [provider, address]);
 
   useEffect(() => {
     if (address && GameManager) {
@@ -84,8 +188,9 @@ const AppStateContextProvider = ({
         gameState,
         setGameState,
         mBloxBalance,
-        setExpectedMBloxBalance,
+        setOldMBloxBalance,
         metaBloxBalances,
+        setOldMetaBloxBalances,
         playerColour,
         usedColours,
       }}

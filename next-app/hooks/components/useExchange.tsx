@@ -12,7 +12,7 @@ const useExchange = () => {
   const { address } = useAccount();
   const { data: signer } = useSigner();
   const toast = useToast();
-  const { mBloxBalance, setExpectedMBloxBalance } = useAppContext();
+  const { mBloxBalance, setOldMBloxBalance } = useAppContext();
 
   const { data: METRBalance } = useBalance({
     address: address,
@@ -55,7 +55,7 @@ const useExchange = () => {
           isClosable: true,
         });
 
-        setExpectedMBloxBalance(mBloxBalance + 1000);
+        setOldMBloxBalance(mBloxBalance);
       }
     } catch (err) {
       console.log("err in convertMaticToMBlox ", err);
@@ -133,9 +133,7 @@ const useExchange = () => {
         });
       }
 
-      setExpectedMBloxBalance(
-        mBloxBalance + (currentMETRBalance - formattedClaimedMETR)
-      );
+      setOldMBloxBalance(mBloxBalance);
     } catch (err) {
       console.log("err in claimMETRBalance ", err);
       toast({
