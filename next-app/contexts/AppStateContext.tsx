@@ -5,6 +5,7 @@ import {
   SetStateAction,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { useAccount, useProvider } from "wagmi";
@@ -43,63 +44,35 @@ const AppStateContextProvider = ({
   const [playerColour, setPlayerColour] = useState("");
   const [usedColours, setUsedColours] = useState([]);
 
-  const [cubes] = useStore((state: any) => [state.cubes]);
-  const { mBloxBalance, setExpectedMBloxBalance } = useCheckMBloxBalance();
-  const { metaBloxBalances } = useCheckMetaBlockBalances();
+  const [mBloxBalance, setExpectedMBloxBalance] = useState(0);
+  const metaBloxBalances = [];
+
+  // const { mBloxBalance, setExpectedMBloxBalance } = useCheckMBloxBalance();
+  // const { metaBloxBalances } = useCheckMetaBlockBalances();
 
   const provider = useProvider();
   const { address } = useAccount();
 
-  const getPlayerColour = async (provider: Provider, address: string) => {
-    const GameManager = getGameManagerContract(provider);
+  const GameManager = useMemo(() => {
+    return getGameManagerContract(provider);
+  }, [provider]);
+
+  const getPlayerColour = async (address: string) => {
     const colour = await GameManager.getPlayerColour(address);
     setPlayerColour(colour);
   };
 
-  const getUsedColours = async (provider: Provider) => {
-    const GameManager = getGameManagerContract(provider);
+  const getUsedColours = async () => {
     const usedColours = await GameManager.getUsedColours();
     setUsedColours(usedColours ?? []);
   };
 
   useEffect(() => {
-    if (address && provider) {
-      getPlayerColour(provider, address);
-      getUsedColours(provider);
+    if (address && GameManager) {
+      getPlayerColour(address);
+      getUsedColours();
     }
-  }, [provider, address]);
-
-  /**
-   * Just used for testing
-   * Will be worked on later
-   *
-   * Should probably strip the key before saving on-chain
-   * Because its probably going to be massive
-   */
-  useEffect(() => {
-    if (cubes.length > 0) {
-      console.log("\n\tCubes: ", cubes);
-
-      const strings = cubes.map((cube) => JSON.stringify(cube));
-      console.log("\n\tStrings: ", strings);
-
-      const string = strings.toString();
-      console.log("\n\t String: ", string);
-
-      const backToArray = string.split("},");
-      console.log(backToArray);
-
-      backToArray.forEach((item, index, array) => {
-        if (array[index][array[index].length - 1] !== "}") array[index] += "}";
-      });
-
-      console.log("Correct array: ", backToArray);
-
-      backToArray.forEach((item) => {
-        console.log(JSON.parse(item));
-      });
-    }
-  }, [cubes]);
+  }, [GameManager, address]);
 
   return (
     <AppStateContext.Provider

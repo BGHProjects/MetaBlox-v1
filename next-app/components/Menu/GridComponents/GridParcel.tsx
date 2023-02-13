@@ -1,71 +1,48 @@
-import { memo } from "react";
+import { Flex } from "@chakra-ui/react";
+import { memo, useState } from "react";
 import { Status } from "../../../constants/worldTokens";
-import useGridParcel from "../../../hooks/components/grid/useGridParcel";
-import { AnimatedDiv } from "../../AnimatedComponents";
 import AppModal from "../../AppModal";
 import GridModalContent from "./GridModalContent";
 
 interface IGridParcel {
-  idx: number;
+  x: number;
+  y: number;
   gridSize: number;
+  status: Status;
+  colour: string;
 }
 
 /**
  * Represents an individual parcel on the Grid, which itself is a World within the game
- * @param idx The index of the parcel on the grid
+ * @param x The x coordinate of the parcel on the grid
+ * @param y The y coordinate of the parcel on the grid
  * @param gridSize The overall size of the grid
+ * @param status The status of the parcel on the grid
+ * @param colour The colour of the parcel on the grid
  * @returns The UI component for an individual Grid Parcel
  */
-const GridParcel = ({ idx, gridSize }: IGridParcel) => {
-  const {
-    handleEnter,
-    handleClick,
-    hovering,
-    justRendered,
-    openModal,
-    setOpenModal,
-    setHovering,
-    colour,
-    status,
-    coords,
-  } = useGridParcel(idx + 1);
+const GridParcel = ({ gridSize, x, y, status, colour }: IGridParcel) => {
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleClick = () => {
+    setOpenModal(true);
+  };
 
   return (
     <>
-      <AnimatedDiv
-        onMouseEnter={handleEnter}
-        onMouseLeave={() => setHovering(false)}
+      <Flex
         onClick={handleClick}
         bg={colour}
         flex={gridSize}
         cursor="pointer"
         border="0.5px solid white"
-        animate={{
-          scale: hovering ? [1, 1.6] : justRendered ? 1 : [1.6, 1],
-          borderRadius: hovering
-            ? ["0px", `${gridSize / 10}px`]
-            : justRendered
-            ? "0px"
-            : [`${gridSize / 10}px`, "0px"],
-          borderWidth: hovering ? 2 : 0.5,
-        }}
-        // @ts-ignore
-        transition={{
-          duration: 0.3,
-          ease: "easeInOut",
-        }}
       />
       <AppModal
         closeFunction={() => setOpenModal(false)}
         isOpen={openModal}
         title={""}
         content={
-          <GridModalContent
-            x={coords.x}
-            y={coords.y}
-            status={status}
-            colour={colour}
-          />
+          <GridModalContent x={x} y={y} status={status} colour={colour} />
         }
       />
     </>

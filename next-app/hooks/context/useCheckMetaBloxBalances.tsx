@@ -1,6 +1,6 @@
 import { Signer } from "ethers";
 import { isEqual } from "lodash";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useAccount, useSigner } from "wagmi";
 import getAllMetaBloxBalances from "../../contract-helpers/getAllMetaBloxBalances";
 
@@ -16,25 +16,25 @@ const useCheckMetaBlockBalances = () => {
 
   let interval: any = null;
 
-  const retrieveBalances = async (signer: Signer, address: string) => {
-    const balances = await getAllMetaBloxBalances(signer, address);
-    setMetaBloxBalances(balances as Array<number>);
-  };
-
   /**
    * Initially retrieves the balances
    */
-  useEffect(() => {
-    if (signer && address) {
-      retrieveBalances(signer, address);
-    }
-  }, [signer, address]);
+  const retrieveBalances = useCallback(
+    async (signer: Signer, address: string) => {
+      const balances = await getAllMetaBloxBalances(signer, address);
+      setMetaBloxBalances(balances as Array<number>);
+    },
+    [signer, address]
+  );
 
   /**
    * Handles stopping the check
    */
   useEffect(() => {
-    if (isEqual(metaBloxBalances, expectedMetaBloxBalances)) {
+    if (
+      isEqual(metaBloxBalances, expectedMetaBloxBalances) &&
+      checkingMetaBlox
+    ) {
       clearInterval(interval);
       setExpectedMetaBloxBalances(Array(10).fill(0));
       setCheckingMetaBlox(false);

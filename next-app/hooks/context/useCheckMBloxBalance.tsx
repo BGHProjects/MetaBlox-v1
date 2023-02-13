@@ -1,5 +1,5 @@
 import { Signer } from "ethers";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useAccount, useSigner } from "wagmi";
 import getMBloxBalance from "../../contract-helpers/getMBloxBalance";
 
@@ -17,16 +17,22 @@ const useCheckMBloxBalance = () => {
 
   let interval: any = null;
 
-  const retrieveBalance = async (signer: Signer, address: string) => {
-    const balance = await getMBloxBalance(signer, address);
-    setMBloxBalance(balance ?? 0.0);
-  };
+  /**
+   * Initially retrieves the balance
+   */
+  const retrieveBalance = useCallback(
+    async (signer: Signer, address: string) => {
+      const balance = await getMBloxBalance(signer, address);
+      setMBloxBalance(balance ?? 0.0);
+    },
+    [signer, address]
+  );
 
   /**
    * Handles stopping the check
    */
   useEffect(() => {
-    if (mBloxBalance === expectedMBloxBalance) {
+    if (mBloxBalance === expectedMBloxBalance && checkingMBlox) {
       clearInterval(interval);
       setExpectedMBloxBalance(0);
       setCheckingMBlox(false);
@@ -49,15 +55,6 @@ const useCheckMBloxBalance = () => {
       clearInterval(interval);
     };
   }, [signer, address, expectedMBloxBalance, mBloxBalance]);
-
-  /**
-   * Initially retrieves the balance
-   */
-  useEffect(() => {
-    if (signer && address) {
-      retrieveBalance(signer, address);
-    }
-  }, [signer, address]);
 
   return { mBloxBalance, setExpectedMBloxBalance };
 };
