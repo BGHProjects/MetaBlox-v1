@@ -26,6 +26,7 @@ const useMarketplaceConfirmModal = (
     setOldMBloxBalance,
     metaBloxBalances,
     setOldMetaBloxBalances,
+    setStartCheckingMetaBlox,
   } = useAppContext();
 
   useEffect(() => {
@@ -82,7 +83,8 @@ const useMarketplaceConfirmModal = (
         });
 
         setOldMetaBloxBalances(metaBloxBalances);
-        setOldMBloxBalance(mBloxBalance);
+        setStartCheckingMetaBlox(true);
+        setOldMBloxBalance(mBloxBalance.toString());
         setLoading(false);
         closeFunction();
       }

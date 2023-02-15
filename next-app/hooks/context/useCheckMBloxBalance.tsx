@@ -1,6 +1,6 @@
-import { Signer } from "ethers";
-import { useEffect, useState, useCallback } from "react";
-import { useAccount, useSigner } from "wagmi";
+import { useCallback, useEffect, useState } from "react";
+import { useAccount, useProvider } from "wagmi";
+import { Provider } from "../../constants/app";
 import getMBloxBalance from "../../contract-helpers/getMBloxBalance";
 
 /**
@@ -8,55 +8,48 @@ import getMBloxBalance from "../../contract-helpers/getMBloxBalance";
  * @returns The user's MBLOX balance, and the expected MBlox value setter
  */
 const useCheckMBloxBalance = () => {
-  const { data: signer } = useSigner();
+  const provider = useProvider();
   const { address } = useAccount();
 
   const [mBloxBalance, setMBloxBalance] = useState(0);
-  const [expectedMBloxBalance, setExpectedMBloxBalance] = useState(0);
+  const [oldMBloxBalance, setOldMBloxBalance] = useState<string | undefined>(
+    undefined
+  );
   const [checkingMBlox, setCheckingMBlox] = useState(false);
 
   let interval: any = null;
 
-  /**
-   * Initially retrieves the balance
-   */
   const retrieveBalance = useCallback(
-    async (signer: Signer, address: string) => {
-      const balance = await getMBloxBalance(signer, address);
+    async (provider: Provider, address: string) => {
+      const balance = await getMBloxBalance(provider, address);
       setMBloxBalance(balance ?? 0.0);
     },
-    [signer, address]
+    [provider, address]
   );
 
-  /**
-   * Handles stopping the check
-   */
   useEffect(() => {
-    if (mBloxBalance === expectedMBloxBalance && checkingMBlox) {
+    if (mBloxBalance !== Number(oldMBloxBalance) && checkingMBlox) {
       clearInterval(interval);
-      setExpectedMBloxBalance(0);
+      setOldMBloxBalance(undefined);
       setCheckingMBlox(false);
     }
-  }, [mBloxBalance, expectedMBloxBalance]);
+  }, [mBloxBalance, oldMBloxBalance]);
 
-  /**
-   * Continuously checks for the new balance
-   */
   useEffect(() => {
-    if (signer && address && expectedMBloxBalance) {
+    if (provider && address && oldMBloxBalance) {
       if (!checkingMBlox) {
         setCheckingMBlox(true);
         interval = setInterval(() => {
-          retrieveBalance(signer, address);
+          retrieveBalance(provider, address);
         }, 1000);
       }
     }
     return () => {
       clearInterval(interval);
     };
-  }, [signer, address, expectedMBloxBalance, mBloxBalance]);
+  }, [provider, address, oldMBloxBalance, mBloxBalance]);
 
-  return { mBloxBalance, setExpectedMBloxBalance };
+  return { mBloxBalance, setOldMBloxBalance, retrieveBalance };
 };
 
 export default useCheckMBloxBalance;

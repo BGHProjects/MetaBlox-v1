@@ -9,7 +9,7 @@ import BlurBackground from "./BlurBackground";
  * which allows users to connect their wallets to the application
  */
 const WalletConnectButton = () => {
-  const { mBloxBalance } = useAppContext();
+  const { mBloxBalance, playerColour } = useAppContext();
   return (
     <ConnectButton.Custom>
       {({
@@ -53,7 +53,7 @@ const WalletConnectButton = () => {
             <Flex alignItems="center" position="relative" h="40px">
               <BlurBackground />
               {/* @ts-ignore */}
-              <BalanceContainer>
+              <BalanceContainer borderColor={playerColour ?? "transparent"}>
                 <Text color="white" fontFamily="Play">
                   {mBloxBalance}
                 </Text>
@@ -81,6 +81,10 @@ const BalanceContainer = chakra(HStack, {
     w: "fit-content",
     justifyContent: "flex-end",
     p: "10px",
+    border: "3px solid transparent",
+    borderRadius: "12px",
+    h: "95%",
+    mb: "2px",
   },
 });
 

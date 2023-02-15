@@ -55,7 +55,7 @@ const useExchange = () => {
           isClosable: true,
         });
 
-        setOldMBloxBalance(mBloxBalance);
+        setOldMBloxBalance(mBloxBalance.toString());
       }
     } catch (err) {
       console.log("err in convertMaticToMBlox ", err);
@@ -133,7 +133,7 @@ const useExchange = () => {
         });
       }
 
-      setOldMBloxBalance(mBloxBalance);
+      setOldMBloxBalance(mBloxBalance.toString());
     } catch (err) {
       console.log("err in claimMETRBalance ", err);
       toast({

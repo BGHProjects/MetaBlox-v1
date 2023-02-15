@@ -10,6 +10,7 @@ interface IGridModalContent {
   y: number;
   status: Status;
   colour: string;
+  closeFunction: () => void;
 }
 
 /**
@@ -18,9 +19,16 @@ interface IGridModalContent {
  * @param y The y coordinate of this grid parcel
  * @param status Whether this World is Vacant, Unavailable, or Owned
  * @param colour The colour passed in
+ * @param closeFunction Function that closes the modal
  */
-const GridModalContent = ({ x, y, status, colour }: IGridModalContent) => {
-  const { coords, handleClick, loading } = useGridModal(x, y, status);
+const GridModalContent = ({
+  x,
+  y,
+  status,
+  colour,
+  closeFunction,
+}: IGridModalContent) => {
+  const { coords, handleClick, loading } = useGridModal(x, y, status, closeFunction);
 
   return (
     <Center position="relative" w="100%" h="100%">

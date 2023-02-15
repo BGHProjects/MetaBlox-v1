@@ -1,61 +1,59 @@
-import { Signer } from "ethers";
 import { isEqual } from "lodash";
-import { useEffect, useState, useCallback } from "react";
-import { useAccount, useSigner } from "wagmi";
+import { useCallback, useEffect, useState } from "react";
+import { useAccount, useProvider } from "wagmi";
+import { Provider } from "../../constants/app";
 import getAllMetaBloxBalances from "../../contract-helpers/getAllMetaBloxBalances";
 
 const useCheckMetaBlockBalances = () => {
-  const { data: signer } = useSigner();
+  const provider = useProvider();
   const { address } = useAccount();
 
   const [metaBloxBalances, setMetaBloxBalances] = useState(Array(10).fill(0));
-  const [expectedMetaBloxBalances, setExpectedMetaBloxBalances] = useState(
+  const [oldMetaBloxBalances, setOldMetaBloxBalances] = useState(
     Array(10).fill(0)
   );
   const [checkingMetaBlox, setCheckingMetaBlox] = useState(false);
+  const [startCheckingMetaBlox, setStartCheckingMetaBlox] = useState(false);
 
   let interval: any = null;
 
-  /**
-   * Initially retrieves the balances
-   */
   const retrieveBalances = useCallback(
-    async (signer: Signer, address: string) => {
-      const balances = await getAllMetaBloxBalances(signer, address);
+    async (provider: Provider, address: string) => {
+      const balances = await getAllMetaBloxBalances(provider, address);
       setMetaBloxBalances(balances as Array<number>);
     },
-    [signer, address]
+    [provider, address]
   );
 
-  /**
-   * Handles stopping the check
-   */
   useEffect(() => {
-    if (
-      isEqual(metaBloxBalances, expectedMetaBloxBalances) &&
-      checkingMetaBlox
-    ) {
+    if (checkingMetaBlox && !isEqual(metaBloxBalances, oldMetaBloxBalances)) {
       clearInterval(interval);
-      setExpectedMetaBloxBalances(Array(10).fill(0));
+      setOldMetaBloxBalances(Array(10).fill(0));
       setCheckingMetaBlox(false);
+      setStartCheckingMetaBlox(false);
     }
-  }, [metaBloxBalances, expectedMetaBloxBalances]);
+  }, [metaBloxBalances, oldMetaBloxBalances]);
 
-  /**
-   * Continuously checks for the new balances
-   */
   useEffect(() => {
-    if (signer && address && expectedMetaBloxBalances) {
+    if (provider && address && startCheckingMetaBlox) {
       if (!checkingMetaBlox) {
         setCheckingMetaBlox(true);
         interval = setInterval(() => {
-          retrieveBalances(signer, address);
+          retrieveBalances(provider, address);
         }, 1000);
       }
     }
-  }, [signer, address, expectedMetaBloxBalances, metaBloxBalances]);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [provider, address, startCheckingMetaBlox]);
 
-  return { metaBloxBalances, setExpectedMetaBloxBalances };
+  return {
+    metaBloxBalances,
+    setOldMetaBloxBalances,
+    retrieveBalances,
+    setStartCheckingMetaBlox,
+  };
 };
 
 export default useCheckMetaBlockBalances;

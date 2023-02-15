@@ -42,7 +42,13 @@ const GridParcel = ({ gridSize, x, y, status, colour }: IGridParcel) => {
         isOpen={openModal}
         title={""}
         content={
-          <GridModalContent x={x} y={y} status={status} colour={colour} />
+          <GridModalContent
+            x={x}
+            y={y}
+            status={status}
+            colour={colour}
+            closeFunction={() => setOpenModal(false)}
+          />
         }
       />
     </>

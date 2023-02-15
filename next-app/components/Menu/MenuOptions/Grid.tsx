@@ -3,7 +3,6 @@ import { ethers } from "ethers";
 import { memo, useMemo } from "react";
 import { Status } from "../../../constants/worldTokens";
 import { useAppContext } from "../../../contexts/AppStateContext";
-import useCheckGrid from "../../../hooks/context/useCheckGrid";
 import GridParcel from "../GridComponents/GridParcel";
 
 const GRID_SIZE = 375;
@@ -21,8 +20,7 @@ const calcXY = (idx: number) => {
  * @returns The UI component for the Grid Menu Option
  */
 const Grid = () => {
-  const { gridData } = useCheckGrid();
-  const { playerColour } = useAppContext();
+  const { playerColour, gridData } = useAppContext();
 
   const determineAttributes = useMemo(() => {
     return (x: number, y: number) => {

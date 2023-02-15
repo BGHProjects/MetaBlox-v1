@@ -10,13 +10,22 @@ import generateRandomColour from "../../../helpers/generateRandomColour";
 /**
  * Hook that separates the logic of the Grid Modal Content from its JSX
  */
-const useGridModal = (x: number, y: number, status: Status) => {
+const useGridModal = (
+  x: number,
+  y: number,
+  status: Status,
+  closeFunction: () => void
+) => {
   const {
     setStartingGameplay,
     setGameState,
     mBloxBalance,
     playerColour,
     usedColours,
+    setOldMBloxBalance,
+    gridData,
+    setOldGridData,
+    setStartCheckingGridData,
   } = useAppContext();
   const coords = { x, y };
   const [loading, setLoading] = useState(false);
@@ -31,6 +40,7 @@ const useGridModal = (x: number, y: number, status: Status) => {
         status === Status.Owned ? GameState.Building : GameState.Visiting
       );
       setStartingGameplay(true);
+      closeFunction();
       return;
     }
 
@@ -128,7 +138,12 @@ const useGridModal = (x: number, y: number, status: Status) => {
           duration: 5000,
           isClosable: true,
         });
+
+        setOldMBloxBalance(mBloxBalance.toString());
+        setOldGridData(gridData);
+        setStartCheckingGridData(true);
         setLoading(false);
+        closeFunction();
       }
     } catch (err) {
       setLoading(false);
