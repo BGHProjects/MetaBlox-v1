@@ -59,7 +59,7 @@ const MarketplaceBlockConfirmModal = ({
       </VStack>
       {loading && (
         <LoadingOverlay>
-          <LoadingText>Completing Transaction</LoadingText>
+          <LoadingText>Purchasing MetaBlox</LoadingText>
           <Spinner size="xl" color={gridBlue} />
         </LoadingOverlay>
       )}

@@ -28,7 +28,12 @@ const GridModalContent = ({
   colour,
   closeFunction,
 }: IGridModalContent) => {
-  const { coords, handleClick, loading } = useGridModal(x, y, status, closeFunction);
+  const { coords, handleClick, loading } = useGridModal(
+    x,
+    y,
+    status,
+    closeFunction
+  );
 
   return (
     <Center position="relative" w="100%" h="100%">
@@ -57,7 +62,7 @@ const GridModalContent = ({
       </VStack>
       {loading && (
         <LoadingOverlay>
-          <LoadingText>Completing Transaction</LoadingText>
+          <LoadingText>Purchasing World</LoadingText>
           <Spinner size="xl" color={gridBlue} />
         </LoadingOverlay>
       )}

@@ -27,7 +27,8 @@ const Gameplay = () => {
   const [display, setDisplay] = useState("flex");
   const [exiting, setExiting] = useState(false);
   const router = useRouter();
-  const { setStartingGameplay, setGameState, gameState } = useAppContext();
+  const { setStartingGameplay, setGameState, gameState, setGameplayMetaBlox } =
+    useAppContext();
   const { quit } = useKeyboard();
 
   useEffect(() => {
@@ -39,6 +40,7 @@ const Gameplay = () => {
 
   const quitFunction = () => {
     setDisplay("flex");
+    setGameplayMetaBlox([]);
     setExiting(true);
     setGameState(GameState.None);
     setTimeout(() => {

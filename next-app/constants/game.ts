@@ -1,9 +1,9 @@
 export const inputToImage: Record<string, string> = {
   dirt: "dirt.jpg",
   grass: "grass.jpg",
-  glass: "glass.png",
   log: "log.jpg",
   wood: "wood.png",
+  glass: "glass.png",
   lava: "lava.jpg",
   gold: "gold.png",
   opal: "opal.png",

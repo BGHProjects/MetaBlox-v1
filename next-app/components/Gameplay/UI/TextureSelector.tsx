@@ -1,5 +1,6 @@
 import { Center, chakra, Image, Text, HStack } from "@chakra-ui/react";
 import { useEffect } from "react";
+import { buttonBG } from "../../../constants/colours";
 import { GameState } from "../../../constants/game";
 import { useAppContext } from "../../../contexts/AppStateContext";
 import useKeyboard from "../../../hooks/useKeyboard";
@@ -7,9 +8,9 @@ import useStore from "../../../hooks/useStore";
 import {
   dirtImg,
   grassImg,
-  glassImg,
-  woodImg,
   logImg,
+  woodImg,
+  glassImg,
   goldImg,
   opalImg,
   lavaImg,
@@ -22,9 +23,9 @@ import BlurBackground from "../../Menu/BlurBackground";
 const images = {
   dirt: dirtImg,
   grass: grassImg,
-  glass: glassImg,
-  wood: woodImg,
   log: logImg,
+  wood: woodImg,
+  glass: glassImg,
   lava: lavaImg,
   gold: goldImg,
   opal: opalImg,
@@ -32,13 +33,13 @@ const images = {
   space: spaceImg,
 };
 
-const normalSize = 30;
+const normalSize = 40;
 
 /**
  * UI Component in gameplay that shows the player which block type they have selected
  */
 const TextureSelector = () => {
-  const { gameState } = useAppContext();
+  const { gameState, gameplayMetaBlox } = useAppContext();
   const [activeTexture, setTexture] = useStore((state: any) => [
     state.texture,
     state.setTexture,
@@ -51,9 +52,9 @@ const TextureSelector = () => {
     const textures = {
       dirt,
       grass,
-      glass,
-      wood,
       log,
+      wood,
+      glass,
       lava,
       gold,
       opal,
@@ -89,7 +90,7 @@ const TextureSelector = () => {
       <BlurBackground />
       {notVisiting && (
         <Center>
-          {Object.entries(images).map(([k, src]) => {
+          {Object.entries(images).map(([k, src], idx) => {
             const selected = k === activeTexture;
 
             return (
@@ -105,15 +106,22 @@ const TextureSelector = () => {
                     scale: selected ? [1, 1.5] : [1.5, 1],
                   }}
                 >
-                  {/* @ts-ignore */}
-                  <TextureImg
-                    key={k}
-                    src={src.src}
-                    alt={k}
-                    h={`${normalSize}px`}
-                    w={`${normalSize}px`}
-                    border={selected ? "3px solid orange" : "none"}
-                  />
+                  <Center w="100%" h="100%" flexDir="column">
+                    {/* @ts-ignore */}
+                    <TextureImg
+                      key={k}
+                      src={src.src}
+                      alt={k}
+                      h={`${normalSize}px`}
+                      w={`${normalSize}px`}
+                      border={selected ? "3px solid orange" : "none"}
+                    />
+                    {GameState.Building && (
+                      <BalanceContainer>
+                        <BalanceLabel>{gameplayMetaBlox[idx]}</BalanceLabel>
+                      </BalanceContainer>
+                    )}
+                  </Center>
                 </ImageContainer>
               </>
             );
@@ -130,12 +138,32 @@ const TextureSelector = () => {
   );
 };
 
+const BalanceLabel = chakra(Text, {
+  baseStyle: {
+    color: "white",
+    fontFamily: "Play",
+    fontSize: "10px",
+    textAlign: "center",
+  },
+});
+
+const BalanceContainer = chakra(Center, {
+  baseStyle: {
+    bgGradient: buttonBG,
+    borderRadius: "5px",
+    mt: "2px",
+    px: "5px",
+  },
+});
+
 const ImageContainer = chakra(AnimatedDiv, {
   shouldForwardProp: () => true,
   baseStyle: {
+    mt: "10px",
     mx: "10px",
     borderRadius: "10px",
     zIndex: "1",
+    flexDir: "column",
   },
 });
 

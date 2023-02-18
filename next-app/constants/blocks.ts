@@ -1,8 +1,8 @@
 enum Block {
   Dirt = "DIRT",
   Grass = "GRASS",
-  Wood = "WOOD",
   Log = "LOG",
+  Wood = "WOOD",
   Glass = "GLASS",
   Lava = "LAVA",
   Gold = "GOLD",
@@ -12,10 +12,10 @@ enum Block {
 }
 
 const blockToImage: Record<Block, string> = {
-  [Block.Grass]: "grass.jpg",
-  [Block.Wood]: "wood.png",
-  [Block.Log]: "log.jpg",
   [Block.Dirt]: "dirt.jpg",
+  [Block.Grass]: "grass.jpg",
+  [Block.Log]: "log.jpg",
+  [Block.Wood]: "wood.png",
   [Block.Glass]: "glass.png",
   [Block.Lava]: "lava.jpg",
   [Block.Gold]: "gold.png",
@@ -25,10 +25,10 @@ const blockToImage: Record<Block, string> = {
 };
 
 const blockPrices: Record<Block, number> = {
-  [Block.Grass]: 10,
-  [Block.Wood]: 10,
-  [Block.Log]: 10,
   [Block.Dirt]: 10,
+  [Block.Grass]: 10,
+  [Block.Log]: 10,
+  [Block.Wood]: 10,
   [Block.Glass]: 15,
   [Block.Lava]: 15,
   [Block.Gold]: 15,

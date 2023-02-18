@@ -26,6 +26,8 @@ const useGridModal = (
     gridData,
     setOldGridData,
     setStartCheckingGridData,
+    setGameplayMetaBlox,
+    metaBloxBalances,
   } = useAppContext();
   const coords = { x, y };
   const [loading, setLoading] = useState(false);
@@ -39,6 +41,7 @@ const useGridModal = (
       setGameState(
         status === Status.Owned ? GameState.Building : GameState.Visiting
       );
+      setGameplayMetaBlox(metaBloxBalances);
       setStartingGameplay(true);
       closeFunction();
       return;
