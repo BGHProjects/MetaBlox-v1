@@ -1,5 +1,6 @@
 import { useToast } from "@chakra-ui/react";
-import { capitalize, upperCase } from "lodash";
+import { capitalize, upperCase, lowerCase } from "lodash";
+import { nanoid } from "nanoid";
 import {
   createContext,
   Dispatch,
@@ -19,6 +20,8 @@ import useCheckMBloxBalance from "../hooks/context/useCheckMBloxBalance";
 import useCheckMetaBlockBalances from "../hooks/context/useCheckMetaBloxBalances";
 import useStore from "../hooks/useStore";
 import { Block } from "../constants/blocks";
+import { ICube } from "../interfaces/cube";
+import useWorldData from "../hooks/context/useWorldData";
 
 interface IAppStateContext {
   menuContent: Content;
@@ -41,6 +44,10 @@ interface IAppStateContext {
   setGameplayMetaBlox: Dispatch<SetStateAction<any[]>>;
   handleAddCube: (x: number, y: number, z: number) => void;
   handleRemoveCube: (x: number, y: number, z: number) => void;
+  convertGameCubesToOnChain: () => string;
+  convertOnChainCubesToGame: (cubeString: string) => ICube[];
+  worldData: {};
+  retrieveWorldData: (id: number) => Promise<any>;
 }
 
 const AppStateContext = createContext<IAppStateContext>({} as IAppStateContext);
@@ -83,6 +90,8 @@ const AppStateContextProvider = ({
     setStartCheckingGridData,
     setOldGridData,
   } = useCheckGrid();
+
+  const { worldData, retrieveWorldData } = useWorldData();
 
   const GameManager = useMemo(() => {
     return getGameManagerContract(provider);
@@ -131,7 +140,7 @@ const AppStateContextProvider = ({
     removeCube(x, y, z);
 
     if (gameState === GameState.Building) {
-      const cubeRemovedArray = cubes.filter((cube) => {
+      const cubeRemovedArray = cubes.filter((cube: ICube) => {
         const [X, Y, Z] = cube.pos;
         return X === x && Y === y && Z === z;
       });
@@ -148,6 +157,43 @@ const AppStateContextProvider = ({
         return newBlocks;
       });
     }
+  };
+
+  const convertGameCubesToOnChain = (): string => {
+    const onChainCubes = cubes.map((cube: ICube) => {
+      const { texture } = cube;
+      const [x, y, z] = cube.pos;
+      const blockTypes = Object.values(Block);
+      const element = upperCase(texture) as Block;
+      const blockIndex = blockTypes.indexOf(element);
+
+      return [x, y, z, blockIndex];
+    });
+
+    return onChainCubes.toString();
+  };
+
+  const convertOnChainCubesToGame = (cubeString: string): ICube[] => {
+    const individualNumbers = cubeString.split(",");
+    const initialCubes = [];
+
+    for (let i = 0; i < individualNumbers.length; i += 4) {
+      const oneCube = individualNumbers.slice(i, i + 4);
+      initialCubes.push(oneCube);
+    }
+
+    const finalCubes = initialCubes.map((cube: any) => {
+      const blockTypes = Object.values(Block);
+      const blockType = blockTypes[cube[3]];
+
+      return {
+        key: nanoid(),
+        pos: [Number(cube[0]), Number(cube[1]), Number(cube[2])],
+        texture: lowerCase(blockType),
+      };
+    });
+
+    return finalCubes;
   };
 
   useEffect(() => {
@@ -192,6 +238,10 @@ const AppStateContextProvider = ({
         setGameplayMetaBlox,
         handleAddCube,
         handleRemoveCube,
+        convertGameCubesToOnChain,
+        convertOnChainCubesToGame,
+        worldData,
+        retrieveWorldData,
       }}
     >
       {children}

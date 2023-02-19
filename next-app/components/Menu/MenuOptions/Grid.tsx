@@ -41,7 +41,9 @@ const Grid = () => {
         status = Status.Unavailable;
       }
 
-      return { colour, status };
+      const worldId = Number(ethers.utils.formatUnits(thisWorld.id, "wei"));
+
+      return { colour, status, worldId };
     };
   }, [gridData, playerColour]);
 
@@ -59,7 +61,7 @@ const Grid = () => {
         {test.map((item: number) => {
           const { x, y } = calcXY(item + 1);
 
-          const { status, colour } = determineAttributes(x, y);
+          const { status, colour, worldId } = determineAttributes(x, y);
 
           return (
             <GridParcel
@@ -69,6 +71,7 @@ const Grid = () => {
               gridSize={GRID_SIZE}
               status={status}
               colour={colour}
+              worldId={worldId}
             />
           );
         })}

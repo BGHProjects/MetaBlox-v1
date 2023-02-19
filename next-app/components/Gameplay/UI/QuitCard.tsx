@@ -11,6 +11,7 @@ interface IQuitCard {
   showingSomething: boolean;
   setShowingSomething: Dispatch<SetStateAction<boolean>>;
   quitFunction: () => void;
+  quitWithSave: () => Promise<void>;
 }
 
 /**
@@ -24,6 +25,7 @@ const QuitCard = ({
   showingSomething,
   setShowingSomething,
   quitFunction,
+  quitWithSave,
 }: IQuitCard) => {
   const { gameState } = useAppContext();
   const { quit, quitWithoutSaving, quitWithSaving } = useKeyboard();
@@ -38,7 +40,7 @@ const QuitCard = ({
 
   useEffect(() => {
     if (show) {
-      if (quitWithSaving) quitFunction();
+      if (quitWithSaving) quitWithSave();
       if (quitWithoutSaving) quitFunction();
     }
   }, [quitWithSaving, quitWithoutSaving]);
@@ -60,6 +62,7 @@ const QuitCard = ({
       <CardContainer>
         <BlurBackground />
         <VStack zIndex="1" spacing={5}>
+          {/* @ts-ignore */}
           <HeadingLabel>Would you like to save your progress?</HeadingLabel>
           <HStack w="100%" justifyContent="space-evenly">
             <QuitCardOption saveOption /> <QuitCardOption saveOption={false} />

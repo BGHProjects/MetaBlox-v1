@@ -41,6 +41,11 @@ const useStore = create((set) => ({
       cubes: [],
     }));
   },
+  setCubes: (inputCubes: []) => {
+    set(() => ({
+      cubes: inputCubes,
+    }));
+  },
 }));
 
 export default useStore;

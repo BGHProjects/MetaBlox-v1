@@ -11,6 +11,7 @@ interface IGridModalContent {
   status: Status;
   colour: string;
   closeFunction: () => void;
+  worldId: number | undefined;
 }
 
 /**
@@ -20,6 +21,7 @@ interface IGridModalContent {
  * @param status Whether this World is Vacant, Unavailable, or Owned
  * @param colour The colour passed in
  * @param closeFunction Function that closes the modal
+ * @param worldId The id of the World token associated with this Grid Parcel
  */
 const GridModalContent = ({
   x,
@@ -27,31 +29,31 @@ const GridModalContent = ({
   status,
   colour,
   closeFunction,
+  worldId,
 }: IGridModalContent) => {
   const { coords, handleClick, loading } = useGridModal(
     x,
     y,
     status,
-    closeFunction
+    closeFunction,
+    worldId
   );
 
   return (
-    <Center position="relative" w="100%" h="100%">
+    <FullContainer>
       <VStack alignItems="center" spacing={10} p="20px">
         {/* @ts-ignore */}
         <Title>{textContent[status].title}</Title>
-        <Center
-          border="2px solid white"
-          borderRadius="10px"
-          bg={colour}
-          h="100px"
-          w="100px"
-        >
+        <ParcelInfoContainer bg={colour}>
           <VStack alignItems="center">
-            <ModalTextContent>X : {coords.x}</ModalTextContent>
-            <ModalTextContent>Y : {coords.y}</ModalTextContent>
+            <ModalTextContent textShadow="1px 1px 5px black">
+              X : {coords.x}
+            </ModalTextContent>
+            <ModalTextContent textShadow="1px 1px 5px black">
+              Y : {coords.y}
+            </ModalTextContent>
           </VStack>
-        </Center>
+        </ParcelInfoContainer>
         <ModalTextContent>{textContent[status].subtitle}</ModalTextContent>
         <AppButton
           h={60}
@@ -66,9 +68,26 @@ const GridModalContent = ({
           <Spinner size="xl" color={gridBlue} />
         </LoadingOverlay>
       )}
-    </Center>
+    </FullContainer>
   );
 };
+
+const ParcelInfoContainer = chakra(Center, {
+  baseStyle: {
+    border: "2px solid white",
+    borderRadius: "10px",
+    h: "100px",
+    w: "100px",
+  },
+});
+
+const FullContainer = chakra(Center, {
+  baseStyle: {
+    position: "relative",
+    w: "100%",
+    h: "100%",
+  },
+});
 
 const LoadingText = chakra(Text, {
   baseStyle: {

@@ -94,36 +94,33 @@ const TextureSelector = () => {
             const selected = k === activeTexture;
 
             return (
-              <>
-                <ImageContainer
-                  key={k}
-                  // @ts-ignore
-                  transition={{
-                    duration: 0.5,
-                    ease: "easeInOut",
-                  }}
-                  animate={{
-                    scale: selected ? [1, 1.5] : [1.5, 1],
-                  }}
-                >
-                  <Center w="100%" h="100%" flexDir="column">
-                    {/* @ts-ignore */}
-                    <TextureImg
-                      key={k}
-                      src={src.src}
-                      alt={k}
-                      h={`${normalSize}px`}
-                      w={`${normalSize}px`}
-                      border={selected ? "3px solid orange" : "none"}
-                    />
-                    {GameState.Building && (
-                      <BalanceContainer>
-                        <BalanceLabel>{gameplayMetaBlox[idx]}</BalanceLabel>
-                      </BalanceContainer>
-                    )}
-                  </Center>
-                </ImageContainer>
-              </>
+              <ImageContainer
+                key={k.toString() + idx.toString()}
+                // @ts-ignore
+                transition={{
+                  duration: 0.5,
+                  ease: "easeInOut",
+                }}
+                animate={{
+                  scale: selected ? [1, 1.5] : [1.5, 1],
+                }}
+              >
+                <Center w="100%" h="100%" flexDir="column">
+                  {/* @ts-ignore */}
+                  <TextureImg
+                    src={src.src}
+                    alt={k}
+                    h={`${normalSize}px`}
+                    w={`${normalSize}px`}
+                    border={selected ? "3px solid orange" : "none"}
+                  />
+                  {GameState.Building && (
+                    <BalanceContainer>
+                      <BalanceLabel>{gameplayMetaBlox[idx]}</BalanceLabel>
+                    </BalanceContainer>
+                  )}
+                </Center>
+              </ImageContainer>
             );
           })}
         </Center>

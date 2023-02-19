@@ -14,7 +14,8 @@ const useGridModal = (
   x: number,
   y: number,
   status: Status,
-  closeFunction: () => void
+  closeFunction: () => void,
+  worldId: number | undefined
 ) => {
   const {
     setStartingGameplay,
@@ -28,6 +29,7 @@ const useGridModal = (
     setStartCheckingGridData,
     setGameplayMetaBlox,
     metaBloxBalances,
+    retrieveWorldData,
   } = useAppContext();
   const coords = { x, y };
   const [loading, setLoading] = useState(false);
@@ -42,6 +44,9 @@ const useGridModal = (
         status === Status.Owned ? GameState.Building : GameState.Visiting
       );
       setGameplayMetaBlox(metaBloxBalances);
+
+      if (worldId) retrieveWorldData(worldId);
+
       setStartingGameplay(true);
       closeFunction();
       return;

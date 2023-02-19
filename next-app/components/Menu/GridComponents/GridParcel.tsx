@@ -10,6 +10,7 @@ interface IGridParcel {
   gridSize: number;
   status: Status;
   colour: string;
+  worldId: number | undefined;
 }
 
 /**
@@ -19,9 +20,17 @@ interface IGridParcel {
  * @param gridSize The overall size of the grid
  * @param status The status of the parcel on the grid
  * @param colour The colour of the parcel on the grid
+ * @param worldId The id of the World Token that this parcel associates with
  * @returns The UI component for an individual Grid Parcel
  */
-const GridParcel = ({ gridSize, x, y, status, colour }: IGridParcel) => {
+const GridParcel = ({
+  gridSize,
+  x,
+  y,
+  status,
+  colour,
+  worldId,
+}: IGridParcel) => {
   const [openModal, setOpenModal] = useState(false);
 
   const handleClick = () => {
@@ -48,6 +57,7 @@ const GridParcel = ({ gridSize, x, y, status, colour }: IGridParcel) => {
             status={status}
             colour={colour}
             closeFunction={() => setOpenModal(false)}
+            worldId={worldId}
           />
         }
       />

@@ -2,17 +2,13 @@ import { Center, chakra, Flex } from "@chakra-ui/react";
 import { Physics } from "@react-three/cannon";
 import { Sky } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { AnimatedDiv } from "../components/AnimatedComponents";
 import { FPV, Ground, Player } from "../components/Gameplay";
 import Cubes from "../components/Gameplay/Cubes/Cubes";
 import ControlsCard from "../components/Gameplay/UI/ControlsCard";
 import QuitCard from "../components/Gameplay/UI/QuitCard";
 import TextureSelector from "../components/Gameplay/UI/TextureSelector";
-import { GameState } from "../constants/game";
-import { useAppContext } from "../contexts/AppStateContext";
-import useKeyboard from "../hooks/useKeyboard";
+import useGame from "../hooks/components/useGame";
 
 const cursorSize = 15;
 const animDuration = 3;
@@ -23,36 +19,9 @@ const animDuration = 3;
  * @returns The UI component for page of the app where the gameplay occurs
  */
 const Gameplay = () => {
-  const [showingSomething, setShowingSomething] = useState(false);
-  const [display, setDisplay] = useState("flex");
-  const [exiting, setExiting] = useState(false);
-  const router = useRouter();
-  const { setStartingGameplay, setGameState, gameState, setGameplayMetaBlox } =
-    useAppContext();
-  const { quit } = useKeyboard();
-
-  useEffect(() => {
-    setStartingGameplay(false);
-    setTimeout(() => {
-      setDisplay("none");
-    }, animDuration * 1000);
-  }, []);
-
-  const quitFunction = () => {
-    setDisplay("flex");
-    setGameplayMetaBlox([]);
-    setExiting(true);
-    setGameState(GameState.None);
-    setTimeout(() => {
-      router.push("/");
-    }, (animDuration + 1) * 1000);
-  };
-
-  useEffect(() => {
-    if (quit && gameState !== GameState.Building) {
-      quitFunction();
-    }
-  }, [quit]);
+  const { values, functions } = useGame(animDuration);
+  const { showingSomething, display, exiting } = values;
+  const { setShowingSomething, quitFunction, quitWithSave } = functions;
 
   return (
     <>
@@ -73,6 +42,7 @@ const Gameplay = () => {
           showingSomething={showingSomething}
           setShowingSomething={setShowingSomething}
           quitFunction={quitFunction}
+          quitWithSave={quitWithSave}
         />
         <ControlsCard
           showingSomething={showingSomething}
