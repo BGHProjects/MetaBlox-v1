@@ -30,7 +30,7 @@ const MenuOptionBase = () => {
       content: <Marketplace />,
     },
     [Content.Grid]: {
-      title: "GRID",
+      title: "METAGRID",
       subtitle:
         "See all of the available worlds within our metaverse. You can purchase any available world to begin building within it. You can also view any already purchased worlds and see what people have created!",
       content: <Grid />,
@@ -65,6 +65,7 @@ const MenuOptionBase = () => {
   return (
     <>
       <OuterContainer
+        // @ts-ignore
         transition={{
           duration: animDuration,
         }}
@@ -74,6 +75,7 @@ const MenuOptionBase = () => {
         }}
       >
         <BlurBackground />
+        {/* @ts-ignore */}
         <ContentContainer>
           <BackButton action={() => handleExit()} />
           <TitleText>{optionContent[menuContent].title}</TitleText>

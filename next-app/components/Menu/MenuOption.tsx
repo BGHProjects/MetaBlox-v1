@@ -26,7 +26,7 @@ const MenuOption = ({ menuOption, requiresWallet }: IMenuOption) => {
   const optionLabel: Record<Content, string> = {
     [Content.Exchange]: "EXCHANGE",
     [Content.Marketplace]: "MARKETPLACE",
-    [Content.Grid]: "GRID",
+    [Content.Grid]: "METAGRID",
     [Content.Sandbox]: "SANDBOX",
     [Content.None]: "NONE",
   };

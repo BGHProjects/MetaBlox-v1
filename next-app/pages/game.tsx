@@ -1,6 +1,6 @@
 import { Center, chakra, Flex } from "@chakra-ui/react";
 import { Physics } from "@react-three/cannon";
-import { Sky } from "@react-three/drei";
+import { Environment } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { AnimatedDiv } from "../components/AnimatedComponents";
 import { FPV, Ground, Player } from "../components/Gameplay";
@@ -28,7 +28,18 @@ const Gameplay = () => {
       {/* @ts-ignore */}
       <WindowContainer>
         <Canvas>
-          <Sky sunPosition={[100, 100, 20]} />
+          <Environment
+            background={true}
+            files={[
+              "images/space-bg.jpg",
+              "images/space-bg.jpg",
+              "images/space-bg.jpg",
+              "images/space-bg.jpg",
+              "images/space-bg.jpg",
+              "images/space-bg.jpg",
+            ]}
+          />
+
           <ambientLight intensity={0.5} />
           <FPV />
           <Physics>
