@@ -8,6 +8,7 @@ import Cubes from "../components/Gameplay/Cubes/Cubes";
 import ControlsCard from "../components/Gameplay/UI/ControlsCard";
 import QuitCard from "../components/Gameplay/UI/QuitCard";
 import TextureSelector from "../components/Gameplay/UI/TextureSelector";
+import { useAppContext } from "../contexts/AppStateContext";
 import useGame from "../hooks/components/useGame";
 
 const cursorSize = 15;
@@ -22,6 +23,7 @@ const Gameplay = () => {
   const { values, functions } = useGame(animDuration);
   const { showingSomething, display, exiting } = values;
   const { setShowingSomething, quitFunction, quitWithSave } = functions;
+  const { sandboxBG } = useAppContext();
 
   return (
     <>
@@ -31,12 +33,12 @@ const Gameplay = () => {
           <Environment
             background={true}
             files={[
-              "images/space-bg.jpg",
-              "images/space-bg.jpg",
-              "images/space-bg.jpg",
-              "images/space-bg.jpg",
-              "images/space-bg.jpg",
-              "images/space-bg.jpg",
+              `images/skyboxes/clouds/${sandboxBG}/leftImage.png`,
+              `images/skyboxes/clouds/${sandboxBG}/rightImage.png`,
+              `images/skyboxes/clouds/${sandboxBG}/upImage.png`,
+              `images/skyboxes/clouds/${sandboxBG}/downImage.png`,
+              `images/skyboxes/clouds/${sandboxBG}/frontImage.png`,
+              `images/skyboxes/clouds/${sandboxBG}/backImage.png`,
             ]}
           />
 

@@ -22,6 +22,8 @@ import useStore from "../hooks/useStore";
 import { Block } from "../constants/blocks";
 import { ICube } from "../interfaces/cube";
 import useWorldData from "../hooks/context/useWorldData";
+import getRandomNumber from "../helpers/getRandomNumber";
+import { sandbox } from "../constants/bgs";
 
 interface IAppStateContext {
   menuContent: Content;
@@ -48,6 +50,8 @@ interface IAppStateContext {
   convertOnChainCubesToGame: (cubeString: string) => ICube[];
   worldData: {};
   retrieveWorldData: (id: number) => Promise<any>;
+  generateSandboxBG: () => void;
+  sandboxBG: string;
 }
 
 const AppStateContext = createContext<IAppStateContext>({} as IAppStateContext);
@@ -69,6 +73,7 @@ const AppStateContextProvider = ({
     state.removeCube,
     state.cubes,
   ]);
+  const [sandboxBG, setSandboxBG] = useState("");
   const toast = useToast();
 
   const provider = useProvider();
@@ -96,6 +101,11 @@ const AppStateContextProvider = ({
   const GameManager = useMemo(() => {
     return getGameManagerContract(provider);
   }, [provider]);
+
+  const generateSandboxBG = () => {
+    const index = getRandomNumber(0, 9);
+    setSandboxBG(sandbox[index]);
+  };
 
   const getPlayerColour = async (address: string) => {
     const colour = await GameManager.getPlayerColour(address);
@@ -242,6 +252,8 @@ const AppStateContextProvider = ({
         convertOnChainCubesToGame,
         worldData,
         retrieveWorldData,
+        sandboxBG,
+        generateSandboxBG,
       }}
     >
       {children}

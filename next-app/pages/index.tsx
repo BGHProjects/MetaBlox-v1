@@ -12,7 +12,8 @@ const DELAY = 3;
 const DURATION = 2;
 
 const MainPage = () => {
-  const { menuContent, setMenuContent, startingGameplay } = useAppContext();
+  const { menuContent, setMenuContent, startingGameplay, generateSandboxBG } =
+    useAppContext();
   const [display, setDisplay] = useState("flex");
   const [zIndex, setZIndex] = useState("1");
   const router = useRouter();
@@ -31,6 +32,7 @@ const MainPage = () => {
     if (startingGameplay) {
       setZIndex("3");
       setDisplay("flex");
+      generateSandboxBG();
       setTimeout(() => {
         router.push("/game");
       }, 3000);
