@@ -10,6 +10,7 @@ import QuitCard from "../components/Gameplay/UI/QuitCard";
 import TextureSelector from "../components/Gameplay/UI/TextureSelector";
 import { useAppContext } from "../contexts/AppStateContext";
 import useGame from "../hooks/components/useGame";
+import useStore from "../hooks/useStore";
 
 const cursorSize = 15;
 const animDuration = 3;
@@ -20,6 +21,7 @@ const animDuration = 3;
  * @returns The UI component for page of the app where the gameplay occurs
  */
 const Gameplay = () => {
+  const [cubes] = useStore((state) => [state.cubes]);
   const { values, functions } = useGame(animDuration);
   const { showingSomething, display, exiting } = values;
   const { setShowingSomething, quitFunction, quitWithSave } = functions;
@@ -46,7 +48,7 @@ const Gameplay = () => {
           <FPV />
           <Physics>
             <Player />
-            <Cubes />
+            <Cubes cubes={cubes} />
             <Ground />
           </Physics>
         </Canvas>

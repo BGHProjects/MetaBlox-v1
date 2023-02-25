@@ -11,4 +11,6 @@ const sandbox = [
   "redorange",
 ];
 
-export { sandbox };
+const metagrid = ["space-blue", "space-green", "space-green2", "space-red"];
+
+export { sandbox, metagrid };

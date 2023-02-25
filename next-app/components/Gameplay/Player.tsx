@@ -3,22 +3,33 @@ import { useSphere } from "@react-three/cannon";
 import { useEffect, useRef } from "react";
 import { Vector3 } from "three";
 import useKeyboard from "../../hooks/useKeyboard";
+import { useAppContext } from "../../contexts/AppStateContext";
+import { useRouter } from "next/router";
 
 const JUMP_FORCE = 4;
 const SPEED = 4;
 
+interface IPlayer {
+  xPos?: number;
+  yPos?: number;
+  zPos?: number;
+}
+
 /**
  * Represents the player within the game
  */
-const Player = () => {
-  const { moveBackward, moveForward, moveRight, moveLeft, jump } =
+const Player = ({ xPos = 0, yPos = 1, zPos = 0 }: IPlayer) => {
+  const router = useRouter();
+  const pathName = router.pathname;
+  const { metaGridLoaded, setMetaGridLoaded } = useAppContext();
+  const { moveBackward, moveForward, moveRight, moveLeft, jump, sprint } =
     useKeyboard();
 
   const { camera } = useThree();
   const [ref, api] = useSphere(() => ({
     mass: 1,
     type: "Dynamic",
-    position: [0, 1, 0],
+    position: [xPos, yPos, zPos],
   }));
 
   const vel = useRef([0, 0, 0]);
@@ -53,13 +64,21 @@ const Player = () => {
     direction
       .subVectors(frontVector, sideVector)
       .normalize()
-      .multiplyScalar(SPEED)
+      .multiplyScalar(SPEED * (sprint ? 10 : 1))
       .applyEuler(camera.rotation);
 
     api.velocity.set(direction.x, vel.current[1], direction.z);
 
     if (jump && Math.abs(vel.current[1]) < 0.05) {
       api.velocity.set(vel.current[0], JUMP_FORCE, vel.current[2]);
+    }
+
+    if (
+      Number(pos.current[1].toFixed(1)) === 0.5 &&
+      !metaGridLoaded &&
+      pathName === "/metagrid"
+    ) {
+      setMetaGridLoaded(true);
     }
   });
 

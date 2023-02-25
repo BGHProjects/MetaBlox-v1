@@ -23,7 +23,8 @@ import { Block } from "../constants/blocks";
 import { ICube } from "../interfaces/cube";
 import useWorldData from "../hooks/context/useWorldData";
 import getRandomNumber from "../helpers/getRandomNumber";
-import { sandbox } from "../constants/bgs";
+import { metagrid, sandbox } from "../constants/bgs";
+import { useRouter } from "next/router";
 
 interface IAppStateContext {
   menuContent: Content;
@@ -47,11 +48,21 @@ interface IAppStateContext {
   handleAddCube: (x: number, y: number, z: number) => void;
   handleRemoveCube: (x: number, y: number, z: number) => void;
   convertGameCubesToOnChain: () => string;
-  convertOnChainCubesToGame: (cubeString: string) => ICube[];
+  convertOnChainCubesToGame: (
+    cubeString: string,
+    xOffset?: number,
+    zOffset?: number
+  ) => ICube[];
   worldData: {};
   retrieveWorldData: (id: number) => Promise<any>;
   generateSandboxBG: () => void;
   sandboxBG: string;
+  metaGridLoaded: boolean;
+  setMetaGridLoaded: Dispatch<SetStateAction<boolean>>;
+  enteringMetaGrid: boolean;
+  setEnteringMetaGrid: Dispatch<SetStateAction<boolean>>;
+  generateMetaGridBG: () => void;
+  metagridBG: string;
 }
 
 const AppStateContext = createContext<IAppStateContext>({} as IAppStateContext);
@@ -74,8 +85,13 @@ const AppStateContextProvider = ({
     state.cubes,
   ]);
   const [sandboxBG, setSandboxBG] = useState("");
-  const toast = useToast();
+  const [metagridBG, setMetagridBG] = useState("");
+  const [metaGridLoaded, setMetaGridLoaded] = useState(false);
+  const [enteringMetaGrid, setEnteringMetaGrid] = useState(false);
 
+  const router = useRouter();
+  const pathName = router.pathname;
+  const toast = useToast();
   const provider = useProvider();
   const { address } = useAccount();
 
@@ -105,6 +121,11 @@ const AppStateContextProvider = ({
   const generateSandboxBG = () => {
     const index = getRandomNumber(0, 9);
     setSandboxBG(sandbox[index]);
+  };
+
+  const generateMetaGridBG = () => {
+    const index = getRandomNumber(0, 3);
+    setMetagridBG(metagrid[index]);
   };
 
   const getPlayerColour = async (address: string) => {
@@ -183,7 +204,11 @@ const AppStateContextProvider = ({
     return onChainCubes.toString();
   };
 
-  const convertOnChainCubesToGame = (cubeString: string): ICube[] => {
+  const convertOnChainCubesToGame = (
+    cubeString: string,
+    xOffset?: number,
+    zOffset?: number
+  ): ICube[] => {
     const individualNumbers = cubeString.split(",");
     const initialCubes = [];
 
@@ -198,7 +223,11 @@ const AppStateContextProvider = ({
 
       return {
         key: nanoid(),
-        pos: [Number(cube[0]), Number(cube[1]), Number(cube[2])],
+        pos: [
+          Number(cube[0]) + (xOffset ?? 0),
+          Number(cube[1]),
+          Number(cube[2]) + (zOffset ?? 0),
+        ],
         texture: lowerCase(blockType),
       };
     });
@@ -224,6 +253,10 @@ const AppStateContextProvider = ({
       getUsedColours();
     }
   }, [GameManager, address]);
+
+  useEffect(() => {
+    if (pathName !== "/metagrid") setMetaGridLoaded(false);
+  }, [pathName]);
 
   return (
     <AppStateContext.Provider
@@ -254,6 +287,12 @@ const AppStateContextProvider = ({
         retrieveWorldData,
         sandboxBG,
         generateSandboxBG,
+        metaGridLoaded,
+        setMetaGridLoaded,
+        enteringMetaGrid,
+        setEnteringMetaGrid,
+        generateMetaGridBG,
+        metagridBG,
       }}
     >
       {children}

@@ -12,8 +12,14 @@ const DELAY = 3;
 const DURATION = 2;
 
 const MainPage = () => {
-  const { menuContent, setMenuContent, startingGameplay, generateSandboxBG } =
-    useAppContext();
+  const {
+    menuContent,
+    setMenuContent,
+    startingGameplay,
+    generateSandboxBG,
+    generateMetaGridBG,
+    enteringMetaGrid,
+  } = useAppContext();
   const [display, setDisplay] = useState("flex");
   const [zIndex, setZIndex] = useState("1");
   const router = useRouter();
@@ -38,6 +44,17 @@ const MainPage = () => {
       }, 3000);
     }
   }, [startingGameplay]);
+
+  useEffect(() => {
+    if (enteringMetaGrid) {
+      setZIndex("3");
+      setDisplay("flex");
+      generateMetaGridBG();
+      setTimeout(() => {
+        router.push("/metagrid");
+      }, 3000);
+    }
+  }, [enteringMetaGrid]);
 
   return (
     <>
@@ -68,11 +85,13 @@ const MainPage = () => {
           initial={{ opacity: 1 }}
           //@ts-ignore
           transition={{
-            delay: startingGameplay ? 0 : DELAY,
+            delay: startingGameplay || enteringMetaGrid ? 0 : DELAY,
             duration: DURATION,
             ease: "easeIn",
           }}
-          animate={{ opacity: startingGameplay ? [0, 1] : [1, 0] }}
+          animate={{
+            opacity: startingGameplay || enteringMetaGrid ? [0, 1] : [1, 0],
+          }}
         />
       </PageComponent>
     </>
