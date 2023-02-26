@@ -1,6 +1,6 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { useSphere } from "@react-three/cannon";
-import { useEffect, useRef } from "react";
+import { MutableRefObject, useEffect, useRef } from "react";
 import { Vector3 } from "three";
 import useKeyboard from "../../hooks/useKeyboard";
 import { useAppContext } from "../../contexts/AppStateContext";
@@ -13,12 +13,18 @@ interface IPlayer {
   xPos?: number;
   yPos?: number;
   zPos?: number;
+  pos?: MutableRefObject<number[]>;
 }
 
 /**
  * Represents the player within the game
  */
-const Player = ({ xPos = 0, yPos = 1, zPos = 0 }: IPlayer) => {
+const Player = ({
+  xPos = 0,
+  yPos = 1,
+  zPos = 0,
+  pos = useRef([0, 0, 0]),
+}: IPlayer) => {
   const router = useRouter();
   const pathName = router.pathname;
   const { metaGridLoaded, setMetaGridLoaded } = useAppContext();
@@ -37,7 +43,6 @@ const Player = ({ xPos = 0, yPos = 1, zPos = 0 }: IPlayer) => {
     api.velocity.subscribe((v) => (vel.current = v));
   }, [api.velocity]);
 
-  const pos = useRef([0, 0, 0]);
   useEffect(() => {
     api.position.subscribe((p) => (pos.current = p));
   }, [api.position]);

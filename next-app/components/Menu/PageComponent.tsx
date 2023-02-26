@@ -8,10 +8,13 @@ interface IPageComponent {
 
 const PageComponent = ({ children }: IPageComponent) => {
   return (
-    <PageContainer>
-      <NavBar />
-      {children}
-    </PageContainer>
+    <>
+      {/* @ts-ignore */}
+      <PageContainer>
+        <NavBar />
+        {children}
+      </PageContainer>
+    </>
   );
 };
 
