@@ -98,9 +98,7 @@ const useGridModal = (
 
       const generateNewColour = (): string => {
         let colour = generateRandomColour();
-
         if (usedColours.length === 0) return colour;
-
         if (!usedColours.includes(colour)) return colour;
 
         return generateNewColour();

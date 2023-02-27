@@ -50,7 +50,7 @@ const PlayerIndicator = chakra(Flex, {
     boxSize: "10px",
     borderRadius: "10px",
     border: "1px solid black",
-    zIndex: "1",
+    zIndex: "2",
   },
 });
 

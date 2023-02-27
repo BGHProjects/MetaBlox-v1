@@ -59,7 +59,7 @@ const GridModalContent = ({
           h={60}
           w={300}
           title={textContent[status].buttonTitle}
-          action={() => handleClick()}
+          action={handleClick}
         />
       </VStack>
       {loading && (
