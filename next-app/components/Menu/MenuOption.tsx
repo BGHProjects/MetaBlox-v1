@@ -1,4 +1,4 @@
-import { Center, chakra, Flex, Image, useToast } from "@chakra-ui/react";
+import { Center, chakra, Flex, Image, useToast, Text } from "@chakra-ui/react";
 import { toLower } from "lodash";
 import { useState } from "react";
 import { useAccount } from "wagmi";

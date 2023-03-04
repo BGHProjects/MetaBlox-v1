@@ -6,12 +6,7 @@ import { MenuOption, PageComponent } from "../components/Menu";
 import MenuBackground from "../components/Menu/MenuBackground/MenuBackground";
 import MenuOptionBase from "../components/Menu/MenuOptions/MenuOptionBase";
 import { Content } from "../constants/menu";
-import { nftsvg } from "../constants/nftsvg";
 import { useAppContext } from "../contexts/AppStateContext";
-import generateRandomColour from "../helpers/generateRandomColour";
-import generateWorldNFTImage from "../helpers/generateWorldNFTImage";
-import getRandomNumber from "../helpers/getRandomNumber";
-import stringToSVG from "../helpers/stringToSVG";
 
 const DELAY = 3;
 const DURATION = 2;

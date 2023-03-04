@@ -1,4 +1,5 @@
 import { useToast } from "@chakra-ui/react";
+import axios from "axios";
 import { useState } from "react";
 import { useAccount, useSigner } from "wagmi";
 import { GameState } from "../../../constants/game";
@@ -6,6 +7,7 @@ import { Status } from "../../../constants/worldTokens";
 import { useAppContext } from "../../../contexts/AppStateContext";
 import { getGameManagerContract } from "../../../contract-helpers/contractInstantiations";
 import generateRandomColour from "../../../helpers/generateRandomColour";
+import generateWorldNFTImage from "../../../helpers/generateWorldNFTImage";
 
 /**
  * Hook that separates the logic of the Grid Modal Content from its JSX
@@ -36,6 +38,78 @@ const useGridModal = (
   const toast = useToast();
   const { address } = useAccount();
   const { data: signer } = useSigner();
+
+  const uploadNFTData = async (colourUsed: string) => {
+    /**
+     * Upload the NFT metadata to Pinata
+     */
+    const imageSVG = generateWorldNFTImage(coords.x, coords.y, colourUsed);
+
+    const options = {
+      pinataMetadata: {
+        name: `MetaBlox World X:${coords.x} Y:${coords.y}`,
+      },
+      pinataOptions: {
+        cidVersion: 0,
+      },
+    };
+
+    const formData = new FormData();
+    formData.append(
+      "file",
+      new Blob([imageSVG], { type: "image/svg+xml" }),
+      `metablox_world_svg_x${coords.x}_y${coords.y}.svg`
+    );
+    formData.append("pinataMetadata", JSON.stringify(options.pinataMetadata));
+    formData.append("pinataOptions", JSON.stringify(options.pinataOptions));
+
+    const res = await axios.post(
+      "https://api.pinata.cloud/pinning/pinFileToIPFS",
+      formData,
+      {
+        maxBodyLength: Infinity,
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_PINATA_JWT}`,
+        },
+      }
+    );
+
+    const metadataJSON = {
+      name: `MetaBlox World X:${coords.x} Y:${coords.y}`,
+      description: `The NFT token for the MetaBlox World located at position X:${coords.x} Y:${coords.y}`,
+      image: `ipfs://${res.data.IpfsHash}`,
+      attributes: [
+        {
+          trait_type: "X Coordinate",
+          value: coords.x,
+        },
+        {
+          trait_type: "Y Coordinate",
+          value: coords.y,
+        },
+        {
+          trait_type: "World Colour",
+          value: colourUsed,
+        },
+      ],
+    };
+
+    const data = JSON.stringify(metadataJSON);
+    const config = {
+      method: "post",
+      url: "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_PINATA_JWT}`,
+      },
+      data,
+    };
+
+    const finalRes = await axios(config);
+
+    return finalRes.data.IpfsHash;
+  };
 
   const handleClick = async () => {
     // If not purchasing World, enter World accordingly
@@ -76,23 +150,6 @@ const useGridModal = (
 
     try {
       setLoading(true);
-      /**
-       * Construct World Metadata
-       *  1. tokenUri
-       *  2. id (Set to zero, because it is assigned in the contract)
-       *  3. colour
-       *  4. worldBlockDetails
-       *      4a. blockTotal
-       *      4b. worldLayout
-       *  5. worldGridData
-       *      5a. owner
-       *      5b. coords
-       *          5bi. x
-       *          5bii. y
-       */
-
-      // This is for initial testing only
-      // need to update with complete values latter
 
       let colourUsed = "";
 
@@ -110,8 +167,10 @@ const useGridModal = (
         colourUsed = playerColour;
       }
 
+      const ipfsHash = uploadNFTData(colourUsed);
+
       const newWorldDetails = {
-        tokenURI: "https://tokenURI",
+        tokenURI: `ipfs://${ipfsHash}`,
         id: 0,
         colour: colourUsed,
         worldBlockDetails: {
