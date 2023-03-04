@@ -11,6 +11,8 @@ describe("World contractURI tests", () => {
   it("Should return the contract's URI", async () => {
     const { WorldContract } = await loadFixture(deployFixture);
 
-    expect(await WorldContract.contractURI()).be.eq("https://contracturi");
+    expect(await WorldContract.contractURI()).be.eq(
+      "ipfs://QmY1nfK2yNWiPzC22xrXekzgmn2rp3pzpxqN9B7nxrdjx9"
+    );
   });
 });

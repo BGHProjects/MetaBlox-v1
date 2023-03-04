@@ -11,6 +11,8 @@ describe("MetaBlox contractURI tests", () => {
   it("Should return the contract's URI", async () => {
     const { MetaBloxContract } = await loadFixture(deployFixture);
 
-    expect(await MetaBloxContract.contractURI()).be.eq("https://contracturi");
+    expect(await MetaBloxContract.contractURI()).be.eq(
+      "ipfs://QmQ5QgpmPgrdeMEDkX12cmhTjsqHPX98K9dKPggFd3tZKT"
+    );
   });
 });

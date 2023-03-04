@@ -164,7 +164,7 @@ contract World is
      * =======================
      */
     function contractURI() public pure returns (string memory) {
-        return "https://contracturi";
+        return "ipfs://QmY1nfK2yNWiPzC22xrXekzgmn2rp3pzpxqN9B7nxrdjx9";
     }
 
     /**

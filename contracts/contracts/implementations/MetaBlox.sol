@@ -207,7 +207,7 @@ contract MetaBlox is Initializable, ERC1155Upgradeable, AccessControlUpgradeable
      */
     function contractURI() public pure returns (string memory)
     {
-       return "https://contracturi";
+       return "ipfs://QmQ5QgpmPgrdeMEDkX12cmhTjsqHPX98K9dKPggFd3tZKT";
     }
 
     /**
