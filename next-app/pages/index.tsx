@@ -19,6 +19,7 @@ const MainPage = () => {
     generateSandboxBG,
     generateMetaGridBG,
     enteringMetaGrid,
+    viewMode,
   } = useAppContext();
   const [display, setDisplay] = useState("flex");
   const [zIndex, setZIndex] = useState("1");
@@ -65,19 +66,26 @@ const MainPage = () => {
 
       <PageComponent>
         <MenuContentContainer>
-          {menuContent === Content.None && (
+          {viewMode === "PlayMode" && (
             <>
-              <RowContainer>
-                <MenuOption menuOption={Content.Grid} />
-                <MenuOption menuOption={Content.Sandbox} />
-              </RowContainer>
-              <RowContainer>
-                <MenuOption menuOption={Content.Exchange} requiresWallet />
-                <MenuOption menuOption={Content.Marketplace} requiresWallet />
-              </RowContainer>
+              {menuContent === Content.None && (
+                <>
+                  <RowContainer>
+                    <MenuOption menuOption={Content.Grid} />
+                    <MenuOption menuOption={Content.Sandbox} />
+                  </RowContainer>
+                  <RowContainer>
+                    <MenuOption menuOption={Content.Exchange} requiresWallet />
+                    <MenuOption
+                      menuOption={Content.Marketplace}
+                      requiresWallet
+                    />
+                  </RowContainer>
+                </>
+              )}
+              {menuContent !== Content.None && <MenuOptionBase />}
             </>
           )}
-          {menuContent !== Content.None && <MenuOptionBase />}
         </MenuContentContainer>
         <FadeContainer
           zIndex={zIndex}

@@ -36,7 +36,7 @@ const useGridModal = (
   const coords = { x, y };
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-  const { address } = useAccount();
+  const { address, isDisconnected } = useAccount();
   const { data: signer } = useSigner();
 
   const uploadNFTData = async (colourUsed: string) => {
@@ -123,6 +123,17 @@ const useGridModal = (
 
       setStartingGameplay(true);
       closeFunction();
+      return;
+    }
+
+    if (isDisconnected) {
+      toast({
+        title: "Wallet not connected",
+        description: "You must connect a wallet to use this feature.",
+        duration: 5000,
+        status: "error",
+        isClosable: true,
+      });
       return;
     }
 

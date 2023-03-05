@@ -63,6 +63,8 @@ interface IAppStateContext {
   setEnteringMetaGrid: Dispatch<SetStateAction<boolean>>;
   generateMetaGridBG: () => void;
   metagridBG: string;
+  viewMode: "ViewMode" | "PlayMode";
+  setViewMode: Dispatch<SetStateAction<"ViewMode" | "PlayMode">>;
 }
 
 const AppStateContext = createContext<IAppStateContext>({} as IAppStateContext);
@@ -88,6 +90,7 @@ const AppStateContextProvider = ({
   const [metagridBG, setMetagridBG] = useState("");
   const [metaGridLoaded, setMetaGridLoaded] = useState(false);
   const [enteringMetaGrid, setEnteringMetaGrid] = useState(false);
+  const [viewMode, setViewMode] = useState<"ViewMode" | "PlayMode">("PlayMode");
 
   const router = useRouter();
   const pathName = router.pathname;
@@ -293,6 +296,8 @@ const AppStateContextProvider = ({
         setEnteringMetaGrid,
         generateMetaGridBG,
         metagridBG,
+        viewMode,
+        setViewMode,
       }}
     >
       {children}

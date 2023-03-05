@@ -35,7 +35,7 @@ const MetaGridMap = ({ pos }: IMetaGridMap) => {
         <PlayerIndicator
           top={`calc(${coords.y}% - 10px)`}
           left={`calc(${coords.x}% - 10px)`}
-          bg={playerColour ?? "white"}
+          bg={!!playerColour ? playerColour : "white"}
         />
 
         <MapCells />
