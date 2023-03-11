@@ -25,7 +25,7 @@ const MenuBackground = ({ animationDelay }: IMenuBackground) => {
       {!mounted ? null : (
         <Canvas
           camera={{
-            position: [0, 0.06, 0.8],
+            position: [0, 0.08, 0.8],
             fov: 75,
             near: 0.01,
             far: 20,

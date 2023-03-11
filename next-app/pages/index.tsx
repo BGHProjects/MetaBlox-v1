@@ -1,61 +1,28 @@
 import { Center, chakra, Flex, HStack } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { AnimatedDiv } from "../components/AnimatedComponents";
 import { MenuOption, PageComponent } from "../components/Menu";
+import GameTitle from "../components/Menu/GameTitle";
 import MenuBackground from "../components/Menu/MenuBackground/MenuBackground";
 import MenuOptionBase from "../components/Menu/MenuOptions/MenuOptionBase";
 import { Content } from "../constants/menu";
-import { useAppContext } from "../contexts/AppStateContext";
-
-const DELAY = 3;
-const DURATION = 2;
+import useMainMenu from "../hooks/useMainMenu";
 
 const MainPage = () => {
   const {
-    menuContent,
-    setMenuContent,
-    startingGameplay,
-    generateSandboxBG,
-    generateMetaGridBG,
-    enteringMetaGrid,
+    DELAY,
     viewMode,
-  } = useAppContext();
-  const [display, setDisplay] = useState("flex");
-  const [zIndex, setZIndex] = useState("1");
-  const router = useRouter();
-
-  useEffect(() => {
-    setMenuContent(Content.None);
-  }, []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setDisplay("none");
-    }, (DELAY + DURATION) * 1000);
-  }, []);
-
-  useEffect(() => {
-    if (startingGameplay) {
-      setZIndex("3");
-      setDisplay("flex");
-      generateSandboxBG();
-      setTimeout(() => {
-        router.push("/game");
-      }, 3000);
-    }
-  }, [startingGameplay]);
-
-  useEffect(() => {
-    if (enteringMetaGrid) {
-      setZIndex("3");
-      setDisplay("flex");
-      generateMetaGridBG();
-      setTimeout(() => {
-        router.push("/metagrid");
-      }, 3000);
-    }
-  }, [enteringMetaGrid]);
+    menuContent,
+    zIndex,
+    display,
+    startingGameplay,
+    enteringMetaGrid,
+    DURATION,
+    titleZ,
+    initialLoadCompleted,
+    moveDelay,
+    METABLOX,
+    char_anim_duration,
+  } = useMainMenu();
 
   return (
     <>
@@ -102,6 +69,15 @@ const MainPage = () => {
           }}
         />
       </PageComponent>
+
+      <GameTitle
+        titleZ={titleZ}
+        initialLoadCompleted={initialLoadCompleted}
+        moveDelay={moveDelay}
+        viewMode={viewMode}
+        METABLOX={METABLOX}
+        char_anim_duration={char_anim_duration}
+      />
     </>
   );
 };

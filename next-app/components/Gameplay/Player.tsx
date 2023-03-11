@@ -87,7 +87,7 @@ const Player = ({
     }
   });
 
-  return <mesh ref={ref}></mesh>;
+  return <mesh ref={ref} />;
 };
 
 export default Player;
