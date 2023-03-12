@@ -40,7 +40,7 @@ const useExchange = () => {
       const contract = getGameManagerContract(signer);
 
       const tx = await contract.convertMATICtoMBLOX(
-        process.env.NEXT_PUBLIC_TEST_DIGITAL_KEY,
+        process.env.NEXT_PUBLIC_DIGITAL_KEY,
         address,
         { value: ethers.utils.parseEther("0.1") }
       );
@@ -86,7 +86,7 @@ const useExchange = () => {
     try {
       const currentMETRBalance = Number(METRBalance?.formatted);
 
-      if (Number(METRBalance?.formatted) === 0.0) {
+      if (currentMETRBalance === 0.0) {
         toast({
           title: "No METR Balance",
           description:
@@ -118,7 +118,7 @@ const useExchange = () => {
       }
 
       const tx = await contract.claimMETRBalance(
-        process.env.NEXT_PUBLIC_TEST_DIGITAL_KEY,
+        process.env.NEXT_PUBLIC_DIGITAL_KEY,
         address
       );
 

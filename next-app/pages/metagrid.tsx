@@ -5,6 +5,7 @@ import { Canvas } from "@react-three/fiber";
 import { useRef } from "react";
 import { FPV, Player } from "../components/Gameplay";
 import Cubes from "../components/Gameplay/Cubes/Cubes";
+import ControlsCard from "../components/Gameplay/UI/ControlsCard";
 import {
   GridTile,
   IntroText,
@@ -71,6 +72,7 @@ const MetaGrid = () => {
           </Physics>
         </Canvas>
         <MetaGridMenu />
+        <ControlsCard showingSomething={false} setShowingSomething={() => {}} />
         <MetaGridMap pos={pos} />
         {metaGridLoaded && <IntroText otherAnimDuration={animDuration} />}
         <MetaGridFade

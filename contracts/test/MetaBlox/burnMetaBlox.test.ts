@@ -39,7 +39,7 @@ describe("MetaBlox burnMetaBlox tests", () => {
     const { MetaBloxContract, Alice } = await loadFixture(deployFixture);
 
     await expect(
-      MetaBloxContract.burnMetaBlox(Alice.address, 9, 1)
+      MetaBloxContract.burnMetaBlox(Alice.address, 10, 1)
     ).to.be.revertedWithCustomError(MetaBloxContract, "InvalidTokenID");
   });
 

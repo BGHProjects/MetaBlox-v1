@@ -66,7 +66,7 @@ const useMarketplaceConfirmModal = (
       );
 
       const tx = await GameManager.purchaseBlocks(
-        process.env.NEXT_PUBLIC_TEST_DIGITAL_KEY,
+        process.env.NEXT_PUBLIC_DIGITAL_KEY,
         blockId,
         numberOfBlocks,
         address

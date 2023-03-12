@@ -89,7 +89,7 @@ const useGame = (animDuration: number) => {
     const increases: number[] = [];
     const decreaseIds: number[] = [];
     const decreases: number[] = [];
-    let blockTotal = 0;
+    let blockTotal = Number(worldData.worldBlockDetails.blockTotal);
 
     gameplayMetaBlox.forEach((value, index) => {
       const onChainValue = metaBloxBalances[index];
@@ -131,7 +131,7 @@ const useGame = (animDuration: number) => {
       const gameManager = getGameManagerContract(signer);
 
       const tx = await gameManager.saveWorldChanges(
-        process.env.NEXT_PUBLIC_TEST_DIGITAL_KEY,
+        process.env.NEXT_PUBLIC_DIGITAL_KEY,
         address,
         Number(ethers.utils.formatUnits(worldData.id, "wei")),
         { blockTotal, worldLayout },

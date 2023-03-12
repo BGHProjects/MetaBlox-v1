@@ -64,7 +64,7 @@ describe("GameManager convertMATICtoMBLOX tests", () => {
     ).to.not.be.reverted;
 
     const aliceBalance = await MBloxContract.balanceOf(Alice.address);
-    expect(aliceBalance.toString()).be.eq("1000");
+    expect(aliceBalance.toString()).be.eq(ethers.utils.parseEther("1000"));
 
     const recipientBalance = await Recipient.getBalance();
     const recBalInEther = ethers.utils.formatUnits(

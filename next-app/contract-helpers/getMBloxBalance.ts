@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { Provider } from "../constants/app";
 import { getMBloxContract } from "./contractInstantiations";
 
@@ -11,7 +12,7 @@ const getMBloxBalance = async (provider: Provider, address: string) => {
   if (!provider) return;
   const MBloxContract = getMBloxContract(provider);
   const balance = await MBloxContract.balanceOf(address);
-  return balance ? Number(balance.toString()) : 0.0;
+  return balance ? Number(ethers.utils.formatUnits(balance, "ether")) : 0.0;
 };
 
 export default getMBloxBalance;

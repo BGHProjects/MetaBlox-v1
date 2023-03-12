@@ -38,7 +38,7 @@ const MenuOptionBase = () => {
     [Content.Sandbox]: {
       title: "SANDBOX",
       subtitle:
-        "Test, create, and experiment within our Sandbox environment. The Sandbox emulates the gameplay you would experience within one of the worlds on the Grid, with an unlimited number of blocks of all types at your disposal. You won't be able to save anything you create within the Sandbox.",
+        "Test, create, and experiment within our Sandbox environment. The Sandbox emulates the gameplay you would experience within one of the worlds on the MetaGrid, with an unlimited number of blocks of all types at your disposal. You won't be able to save anything you create within the Sandbox.",
       content: <Sandbox />,
     },
     [Content.None]: { title: "", subtitle: "", content: <></> },

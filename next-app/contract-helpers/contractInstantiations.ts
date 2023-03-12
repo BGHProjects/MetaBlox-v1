@@ -12,7 +12,7 @@ import WorldJSON from "../contract-jsons/world.json";
  */
 export const getMBloxContract = (signerOrProvider: Signer | Provider) =>
   new Contract(
-    process.env.NEXT_PUBLIC_TEST_MBLOX as string,
+    process.env.NEXT_PUBLIC_ACTUAL_MBLOX as string,
     MBloxJSON.abi,
     signerOrProvider
   );
@@ -24,7 +24,7 @@ export const getMBloxContract = (signerOrProvider: Signer | Provider) =>
  */
 export const getMetaBloxContract = (signerOrProvider: Signer | Provider) =>
   new Contract(
-    process.env.NEXT_PUBLIC_TEST_METABLOX as string,
+    process.env.NEXT_PUBLIC_ACTUAL_METABLOX as string,
     MetaBloxJSON.abi,
     signerOrProvider
   );
@@ -36,7 +36,7 @@ export const getMetaBloxContract = (signerOrProvider: Signer | Provider) =>
  */
 export const getWorldContract = (signerOrProvider: Signer | Provider) =>
   new Contract(
-    process.env.NEXT_PUBLIC_TEST_WORLD as string,
+    process.env.NEXT_PUBLIC_ACTUAL_WORLD as string,
     WorldJSON.abi,
     signerOrProvider
   );
@@ -48,7 +48,7 @@ export const getWorldContract = (signerOrProvider: Signer | Provider) =>
  */
 export const getGameManagerContract = (signerOrProvider: Signer | Provider) =>
   new Contract(
-    process.env.NEXT_PUBLIC_TEST_GAMEMANAGER as string,
+    process.env.NEXT_PUBLIC_ACTUAL_GAME_MANAGER as string,
     GameManagerJSON.abi,
     signerOrProvider
   );

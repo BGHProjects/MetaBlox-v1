@@ -78,14 +78,17 @@ describe("GameManager purchaseBlocks tests", () => {
     const { GameManagerContract, Alice, MBloxContract, MetaBloxContract } =
       await loadFixture(deployFixture);
 
-    await MBloxContract.mintMBlox(Alice.address, 100);
+    await MBloxContract.mintMBlox(
+      Alice.address,
+      ethers.utils.parseEther("100")
+    );
 
     await expect(
       GameManagerContract.purchaseBlocks("testDigitalKey", 1, 1, Alice.address)
     ).to.not.be.reverted;
 
     const mbloxBalance = await MBloxContract.balanceOf(Alice.address);
-    expect(mbloxBalance).be.eq(90);
+    expect(mbloxBalance).be.eq(ethers.utils.parseEther("90"));
 
     const type1Balance = await MetaBloxContract.balanceOf(Alice.address, 1);
     expect(type1Balance).be.eq(1);

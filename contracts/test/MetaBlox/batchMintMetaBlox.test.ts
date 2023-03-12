@@ -39,7 +39,7 @@ describe("MetaBlox batchMintMetaBlox tests", () => {
     const { MetaBloxContract, Alice } = await loadFixture(deployFixture);
 
     await expect(
-      MetaBloxContract.batchMintMetaBlox(Alice.address, [1, 2, 9], [1, 1, 1])
+      MetaBloxContract.batchMintMetaBlox(Alice.address, [1, 2, 10], [1, 1, 1])
     ).to.be.revertedWithCustomError(MetaBloxContract, "InvalidTokenID");
   });
 

@@ -72,7 +72,10 @@ describe("GameManager purchaseWorld tests", () => {
       WorldContract,
     } = await loadFixture(deployFixture);
 
-    await MBloxContract.mintMBlox(Alice.address, 150);
+    await MBloxContract.mintMBlox(
+      Alice.address,
+      ethers.utils.parseEther("150")
+    );
 
     await expect(
       GameManagerContract.purchaseWorld(
@@ -86,7 +89,7 @@ describe("GameManager purchaseWorld tests", () => {
     expect(worldBalance).be.eq(1);
 
     const mbloxBalance = await MBloxContract.balanceOf(Alice.address);
-    expect(mbloxBalance).be.eq(50);
+    expect(mbloxBalance).be.eq(ethers.utils.parseEther("50"));
 
     const gridData = await GameManagerContract.getGridData();
     expect(gridData.length).be.eq(1);

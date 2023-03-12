@@ -65,16 +65,16 @@ contract MetaBlox is Initializable, ERC1155Upgradeable, AccessControlUpgradeable
         _digitalKey = digitalKey;
 
         // Assign the prices for the blocks
-        prices[0] = 10;
-        prices[1] = 10;
-        prices[2] = 10;
-        prices[3] = 10;
-        prices[4] = 15;
-        prices[5] = 15;
-        prices[6] = 15;
-        prices[7] = 15;
-        prices[8] = 15;
-        prices[9] = 20;
+        prices[0] = 10 ether;
+        prices[1] = 10 ether;
+        prices[2] = 10 ether;
+        prices[3] = 10 ether;
+        prices[4] = 15 ether;
+        prices[5] = 15 ether;
+        prices[6] = 15 ether;
+        prices[7] = 15 ether;
+        prices[8] = 15 ether;
+        prices[9] = 20 ether;
 
         // Upgradeable contract required initializations
         __ERC1155_init("");

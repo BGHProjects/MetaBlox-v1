@@ -1,9 +1,14 @@
 const { ethers, upgrades } = require("hardhat");
-
-const digitalKey = "testDigitalKey"; // Change this when actually deploying to env variable
-const METRAddress = "0x22ac36f2932c73559df2b288a375e12c8fa9b7db"; // Also maybe save this to env
+require("dotenv").config({ path: __dirname } + "/.env");
 
 async function main() {
+  const { DIGITAL_KEY, METR_ADDRESS } = process.env;
+
+  if (!DIGITAL_KEY || !METR_ADDRESS) {
+    console.log("\n\t Invalid Environment variables");
+    return;
+  }
+
   // =======================
   //  DEPLOY MBLOX
   // =======================
@@ -15,7 +20,7 @@ async function main() {
   console.log("\n\tBeginning deployment of the MBlox contract...");
   const MBlox_Contract = await ethers.getContractFactory("MBlox");
   const MBloxContract = await upgrades.deployProxy(MBlox_Contract, [
-    digitalKey,
+    DIGITAL_KEY,
   ]);
   await MBloxContract.deployed();
   console.log("\n\tMBlox deployed: ", MBloxContract.address);
@@ -31,7 +36,7 @@ async function main() {
   console.log("\n\tBeginning deployment of the MetaBlox contract...");
   const MetaBlox_Contract = await ethers.getContractFactory("MetaBlox");
   const MetaBloxContract = await upgrades.deployProxy(MetaBlox_Contract, [
-    digitalKey,
+    DIGITAL_KEY,
   ]);
   await MetaBloxContract.deployed();
   console.log("\n\tMetaBlox deployed: ", MetaBloxContract.address);
@@ -53,7 +58,7 @@ async function main() {
   console.log("\n\tBeginning deployment of the World contract...");
   const World_Contract = await ethers.getContractFactory("World");
   const WorldContract = await upgrades.deployProxy(World_Contract, [
-    digitalKey,
+    DIGITAL_KEY,
   ]);
   await WorldContract.deployed();
   console.log("\n\tWorld deployed: ", WorldContract.address);
@@ -69,8 +74,8 @@ async function main() {
   console.log("\n\tBeginning deployment of the Game Manager contract...");
   const GameManager_Contract = await ethers.getContractFactory("GameManager");
   const GameManagerContract = await upgrades.deployProxy(GameManager_Contract, [
-    digitalKey,
-    METRAddress,
+    DIGITAL_KEY,
+    METR_ADDRESS,
     MBloxContract.address,
     MetaBloxContract.address,
     WorldContract.address,
@@ -84,10 +89,17 @@ async function main() {
   // ==========================
 
   console.log("\n\tGranting roles to other contracts...");
-  await MBloxContract.grantRoles(GameManagerContract.address, digitalKey);
-  await MetaBloxContract.grantRoles(GameManagerContract.address, digitalKey);
-  await WorldContract.grantRoles(GameManagerContract.address, digitalKey);
+  await MBloxContract.grantRoles(GameManagerContract.address, DIGITAL_KEY);
+  await MetaBloxContract.grantRoles(GameManagerContract.address, DIGITAL_KEY);
+  await WorldContract.grantRoles(GameManagerContract.address, DIGITAL_KEY);
   console.log("\n\tRoles granted");
+
+  console.log("\n\tMinting MBlox for testing...");
+  await MBloxContract.mintMBlox(
+    process.env.PUBLIC_KEY,
+    ethers.utils.parseEther("100000")
+  );
+  console.log("\n\tMinted MBlox for testing");
 
   console.log("\n\t =======================");
   console.log("\t  DEPLOYMENT COMPLETED");

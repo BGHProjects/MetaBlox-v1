@@ -13,7 +13,6 @@ import Head from "next/head";
 export default function App({ Component, pageProps }: AppProps) {
   const { chains, provider } = configureChains(
     [polygonMumbai, hardhat],
-    // [localhost],
     [
       // alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY as string }),
       publicProvider(),

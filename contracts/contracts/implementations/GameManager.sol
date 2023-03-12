@@ -162,10 +162,10 @@ contract GameManager is IGameManager, Initializable {
         if(purchaser == address(0)) revert ZeroAddress();
         if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
             revert InvalidDigitalKey();
-        if(MBloxContract.balanceOf(purchaser) < 100) revert InadequateMBLOX();
+        if(MBloxContract.balanceOf(purchaser) < 100 ether) revert InadequateMBLOX();
 
 
-        MBloxContract.burnMBlox(purchaser, 100);
+        MBloxContract.burnMBlox(purchaser, 100 ether);
         WorldContract.mintWorld(purchaser, worldData);
         players[purchaser].colour = worldData.colour;
         usedColours.push(worldData.colour);
@@ -214,9 +214,9 @@ contract GameManager is IGameManager, Initializable {
         if(receiver == address(0)) revert ZeroAddress();
         if(msg.value < 0.1 ether) revert InadequateMATIC();
 
-        MBloxContract.mintMBlox(receiver, 1000);
+        MBloxContract.mintMBlox(receiver, 1000 ether);
         _recipient.transfer(msg.value);
-        emit MBLOXPurchased(receiver, 100);
+        emit MBLOXPurchased(receiver, 1000 ether);
         emit PaymentDistributed(msg.value);
     }
 

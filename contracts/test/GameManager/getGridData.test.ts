@@ -26,7 +26,10 @@ describe("GameManager getGridData tests", () => {
     const { GameManagerContract, MBloxContract, Alice, testWorld1 } =
       await loadFixture(deployFixture);
 
-    await MBloxContract.mintMBlox(Alice.address, 150);
+    await MBloxContract.mintMBlox(
+      Alice.address,
+      ethers.utils.parseEther("150")
+    );
 
     await GameManagerContract.purchaseWorld(
       "testDigitalKey",
