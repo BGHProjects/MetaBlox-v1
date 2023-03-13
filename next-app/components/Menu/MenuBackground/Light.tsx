@@ -12,10 +12,10 @@ const Light = () => {
   const spotlight3Ref = useRef();
   const spotlight4Ref = useRef();
 
-  (spotlight1Ref.current as any).target.position.set([-0.25, 0.25, 0.25]);
-  (spotlight2Ref.current as any).target.position.set([0.25, 0.25, 0.25]);
-  (spotlight3Ref.current as any).target.position.set([-0.25, 0.25, 0.25]);
-  (spotlight4Ref.current as any).target.position.set([0.25, 0.25, 0.25]);
+  (spotlight1Ref.current as any)!.target.position.set([-0.25, 0.25, 0.25]);
+  (spotlight2Ref.current as any)!.target.position.set([0.25, 0.25, 0.25]);
+  (spotlight3Ref.current as any)!.target.position.set([-0.25, 0.25, 0.25]);
+  (spotlight4Ref.current as any)!.target.position.set([0.25, 0.25, 0.25]);
 
   const [lightColor, setLightColour] = useState("");
 
