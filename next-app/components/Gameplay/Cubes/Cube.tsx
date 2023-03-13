@@ -47,7 +47,7 @@ export const Cube = ({ position, texture }: any) => {
         if (noInteraction) return;
         e.stopPropagation();
         const clickedFace = Math.floor(e.faceIndex / 2);
-        const { x, y, z } = ref.current.position;
+        const { x, y, z } = ref.current!.position;
         if (e.altKey) {
           handleRemoveCube(x, y, z);
           return;
@@ -71,7 +71,7 @@ export const Cube = ({ position, texture }: any) => {
           return;
         }
       }}
-      ref={ref}
+      ref={ref as any}
     >
       <boxBufferGeometry attach="geometry" />
       <meshStandardMaterial

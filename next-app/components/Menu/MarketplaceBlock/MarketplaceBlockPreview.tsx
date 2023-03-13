@@ -22,7 +22,7 @@ const MarketplaceBlockPreview = ({
   return (
     <Canvas style={{ width: "95%", height: "95%" }}>
       <color attach="background" args={["#000"]} />
-      <mesh ref={cubeRef}>
+      <mesh ref={cubeRef as any}>
         <boxGeometry attach="geometry" args={[3, 3, 3]} />
         <meshBasicMaterial
           attach="material"

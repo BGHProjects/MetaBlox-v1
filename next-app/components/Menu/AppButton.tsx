@@ -72,6 +72,7 @@ const AppButton = ({
         ) : (
           component ?? (
             <>
+              {/* @ts-ignore */}
               <ButtonLabel fontSize={fontSize ? `${fontSize}px` : "20px"}>
                 {title}
               </ButtonLabel>

@@ -32,6 +32,7 @@ const QuitCardOption = ({ saveOption }: IQuitCardOption) => {
   return (
     <VStack spacing={3} w="100px">
       <ButtonContainer
+        // @ts-ignore
         transition={{
           duration: 0.5,
         }}
@@ -40,11 +41,13 @@ const QuitCardOption = ({ saveOption }: IQuitCardOption) => {
         }}
       >
         <LabelContainer>
+          {/* @ts-ignore */}
           <ButtonLabel>
             {displayItems[saveOption.toString()].button}
           </ButtonLabel>
         </LabelContainer>
       </ButtonContainer>
+      {/* @ts-ignore */}
       <ButtonExplanation>
         {`Press ${displayItems[saveOption.toString()].button} to ${
           displayItems[saveOption.toString()].label

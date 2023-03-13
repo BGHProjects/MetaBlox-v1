@@ -21,6 +21,7 @@ const GameTitle = ({
   return (
     <TitleContainer
       zIndex={titleZ}
+      // @ts-ignore
       transition={{
         height: {
           delay: initialLoadCompleted ? 0 : moveDelay,
@@ -36,6 +37,7 @@ const GameTitle = ({
           color="white"
           fontWeight="bold"
           fontFamily="Aquire"
+          // @ts-ignore
           transition={{
             duration: 1,
             fontSize: { delay: initialLoadCompleted ? 0 : moveDelay },
@@ -49,6 +51,7 @@ const GameTitle = ({
             <AnimatedSpan
               key={char}
               opacity={0}
+              // @ts-ignore
               transition={{
                 opacity: {
                   delay: 1 + (index * char_anim_duration) / METABLOX.length,

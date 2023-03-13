@@ -58,7 +58,7 @@ const MainPage = () => {
           zIndex={zIndex}
           display={display}
           initial={{ opacity: 1 }}
-          //@ts-ignore
+          // @ts-ignore
           transition={{
             delay: startingGameplay || enteringMetaGrid ? 0 : DELAY,
             duration: DURATION,

@@ -12,10 +12,10 @@ const Light = () => {
   const spotlight3Ref = useRef();
   const spotlight4Ref = useRef();
 
-  spotlight1Ref.current?.target.position.set([-0.25, 0.25, 0.25]);
-  spotlight2Ref.current?.target.position.set([0.25, 0.25, 0.25]);
-  spotlight3Ref.current?.target.position.set([-0.25, 0.25, 0.25]);
-  spotlight4Ref.current?.target.position.set([0.25, 0.25, 0.25]);
+  (spotlight1Ref.current as any).target.position.set([-0.25, 0.25, 0.25]);
+  (spotlight2Ref.current as any).target.position.set([0.25, 0.25, 0.25]);
+  (spotlight3Ref.current as any).target.position.set([-0.25, 0.25, 0.25]);
+  (spotlight4Ref.current as any).target.position.set([0.25, 0.25, 0.25]);
 
   const [lightColor, setLightColour] = useState("");
 
@@ -28,7 +28,7 @@ const Light = () => {
   return (
     <>
       <spotLight
-        ref={spotlight1Ref}
+        ref={spotlight1Ref as any}
         color={lightColor}
         intensity={40}
         position={[0.5, 0.75, 2.1]}
@@ -38,7 +38,7 @@ const Light = () => {
         decay={10}
       />
       <spotLight
-        ref={spotlight2Ref}
+        ref={spotlight2Ref as any}
         color={lightColor}
         intensity={40}
         position={[-0.5, 0.75, 2.1]}
@@ -48,7 +48,7 @@ const Light = () => {
         decay={0}
       />
       <spotLight
-        ref={spotlight3Ref}
+        ref={spotlight3Ref as any}
         color={lightColor}
         intensity={40}
         position={[0, -0.75, 3]}
@@ -58,7 +58,7 @@ const Light = () => {
         decay={0}
       />
       <spotLight
-        ref={spotlight4Ref}
+        ref={spotlight4Ref as any}
         color={lightColor}
         intensity={40}
         position={[0, -0.75, 3]}

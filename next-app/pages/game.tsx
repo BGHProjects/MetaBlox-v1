@@ -21,7 +21,7 @@ const animDuration = 3;
  * @returns The UI component for page of the app where the gameplay occurs
  */
 const Gameplay = () => {
-  const [cubes] = useStore((state) => [state.cubes]);
+  const [cubes] = useStore((state: any) => [state.cubes]);
   const { values, functions } = useGame(animDuration);
   const { showingSomething, display, exiting } = values;
   const { setShowingSomething, quitFunction, quitWithSave } = functions;
@@ -67,7 +67,7 @@ const Gameplay = () => {
           zIndex="3"
           display={display}
           initial={{ opacity: 1 }}
-          //@ts-ignore
+          // @ts-ignore
           transition={{
             duration: animDuration,
             ease: "easeIn",

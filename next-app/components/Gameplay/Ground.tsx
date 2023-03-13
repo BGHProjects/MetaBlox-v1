@@ -31,7 +31,7 @@ const Ground = () => {
         const [x, y, z] = Object.values(e.point).map((val) => Math.ceil(val));
         handleAddCube(x, y, z);
       }}
-      ref={ref}
+      ref={ref as any}
     >
       <planeGeometry attach="geometry" args={[100, 100]} />
       <meshStandardMaterial attach="material" map={groundTexture} />

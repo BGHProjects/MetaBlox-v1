@@ -31,6 +31,7 @@ const MetaGridFade = ({
         display={display}
         initial={{ opacity: 1 }}
         //@ts-ignore
+        // @ts-ignore
         transition={{
           duration: animDuration / 6,
           ease: "easeIn",

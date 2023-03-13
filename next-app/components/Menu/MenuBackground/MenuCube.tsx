@@ -112,7 +112,7 @@ const MenuCube = ({ animationDelay }: IMenuCube) => {
   if (!mounted) return null;
 
   return (
-    <mesh ref={cubeRef}>
+    <mesh ref={cubeRef as any}>
       <boxGeometry attach="geometry" args={[CUBE_SIZE, CUBE_SIZE, CUBE_SIZE]} />
       <meshBasicMaterial
         attach="material"

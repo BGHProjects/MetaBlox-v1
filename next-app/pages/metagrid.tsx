@@ -16,6 +16,7 @@ import {
 import { useAppContext } from "../contexts/AppStateContext";
 import calcXY from "../helpers/calcXY";
 import useMetaGrid from "../hooks/components/metagrid/useMetaGrid";
+import { ICube } from "../interfaces/cube";
 
 const animDuration = 3;
 

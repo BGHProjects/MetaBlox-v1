@@ -73,6 +73,7 @@ const MenuOption = ({ menuOption, requiresWallet }: IMenuOption) => {
           <ContainerCenterer>
             <OptionIcon
               //@ts-ignore
+              // @ts-ignore
               transition={{
                 duration: ANIM_DURATION,
               }}
@@ -95,7 +96,7 @@ const MenuOption = ({ menuOption, requiresWallet }: IMenuOption) => {
                   fontSize="40px"
                   fontWeight="bold"
                   key={index}
-                  //@ts-ignore
+                  // @ts-ignore
                   transition={{
                     delay: hovering
                       ? ANIM_DURATION +

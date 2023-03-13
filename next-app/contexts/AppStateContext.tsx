@@ -53,7 +53,7 @@ interface IAppStateContext {
     xOffset?: number,
     zOffset?: number
   ) => ICube[];
-  worldData: {};
+  worldData: any;
   retrieveWorldData: (id: number) => Promise<any>;
   generateSandboxBG: () => void;
   sandboxBG: string;

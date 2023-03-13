@@ -54,7 +54,7 @@ const useGridModal = (
       },
     };
 
-    const formData = new FormData();
+    const formData: any = new FormData();
     formData.append(
       "file",
       new Blob([imageSVG], { type: "image/svg+xml" }),

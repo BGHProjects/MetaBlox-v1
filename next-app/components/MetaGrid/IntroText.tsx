@@ -44,6 +44,7 @@ const IntroText = ({ otherAnimDuration }: IIntroText) => {
             fontSize="120px"
             fontWeight="bold"
             //@ts-ignore
+            // @ts-ignore
             transition={{
               delay: firstLineAnimDuration * (5 / 4),
               duration: firstLineAnimDuration,

@@ -25,7 +25,7 @@ const useMetaGrid = (animDuration: number) => {
 
   const [exiting, setExiting] = useState(false);
   const [display, setDisplay] = useState("flex");
-  const [cellCubes, setCellCubes] = useState({});
+  const [cellCubes, setCellCubes] = useState<any>({});
 
   const quitFunction = () => {
     setDisplay("flex");
@@ -62,7 +62,7 @@ const useMetaGrid = (animDuration: number) => {
 
     cubes = convertOnChainCubesToGame(worldLayout, xOffset, yOffset);
 
-    setCellCubes((prev) => {
+    setCellCubes((prev: any) => {
       return { ...prev, [cell]: cubes };
     });
   };

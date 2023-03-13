@@ -39,7 +39,7 @@ const Terrain = forwardRef(
 
     return (
       <mesh
-        ref={ref}
+        ref={ref as any}
         position={[posX, posY, z]}
         rotation={[-Math.PI * 0.5, rotY, 0]}
       >

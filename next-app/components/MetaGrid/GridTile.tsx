@@ -74,15 +74,15 @@ const GridTile = ({
 
   return (
     <>
-      <mesh ref={baseRef}>
+      <mesh ref={baseRef as any}>
         <planeGeometry attach="geometry" args={[cellSize, cellSize]} />
         <meshStandardMaterial attach="material" map={baseTexture} />
       </mesh>
-      <mesh ref={topEdge}>
+      <mesh ref={topEdge as any}>
         <planeGeometry attach="geometry" args={[cellSize, cellSize / 2]} />
         <meshStandardMaterial attach="material" map={topEdgeTexture} />
       </mesh>
-      <mesh ref={leftEdge}>
+      <mesh ref={leftEdge as any}>
         <planeGeometry
           attach="geometry"
           args={[cellSize / 2, cellSize * (3 / 2)]}
@@ -90,7 +90,7 @@ const GridTile = ({
         <meshStandardMaterial attach="material" map={lateralTexture} />
       </mesh>
       {rowEnd && (
-        <mesh ref={rightEdge}>
+        <mesh ref={rightEdge as any}>
           <planeGeometry
             attach="geometry"
             args={[cellSize / 2, cellSize * (3 / 2)]}
@@ -100,7 +100,7 @@ const GridTile = ({
       )}
 
       {colEnd && (
-        <mesh ref={bottomEdge}>
+        <mesh ref={bottomEdge as any}>
           <planeGeometry
             attach="geometry"
             args={[
