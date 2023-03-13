@@ -12,7 +12,7 @@ const Ground = () => {
   }));
 
   const [groundTexture] = useState(() => {
-    let newGroundTexture = new TextureLoader().load("images/sandbox-cell.png");
+    let newGroundTexture = new TextureLoader().load("/images/sandbox-cell.png");
     newGroundTexture.magFilter = NearestFilter;
     newGroundTexture.wrapS = RepeatWrapping;
     newGroundTexture.wrapT = RepeatWrapping;

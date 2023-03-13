@@ -35,12 +35,12 @@ const Gameplay = () => {
           <Environment
             background={true}
             files={[
-              `images/skyboxes/clouds/${sandboxBG}/leftImage.png`,
-              `images/skyboxes/clouds/${sandboxBG}/rightImage.png`,
-              `images/skyboxes/clouds/${sandboxBG}/upImage.png`,
-              `images/skyboxes/clouds/${sandboxBG}/downImage.png`,
-              `images/skyboxes/clouds/${sandboxBG}/frontImage.png`,
-              `images/skyboxes/clouds/${sandboxBG}/backImage.png`,
+              `/images/skyboxes/clouds/${sandboxBG}/leftImage.png`,
+              `/images/skyboxes/clouds/${sandboxBG}/rightImage.png`,
+              `/images/skyboxes/clouds/${sandboxBG}/upImage.png`,
+              `/images/skyboxes/clouds/${sandboxBG}/downImage.png`,
+              `/images/skyboxes/clouds/${sandboxBG}/frontImage.png`,
+              `/images/skyboxes/clouds/${sandboxBG}/backImage.png`,
             ]}
           />
 

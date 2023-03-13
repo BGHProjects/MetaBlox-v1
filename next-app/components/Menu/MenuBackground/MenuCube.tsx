@@ -66,7 +66,7 @@ const MenuCube = ({ animationDelay }: IMenuCube) => {
     if (!typeof document === undefined) return;
 
     const randomImage = randomTexture[getRandomNumber(1, 10)];
-    let newTexture = new TextureLoader().load(`images/${randomImage}`);
+    let newTexture = new TextureLoader().load(`/images/${randomImage}`);
     newTexture.magFilter = NearestFilter;
     newTexture.wrapS = RepeatWrapping;
     newTexture.wrapT = RepeatWrapping;

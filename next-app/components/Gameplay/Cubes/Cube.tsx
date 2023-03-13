@@ -19,7 +19,7 @@ export const Cube = ({ position, texture }: any) => {
 
   const [cubeTexture] = useState(() => {
     let newTexture = new TextureLoader().load(
-      `images/${inputToImage[texture]}`
+      `/images/${inputToImage[texture]}`
     );
     newTexture.magFilter = NearestFilter;
     newTexture.wrapS = RepeatWrapping;

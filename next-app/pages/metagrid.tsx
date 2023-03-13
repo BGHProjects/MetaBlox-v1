@@ -35,12 +35,12 @@ const MetaGrid = () => {
           <Environment
             background={true}
             files={[
-              `images/skyboxes/${metagridBG}/leftImage.png`,
-              `images/skyboxes/${metagridBG}/rightImage.png`,
-              `images/skyboxes/${metagridBG}/upImage.png`,
-              `images/skyboxes/${metagridBG}/downImage.png`,
-              `images/skyboxes/${metagridBG}/frontImage.png`,
-              `images/skyboxes/${metagridBG}/backImage.png`,
+              `/images/skyboxes/${metagridBG}/leftImage.png`,
+              `/images/skyboxes/${metagridBG}/rightImage.png`,
+              `/images/skyboxes/${metagridBG}/upImage.png`,
+              `/images/skyboxes/${metagridBG}/downImage.png`,
+              `/images/skyboxes/${metagridBG}/frontImage.png`,
+              `/images/skyboxes/${metagridBG}/backImage.png`,
             ]}
           />
 

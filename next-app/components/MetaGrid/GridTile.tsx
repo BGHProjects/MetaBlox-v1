@@ -52,22 +52,22 @@ const GridTile = ({
   });
 
   const baseTexture = useLoadTexture(
-    "images/sandbox-cell.png",
+    "/images/sandbox-cell.png",
     cellSize,
     cellSize
   );
   const topEdgeTexture = useLoadTexture(
-    "images/matrix.jpg",
+    "/images/matrix.jpg",
     cellSize,
     cellSize / 2
   );
   const lateralTexture = useLoadTexture(
-    "images/matrix.jpg",
+    "/images/matrix.jpg",
     cellSize / 2,
     cellSize * (3 / 2)
   );
   const bottomTexture = useLoadTexture(
-    "images/matrix.jpg",
+    "/images/matrix.jpg",
     colEnd && rowEnd ? cellSize * 2 : cellSize * (3 / 2),
     cellSize / 2
   );

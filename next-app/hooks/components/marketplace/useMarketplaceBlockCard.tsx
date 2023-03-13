@@ -27,7 +27,7 @@ const useMarketplaceBlockCard = (block: Block) => {
     if (!typeof document === undefined) return;
     setActiveTexture(() => {
       let newTexture = new TextureLoader().load(
-        `images/${blockToImage[block]}`
+        `/images/${blockToImage[block]}`
       );
       newTexture.magFilter = NearestFilter;
       newTexture.wrapS = RepeatWrapping;
