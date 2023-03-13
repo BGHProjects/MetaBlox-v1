@@ -30,12 +30,7 @@ const useStore = create((set) => ({
       texture,
     }));
   },
-  saveWorld: () => {
-    // TODO
-    // set((prev) => {
-    //   setLocalStorage("cubes", prev.cubes);
-    // });
-  },
+  saveWorld: () => {},
   resetWorld: () => {
     set(() => ({
       cubes: [],

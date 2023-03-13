@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Vector3 } from "three";
+import { nanoid } from "nanoid";
 import { gridBlue, gridPink } from "../../../constants/colours";
 import useColourAnimation from "../../../hooks/useColorAnimation";
 
@@ -27,6 +27,7 @@ const Light = () => {
     <>
       {positions.map((position) => (
         <spotLight
+          key={nanoid()}
           color={lightColor}
           intensity={40}
           position={position as any}

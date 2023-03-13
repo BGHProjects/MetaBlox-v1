@@ -18,6 +18,7 @@ const useMainMenu = () => {
     generateMetaGridBG,
     enteringMetaGrid,
     viewMode,
+    setGameWorldLoaded,
   } = useAppContext();
 
   const router = useRouter();
@@ -27,6 +28,7 @@ const useMainMenu = () => {
   const [initialLoadCompleted, setInitialLoadCompleted] = useState(false);
 
   useEffect(() => {
+    setGameWorldLoaded(false);
     setMenuContent(Content.None);
   }, []);
 

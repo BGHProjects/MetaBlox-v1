@@ -25,7 +25,7 @@ const Gameplay = () => {
   const { values, functions } = useGame(animDuration);
   const { showingSomething, display, exiting } = values;
   const { setShowingSomething, quitFunction, quitWithSave } = functions;
-  const { sandboxBG } = useAppContext();
+  const { sandboxBG, gameWorldLoaded } = useAppContext();
 
   return (
     <>
@@ -72,7 +72,7 @@ const Gameplay = () => {
             duration: animDuration,
             ease: "easeIn",
           }}
-          animate={{ opacity: exiting ? [0, 1] : [1, 0] }}
+          animate={{ opacity: exiting ? [0, 1] : gameWorldLoaded ? [1, 0] : 1 }}
         />
         {!showingSomething && <Cursor />}
       </WindowContainer>

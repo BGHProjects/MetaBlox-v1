@@ -55,11 +55,12 @@ const useGame = (animDuration: number) => {
   }, []);
 
   useEffect(() => {
+    console.log("display", display);
+  }, [display]);
+
+  useEffect(() => {
     if (worldPopulated || gameState === GameState.Sandbox) {
       setStartingGameplay(false);
-      setTimeout(() => {
-        setDisplay("none");
-      }, animDuration * 1000);
       setWorldPopulated(false);
     }
   }, [worldPopulated, gameState]);

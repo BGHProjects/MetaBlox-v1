@@ -1,6 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { ethers } from "ethers";
 import { range } from "lodash";
+import { nanoid } from "nanoid";
 import { memo, useMemo } from "react";
 import { useAppContext } from "../../contexts/AppStateContext";
 import calcXY from "../../helpers/calcXY";
@@ -33,6 +34,7 @@ const MapCells = () => {
 
           return (
             <Flex
+              key={nanoid()}
               bg={colour}
               position="absolute"
               boxSize="20px"

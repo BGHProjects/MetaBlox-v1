@@ -27,7 +27,12 @@ const Player = ({
 }: IPlayer) => {
   const router = useRouter();
   const pathName = router.pathname;
-  const { metaGridLoaded, setMetaGridLoaded } = useAppContext();
+  const {
+    metaGridLoaded,
+    setMetaGridLoaded,
+    gameWorldLoaded,
+    setGameWorldLoaded,
+  } = useAppContext();
   const { moveBackward, moveForward, moveRight, moveLeft, jump, sprint } =
     useKeyboard();
 
@@ -78,12 +83,14 @@ const Player = ({
       api.velocity.set(vel.current[0], JUMP_FORCE, vel.current[2]);
     }
 
-    if (
-      Number(pos.current[1].toFixed(1)) === 0.5 &&
-      !metaGridLoaded &&
-      pathName === "/metagrid"
-    ) {
-      setMetaGridLoaded(true);
+    if (Number(pos.current[1].toFixed(1)) === 0.5) {
+      if (!metaGridLoaded && pathName === "/metagrid") {
+        setMetaGridLoaded(true);
+      }
+
+      if (!gameWorldLoaded && pathName === "/game") {
+        setGameWorldLoaded(true);
+      }
     }
   });
 

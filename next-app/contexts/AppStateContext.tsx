@@ -65,6 +65,8 @@ interface IAppStateContext {
   metagridBG: string;
   viewMode: "ViewMode" | "PlayMode";
   setViewMode: Dispatch<SetStateAction<"ViewMode" | "PlayMode">>;
+  gameWorldLoaded: boolean;
+  setGameWorldLoaded: Dispatch<SetStateAction<boolean>>;
 }
 
 const AppStateContext = createContext<IAppStateContext>({} as IAppStateContext);
@@ -91,6 +93,7 @@ const AppStateContextProvider = ({
   const [metaGridLoaded, setMetaGridLoaded] = useState(false);
   const [enteringMetaGrid, setEnteringMetaGrid] = useState(false);
   const [viewMode, setViewMode] = useState<"ViewMode" | "PlayMode">("PlayMode");
+  const [gameWorldLoaded, setGameWorldLoaded] = useState(false);
 
   const router = useRouter();
   const pathName = router.pathname;
@@ -298,6 +301,8 @@ const AppStateContextProvider = ({
         metagridBG,
         viewMode,
         setViewMode,
+        gameWorldLoaded,
+        setGameWorldLoaded,
       }}
     >
       {children}
