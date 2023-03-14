@@ -11,6 +11,6 @@
   <a href="https://polygon.technology/"><img src="./readme_content/stacklogos/Polygon.png" width="75" height="75"></a>
   <a href="https://www.typescriptlang.org/"><img src="./readme_content/stacklogos/Typescript.png" width="75" height="75"></a>
 </div>
-
+<div align="center">
 Play [Here](https://meta-blox-v1.vercel.app/)
-
+</div>
