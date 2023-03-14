@@ -1,2 +1,13 @@
-# MetaBlox-v1
-A 3D Minecraft-style Web3 game made with Next.js, Three.js, and Solidity
+<div align="center"><h1>METABLOX</h1></div>
+</br>
+<div align="center">
+  <a href="https://nextjs.org/"><img src="./readme_content/stacklogos/NextJS.png" width="75" height="75"></a>
+  <a href="https://chakra-ui.com/"><img src="./readme_content/stacklogos/ChakraUI.png" width="75" height="75"></a>
+  <a href="https://threejs.org/"><img src="./readme_content/stacklogos/ThreeJS.png" width="75" height="75"></a>
+  <a href="https://vercel.com/"><img src="./readme_content/stacklogos/Vercel.png" width="75" height="75"></a>
+  <a href="https://docs.soliditylang.org/en/v0.8.17/"><img src="./readme_content/stacklogos/Solidity.png" width="75" height="75"></a>
+  <a href="https://www.openzeppelin.com/"><img src="./readme_content/stacklogos/OpenZeppelin.png" width="75" height="75"></a>
+  <a href="https://hardhat.org/"><img src="./readme_content/stacklogos/Hardhat.png" width="75" height="75"></a>
+  <a href="https://polygon.technology/"><img src="./readme_content/stacklogos/Polygon.png" width="75" height="75"></a>
+  <a href="https://www.typescriptlang.org/"><img src="./readme_content/stacklogos/Typescript.png" width="75" height="75"></a>
+</div>
