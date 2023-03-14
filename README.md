@@ -12,5 +12,5 @@
   <a href="https://www.typescriptlang.org/"><img src="./readme_content/stacklogos/Typescript.png" width="75" height="75"></a>
 </div>
 </br>
-<div align="center><a href="https://meta-blox-v1.vercel.app/"><h2>Play Here</h2></a></div>
+<div align="center"><a href="https://meta-blox-v1.vercel.app/"><h2>Play Here</h2></a></div>
 </br>
