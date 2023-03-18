@@ -15,6 +15,7 @@
 <br></br>
 <div align="center">
   <a href="https://meta-blox-v1.vercel.app"><img src"./readme_content/playnowbutton.png" width="200" height="50" alt="Play Now Button"></a>
+  <a href="https://nextjs.org/"><img src="./readme_content/stacklogos/NextJS.png" width="75" height="75"></a>
 </div>
 
 <br></br>
