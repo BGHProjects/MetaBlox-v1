@@ -17,7 +17,7 @@ const textContent: Record<
   [Status.Unavailable]: {
     title: "OWNED WORLD",
     subtitle:
-      "This world is owned by user 0xq09qjcjw9q80ecjqwe. You may visit their world to see what they have created!",
+      "This world is already owned, but you may visit their world to see what they have created!",
     buttonTitle: "VISIT WORLD",
   },
   [Status.Owned]: {
