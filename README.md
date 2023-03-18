@@ -12,6 +12,8 @@
   <a href="https://www.typescriptlang.org/"><img src="./readme_content/stacklogos/Typescript.png" width="75" height="75"></a>
 </div>
 
+<div align="center"><a href="https://meta-blox-v1.vercel.app"><img src"./readme_content/playnowbutton.png"></a></div>
+
 <br></br>
 - This project is a web3 sandbox proof of concept, that allows users to purchase digital worlds in the form of NFTs, build upon them using 3D rendered blocks, and share those worlds inside of a metaverse that is saved to the blockchain. 
 - The block-building gameplay aspect of this project was adapted from [this tutorial](https://www.youtube.com/watch?v=qpOZup_3P_A) by [Daniel Bark.](https://www.youtube.com/channel/UCgUCptbp4T5saC5WXePe1sw) 
@@ -37,4 +39,12 @@ There are four main aspects of gameplay within the project. These are as follows
 ### MetaGrid
 - This aspect of gameplay allows user to either purchase new worlds to build in, build in said purchased worlds, visit other user's individual worlds, or visit the MetaGrid itself, which is a vast digital world in which all one hundred available worlds within the project and rendered and laid out before the user, which they can explore in its entirety.
 - The different worlds are laid out in a grid of tiles, with coloured tiles represent worlds that are already purchased by users, and black tiles representing unclaimed worlds available for purchase.
+
+## Test Coverage
+<div align="center"><img src"./readme_content/test_coverage/game_manager1.PNG"></div>
+<div align="center"><img src"./readme_content/test_coverage/game_manager2.PNG"></div>
+<div align="center"><img src"./readme_content/test_coverage/mblox.PNG"></div>
+<div align="center"><img src"./readme_content/test_coverage/metablox.PNG"></div>
+<div align="center"><img src"./readme_content/test_coverage/world.PNG"></div>
+<div align="center"><img src"./readme_content/test_coverage/coverage.PNG"></div>
 
