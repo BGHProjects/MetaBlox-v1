@@ -12,7 +12,10 @@
   <a href="https://www.typescriptlang.org/"><img src="./readme_content/stacklogos/Typescript.png" width="75" height="75"></a>
 </div>
 
-<div align="center"><a href="https://meta-blox-v1.vercel.app"><img src"./readme_content/playnowbutton.png" width="200" height="50"></a></div>
+<br></br>
+<div align="center">
+  <a href="https://meta-blox-v1.vercel.app"><img src"./readme_content/playnowbutton.png" width="200" height="50"></a>
+</div>
 
 <br></br>
 - This project is a web3 sandbox proof of concept, that allows users to purchase digital worlds in the form of NFTs, build upon them using 3D rendered blocks, and share those worlds inside of a metaverse that is saved to the blockchain. 
