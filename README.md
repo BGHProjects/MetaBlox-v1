@@ -1,5 +1,5 @@
 <div align="center">
-  <video src="./readme_content/ingame/menu_recording.mp4" alt="Menu Recording" loop />
+  <video src="./readme_content/ingame/menu_recording.mp4" alt="Menu Recording" loop width="700" />
 </div>
 
 </br>
