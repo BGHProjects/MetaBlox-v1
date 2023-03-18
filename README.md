@@ -20,6 +20,7 @@ https://user-images.githubusercontent.com/34959126/226088131-d0e43f70-856e-4eb8-
 </div>
 
 <br></br>
+## Overview
 
 - This project is a web3 sandbox proof of concept, that allows users to purchase digital worlds in the form of NFTs, build upon them using 3D rendered blocks, and share those worlds inside of a metaverse that is saved to the blockchain.
 - The block-building gameplay aspect of this project was adapted from [this tutorial](https://www.youtube.com/watch?v=qpOZup_3P_A) by [Daniel Bark.](https://www.youtube.com/channel/UCgUCptbp4T5saC5WXePe1sw)
