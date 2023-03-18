@@ -15,7 +15,7 @@
 <br></br>
 
 <div align="center">
-  <a href="https://meta-blox-v1.vercel.app"><img src="./readme_content/playnowbutton.png" width="200" height="50" alt="Play Now Button"></a>
+  <a href="https://meta-blox-v1.vercel.app"><img src="./readme_content/playnowbutton.png" width="200" height="53" alt="Play Now Button"></a>
 </div>
 
 <br></br>
@@ -24,7 +24,8 @@
 - The block-building gameplay aspect of this project was adapted from [this tutorial](https://www.youtube.com/watch?v=qpOZup_3P_A) by [Daniel Bark.](https://www.youtube.com/channel/UCgUCptbp4T5saC5WXePe1sw)
 - The proof of concept utilizes an in-game cryptocurrency, called MBlox, which faciliates the purchasing of different digital blocks for users to build with and the worlds in which they build.
 - The project is also playable without any web3 knowledge or integration; there is a "Sandbox" mode available from the Main Menu which allows a user to build within a provided digital world with an infinite number of blocks without the need of any web3 wallet connection of crypto balance of any kind.
-- [Play Here](https://meta-blox-v1.vercel.app/)
+- This project was also deployed using Vercel (referenced in the stack above), and is available to play at the following address: [https://meta-blox-v1.vercel.app](https://meta-blox-v1.vercel.app)
+- NOTE: This project is a proof of concept, and not intended to represent a polished Web3 application. The contract system used in this application has not been audited, and I take no responsiblity for any issues that may arise out of its extended use.
 
 ## Gameplay Overview
 
@@ -49,6 +50,31 @@ There are four main aspects of gameplay within the project. These are as follows
 
 - This aspect of gameplay allows user to either purchase new worlds to build in, build in said purchased worlds, visit other user's individual worlds, or visit the MetaGrid itself, which is a vast digital world in which all one hundred available worlds within the project and rendered and laid out before the user, which they can explore in its entirety.
 - The different worlds are laid out in a grid of tiles, with coloured tiles represent worlds that are already purchased by users, and black tiles representing unclaimed worlds available for purchase.
+
+## Contract System
+
+This proof of concept uses a smart contract system that includes four implementations and seven interfaces. All the contracts were deployed to the [Polygon Mumbai Test Network](https://mumbai.polygonscan.com/), were written in the Solidity programming language and deployed using Hardhat, both of which are referenced in the stack displayed above. The implementations used in this smart contract system are as follows:
+
+### [MBlox](https://mumbai.polygonscan.com/address/0x8CC4b7E3d689Fb5b12D53492c523707095fD3C13#code)
+
+- This contract represents the in-game currency that is primarily used to purchase the other tokens in the game.
+- It is a relatively basic [upgradeable ERC20 contract](https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.7.3/contracts/token/ERC20/ERC20Upgradeable.sol) that provides basic minting and burning functionality.
+
+### [MetaBlox](https://mumbai.polygonscan.com/address/0x02cCF93F1Ba99146107328CA64cb641C63615309#code)
+
+- This contract represents the different blocks that the user is able to purchase and then use to build with within the game.
+- It is an implementation of an [upgradeable ERC1155 contract](https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/master/contracts/token/ERC1155/ERC1155Upgradeable.sol), that contains balances for each of the variants of blocks as described above, the prices of each block in MBlox, and minting, burning, and batch minting and burning functionality.
+
+### [World](https://mumbai.polygonscan.com/address/0x8504058723cc400edb1ab3e60035ef153334f482#code)
+
+- This contract represents the different worlds that users can purchase and build within in the game.
+- It is an implementation of an [upgradable ERC721 contract](https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/master/contracts/token/ERC721/ERC721Upgradeable.sol), that includes URI storage and burning functionality.
+
+### [GameManager](https://mumbai.polygonscan.com/address/0x82869119dDa5ADE65f010541f16fAD3fab362a81#code)
+
+- This contract facilitates interactions between the game and smart contract system.
+- It is a [custom upgradeable contract]() and includes several key aspects of functionality, including getter functions for retrieving values relevant to the game, enabling users to purchase other tokens within the MBlox in-game currency, and handling changes to world tokens that users make by placing and removing blocks.
+- The Game Manager also restricts the minting and burning capability of the other contracts in the system to actions that occur in the game, to prevent malicious users from attempting to mint or burn tokens outside of the context of the game. This is primarily facilitates through the use of a "digitalKey" variable that is required to call any functions that pertain to major functionality.
 
 ## Test Coverage
 
