@@ -1,4 +1,6 @@
-https://user-images.githubusercontent.com/34959126/226088131-d0e43f70-856e-4eb8-8f34-ec2555f4caba.mp4
+<div align="center">
+  <video src="./readme_content/ingame/menu_recording.mp4" alt="Menu Recording" loop />
+</div>
 
 </br>
 <div align="center">
