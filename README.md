@@ -14,7 +14,7 @@
 
 <br></br>
 <div align="center">
-  <a href="https://meta-blox-v1.vercel.app"><img src"./readme_content/playnowbutton.png" width="200" height="50"></a>
+  <a href="https://meta-blox-v1.vercel.app"><img src"./readme_content/playnowbutton.png" width="200" height="50" alt="Play Now Button"></a>
 </div>
 
 <br></br>
@@ -44,10 +44,10 @@ There are four main aspects of gameplay within the project. These are as follows
 - The different worlds are laid out in a grid of tiles, with coloured tiles represent worlds that are already purchased by users, and black tiles representing unclaimed worlds available for purchase.
 
 ## Test Coverage
-<div align="center"><img src"./readme_content/test_coverage/game_manager1.PNG" /></div>
-<div align="center"><img src"./readme_content/test_coverage/game_manager2.PNG" /></div>
-<div align="center"><img src"./readme_content/test_coverage/mblox.PNG" /></div>
-<div align="center"><img src"./readme_content/test_coverage/metablox.PNG" /></div>
-<div align="center"><img src"./readme_content/test_coverage/world.PNG" /></div>
-<div align="center"><img src"./readme_content/test_coverage/coverage.PNG" /></div>
+<div align="center"><img src"./readme_content/test_coverage/game_manager1.PNG" alt="GameManager Test Coverage 1" /></div>
+<div align="center"><img src"./readme_content/test_coverage/game_manager2.PNG" alt="GameManager Test Coverage 2"/></div>
+<div align="center"><img src"./readme_content/test_coverage/mblox.PNG" alt="MBlox Test Coverage"/></div>
+<div align="center"><img src"./readme_content/test_coverage/metablox.PNG" alt="MetaBlox Test Coverage" /></div>
+<div align="center"><img src"./readme_content/test_coverage/world.PNG" alt="World Test Coverage"/></div>
+<div align="center"><img src"./readme_content/test_coverage/coverage.PNG" alt="Full Test Coverage" /></div>
 
