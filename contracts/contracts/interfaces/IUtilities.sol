@@ -78,4 +78,7 @@ interface IUtilities {
 
     /// @dev Amount supplied isn't a positive number
     error NotPositiveValue();
+
+    /// @dev Signature provided is not valid
+    error InvalidSignature();
 }

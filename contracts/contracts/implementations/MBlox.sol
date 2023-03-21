@@ -2,10 +2,12 @@
 pragma solidity 0.8.17;
 
 import "../interfaces/IMBlox.sol";
+import "./libraries/SigRecovery.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20BurnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+
 
 /**
  * 
@@ -42,14 +44,23 @@ contract MBlox is
     // Restricts use to authorised callers
     string private _digitalKey;
 
+    // Restricts calls to the game wallet
+    address private _gameWallet;
+
+    // Holds used signatures to prevent double dipping
+    mapping(bytes => bool) private usedSignatures;
+
     /**
      * =======================
      *  INITIALIZE
      * =======================
      */
-    function initialize(string memory digitalKey) public initializer {
+    function initialize(string memory digitalKey, address gameWallet) public initializer {
         // Assign the digitalKey
         _digitalKey = digitalKey;
+
+        // Assign the gameWallet
+        _gameWallet = gameWallet;
 
         // Upgradeable contract required initializations
         __ERC20_init("MBlox", "MBLOX");
@@ -99,12 +110,33 @@ contract MBlox is
      *  GRANT ROLES
      * =======================
      */
-    function grantRoles(address account, string memory digitalKey) public {
+    function grantRoles(address account, bytes memory signature) public {
         if (account == address(0)) revert ZeroAddress();
-        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
-            revert InvalidDigitalKey();
-
+        _verifySignature(account, signature);
         _setupRole(MINTER_ROLE, account);
         _setupRole(BURNER_ROLE, account);
     }
+
+    /**
+     * =======================
+     *  VERIFY SIGNATURE
+     * =======================
+     */
+    function _verifySignature(address account, bytes memory signature) internal {
+
+        if(usedSignatures[signature]) revert InvalidSignature();
+
+        bytes memory encodedRequest = abi.encode(account);
+
+        address recoveredAddress = SigRecovery.recoverAddressFromMessage(
+            encodedRequest,
+            signature
+        );
+
+        if(recoveredAddress != _gameWallet) revert InvalidSignature();
+
+        usedSignatures[signature] = true;
+    }
+
+
 }

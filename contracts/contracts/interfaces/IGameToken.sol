@@ -24,12 +24,13 @@ interface IGameToken {
     * =======================
     */
 
-    /// @dev Intializing function required for upgradeable smart contracta
+    /// @dev Intializing function required for upgradeable smart contracts
     /// @param digitalKey Variable used to authenticate this contract's function calls
-    function initialize(string memory digitalKey) external;
+    /// @param gameWallet Wallet that is authorised to call certain contract calls
+    function initialize(string memory digitalKey, address gameWallet) external;
 
     /// @dev Grants the relevant roles to another account
     /// @param account The account to be granted the roles
-    /// @param digitalKey Variable used to authorise this function call
-    function grantRoles(address account, string memory digitalKey) external;
+    /// @param signature The signature signed by the game wallet used to authorise this call
+    function grantRoles(address account, bytes memory signature) external;
 }
