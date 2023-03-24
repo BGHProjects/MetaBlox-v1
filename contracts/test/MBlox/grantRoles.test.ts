@@ -3,8 +3,6 @@ import { expect } from "chai";
 import { ethers } from "hardhat";
 import { BURNER_ROLE, MINTER_ROLE } from "../../constants/roles";
 
-const { formatBytes32String } = ethers.utils;
-
 import deployFixture from "./deployFixture";
 
 describe("MBlox grantRoles tests", () => {
@@ -53,5 +51,23 @@ describe("MBlox grantRoles tests", () => {
 
     expect(await MBloxContract.hasRole(MINTER_ROLE, Alice.address)).to.eq(true);
     expect(await MBloxContract.hasRole(BURNER_ROLE, Alice.address)).to.eq(true);
+  });
+
+  /**
+   * =====================================================================
+   *   SHOULD NOT ALLOW SAME SIGNATURE
+   * =====================================================================
+   */
+  it("Should not allow same signature", async () => {
+    const { MBloxContract, Alice, validSignature } = await loadFixture(
+      deployFixture
+    );
+
+    await expect(MBloxContract.grantRoles(Alice.address, validSignature)).not.be
+      .reverted;
+
+    await expect(
+      MBloxContract.grantRoles(Alice.address, validSignature)
+    ).to.be.revertedWithCustomError(MBloxContract, "InvalidSignature");
   });
 });

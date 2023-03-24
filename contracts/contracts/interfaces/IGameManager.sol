@@ -104,13 +104,13 @@ interface IGameManager is IUtilities{
     */
 
     /// @dev Initializing function required for upgradeable smart contracts
-    /// @param digitalKey Variable used to authenticated this contract's function calls
+    /// @param gameWallet Wallet that is authorised to call certain contract calls
     /// @param metrContract Address of the METR contract
     /// @param mbloxAddress Address of the MBLOX contract
     /// @param metaBloxAddress Address of the MetaBlox contract
     /// @param worldAddress Address of the World contract
     /// @param recipient Address of the recipient of the MATIC transfers
-    function initialize(string memory digitalKey, address metrContract, address mbloxAddress, address metaBloxAddress, address worldAddress, address recipient) external;
+    function initialize(address gameWallet, address metrContract, address mbloxAddress, address metaBloxAddress, address worldAddress, address recipient) external;
 
     /// @dev Returns all the currently used colours, so when generating another, there are no duplicates
     function getUsedColours() external returns(string[] memory);
@@ -126,36 +126,41 @@ interface IGameManager is IUtilities{
     /// @dev Returns a short hand version of the grid that contains all the World tokens
     function getGridData() external returns(GridData[] memory);
 
+    /// @dev Completes the purchase of MetaBlox for an inputted address, including burning MBLOX and minting MetaBlox
+    /// @param id The ID of the block being purchased
+    /// @param amount The amount of the block being purchased
+    /// @param purchaser The address of the player who is purchasing the blocks
+    /// @param dateTime Stringified date and time when the function was called, to differentiate legitimate signatures with the same parameters
+    /// @param signature The signature signed by the game wallet used to authorise this call
+    function purchaseBlocks(uint256 id, uint256 amount, address purchaser, string memory dateTime, bytes memory signature) external;
+
+    /// @dev Completes the purchase of a World for an inputted address, including burning MBLOX and minting the World token
+    /// @param worldData The data about the new World being minted
+    /// @param purchaser The address of the player who is purchasing the World
+    /// @param dateTime Stringified date and time when the function was called, to differentiate legitimate signatures with the same parameters
+    /// @param signature The signature signed by the game wallet used to authorise this call
+    function purchaseWorld(WorldMetadata calldata worldData, address purchaser, string memory dateTime, bytes memory signature) external;
+
     /// @dev Saves the changes that a user has made in their world, and updates the relevant balances
-    /// @param digitalKey Variable used to authenticate this function call
     /// @param player The account that called this function
     /// @param worldID The ID of the world that is having its changes saved
     /// @param worldBlockDetails The details about the World that have now been changed
     /// @param blockUpdates The increases and decreases that were made to the user's MetaBlox balances following gameplay
-    function saveWorldChanges(string memory digitalKey, address player, uint256 worldID, WorldBlockDetails memory worldBlockDetails, BlockUpdates memory blockUpdates) external;
-
-    /// @dev Completes the purchase of MetaBlox for an inputted address, including burning MBLOX and minting MetaBlox
-    /// @param digitalKey Variable used to authenticate this function call
-    /// @param id The ID of the block being purchased
-    /// @param amount The amount of the block being purchased
-    /// @param purchaser The address of the player who is purchasing the blocks
-    function purchaseBlocks(string memory digitalKey, uint256 id, uint256 amount, address purchaser) external;
-
-    /// @dev Completes the purchase of a World for an inputted address, including burning MBLOX and minting the World token
-    /// @param digitalKey Variable used to authenticate this function call
-    /// @param worldData The data about the new World being minted
-    /// @param purchaser The address of the player who is purchasing the World
-    function purchaseWorld(string memory digitalKey, WorldMetadata calldata worldData, address purchaser) external;
+    /// @param dateTime Stringified date and time when the function was called, to differentiate legitimate signatures with the same parameters
+    /// @param signature The signature signed by the game wallet used to authorise this call
+    function saveWorldChanges(address player, uint256 worldID, WorldBlockDetails memory worldBlockDetails, BlockUpdates memory blockUpdates, string memory dateTime, bytes memory signature) external;
 
     /// @dev Converts inputted MATIC to MBLOX tokens
-    /// @param digitalKey Variable used to authenticate this function call
     /// @param receiver The recipient of the MBLOX tokens
-    function convertMATICtoMBLOX(string memory digitalKey,address receiver) payable external;
+    /// @param dateTime Stringified date and time when the function was called, to differentiate legitimate signatures with the same parameters
+    /// @param signature The signature signed by the game wallet used to authorise this call
+    function convertMATICtoMBLOX(address receiver, string memory dateTime, bytes memory signature) payable external;
 
     /// @dev Mints MBLOX for an inputted user equivalent to the difference between their current METR Balance and the last time they claimed
-    /// @param digitalKey Variable used to authenticate this function call
     /// @param claimant The user who is attempting to claim MBLOX from their METR Balance
-    function claimMETRBalance(string memory digitalKey,address claimant) external;
+    /// @param dateTime Stringified date and time when the function was called, to differentiate legitimate signatures with the same parameters
+    /// @param signature The signature signed by the game wallet used to authorise this call
+    function claimMETRBalance(address claimant, string memory dateTime, bytes memory signature) external;
 
    /**
     * =======================

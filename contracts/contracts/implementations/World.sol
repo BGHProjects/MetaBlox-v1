@@ -56,7 +56,7 @@ contract World is
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
     bytes32 public constant UPDATER_ROLE = keccak256("UPDATER_ROLE");
 
-    // Restricts use to authorised callers
+    // Restricts use to authorised callers *** NO LONGER USED ***
     string private _digitalKey;
 
     // Holds World data to be accessed by the game
@@ -76,9 +76,7 @@ contract World is
      *  INITIALIZE
      * =======================
      */
-    function initialize(string memory digitalKey, address gameWallet) public initializer {
-        // Assign the digital key
-        _digitalKey = digitalKey;
+    function initialize(address gameWallet) public initializer {
 
         // Assign the gameWallet
         _gameWallet = gameWallet;
@@ -221,7 +219,7 @@ contract World is
 
         if(usedSignatures[signature]) revert InvalidSignature();
 
-        bytes memory encodedRequest = abi.encode(account, msg.sender);
+        bytes memory encodedRequest = abi.encode(account);
 
         address recoveredAddress = SigRecovery.recoverAddressFromMessage(
             encodedRequest,

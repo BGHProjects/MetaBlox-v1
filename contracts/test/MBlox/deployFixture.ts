@@ -18,7 +18,6 @@ const deployFixture = async () => {
   const MBlox_Contract = await ethers.getContractFactory("MBlox", Deployer);
 
   MBloxContract = await upgrades.deployProxy(MBlox_Contract, [
-    "testDigitalKey",
     gameWallet.address,
   ]);
   await MBloxContract.deployed();

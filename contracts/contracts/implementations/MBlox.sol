@@ -41,7 +41,7 @@ contract MBlox is
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
 
-    // Restricts use to authorised callers
+    // Restricts use to authorised callers *** NO LONGER USED ***
     string private _digitalKey;
 
     // Restricts calls to the game wallet
@@ -55,9 +55,7 @@ contract MBlox is
      *  INITIALIZE
      * =======================
      */
-    function initialize(string memory digitalKey, address gameWallet) public initializer {
-        // Assign the digitalKey
-        _digitalKey = digitalKey;
+    function initialize(address gameWallet) public initializer {
 
         // Assign the gameWallet
         _gameWallet = gameWallet;

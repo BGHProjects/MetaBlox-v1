@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.17;
 
+import "hardhat/console.sol";
+
 /**
  * 
  * ███╗   ███╗███████╗████████╗ █████╗ ██████╗ ██╗      ██████╗ ██╗  ██╗
@@ -11,7 +13,6 @@ pragma solidity 0.8.17;
  * ╚═╝     ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═╝
  * 
  * @title SigRecovery
- * @author BGHProjects
  * @notice Provides signature recovery functionality
  * 
  */
@@ -29,6 +30,7 @@ library SigRecovery {
     /// @dev This method splits the signature, extracting the r, s, and v values
     /// @param _sig The signature to split
     function splitSignature(bytes memory _sig) internal pure returns (bytes32 r, bytes32 s, uint8 v) {
+
         require(_sig.length == 65, "Sig: Invalid signature length");
 
         assembly {

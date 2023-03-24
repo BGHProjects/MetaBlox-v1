@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.17;
 
+import "./libraries/SigRecovery.sol";
 import "../interfaces/IGameManager.sol";
 import "./MBlox.sol";
 import "./MetaBlox.sol";
 import "./World.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+import "hardhat/console.sol";
 /**
  * 
  * ███╗   ███╗███████╗████████╗ █████╗ ██████╗ ██╗      ██████╗ ██╗  ██╗
@@ -30,7 +33,7 @@ contract GameManager is IGameManager, Initializable {
      * =======================
      */
 
-    // Restricts use to authorised callers
+    // Restricts use to authorised callers *** NO LONGER USED ***
     string private _digitalKey;
 
     // References to other contracts
@@ -51,6 +54,12 @@ contract GameManager is IGameManager, Initializable {
     // Shorthand representation of the grid
     GridData[] private gridData;
 
+    // Restricts calls to the game wallet
+    address private _gameWallet;
+
+    // Holds used signatures to prevent double dipping
+    mapping(bytes => bool) private usedSignatures;
+
     /**
      * =======================
      *   INITIALIZE
@@ -58,7 +67,7 @@ contract GameManager is IGameManager, Initializable {
      */
 
     function initialize(
-        string memory digitalKey,
+        address gameWallet,
         address metrContract,
         address mbloxAddress,
         address metaBloxAddress,
@@ -73,9 +82,6 @@ contract GameManager is IGameManager, Initializable {
         if(worldAddress == address(0)) revert ZeroAddress();
         if(recipient == address(0)) revert ZeroAddress();
 
-        // Assign the digital key
-        _digitalKey = digitalKey;
-
         // Assign the contract references
         _metrContract = ERC20(metrContract);
         MBloxContract = MBlox(mbloxAddress);
@@ -84,6 +90,9 @@ contract GameManager is IGameManager, Initializable {
 
         // Assign the recipient
         _recipient = payable(recipient); 
+
+        // Assign the gameWallet
+        _gameWallet = gameWallet;
     }
 
     /**
@@ -126,15 +135,17 @@ contract GameManager is IGameManager, Initializable {
      * =======================
      */
     function purchaseBlocks(
-        string memory digitalKey,
         uint256 id,
         uint256 amount,
-        address purchaser
+        address purchaser,
+        string memory dateTime,
+        bytes memory signature
     ) public {
         if(purchaser == address(0)) revert ZeroAddress();
-        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
-            revert InvalidDigitalKey();
         if (amount < 1) revert NotPositiveValue();
+
+        bytes memory args = abi.encode(id, amount, purchaser, bytes(dateTime));
+        _verifySignature(signature, args);
         
         uint256 blockPrice = getPrice(id);
         uint256 purchaseCost = blockPrice * amount;
@@ -152,15 +163,16 @@ contract GameManager is IGameManager, Initializable {
      * =======================
      */
     function purchaseWorld(
-        string memory digitalKey,
         WorldMetadata calldata worldData,
-        address purchaser
+        address purchaser,
+        string memory dateTime,
+        bytes memory signature
     ) external override {
         if(purchaser == address(0)) revert ZeroAddress();
-        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
-            revert InvalidDigitalKey();
         if(MBloxContract.balanceOf(purchaser) < 100 ether) revert InadequateMBLOX();
 
+        bytes memory args = abi.encode(worldData, purchaser, bytes(dateTime));
+        _verifySignature(signature, args);
 
         MBloxContract.burnMBlox(purchaser, 100 ether);
         WorldContract.mintWorld(purchaser, worldData);
@@ -179,14 +191,16 @@ contract GameManager is IGameManager, Initializable {
      */
 
     function saveWorldChanges(
-        string memory digitalKey,
         address player,
         uint256 worldID,
         WorldBlockDetails memory worldBlockDetails,
-        BlockUpdates memory blockUpdates
+        BlockUpdates memory blockUpdates,
+        string memory dateTime,
+        bytes memory signature
     ) public {
-        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
-            revert InvalidDigitalKey();
+        bytes memory args = abi.encode(player, worldID, worldBlockDetails, blockUpdates, bytes(dateTime));
+        _verifySignature(signature, args);
+
         WorldContract.updateWorld(worldID, worldBlockDetails);
 
         if(blockUpdates.increases.length > 0)
@@ -205,11 +219,13 @@ contract GameManager is IGameManager, Initializable {
      *   CONVERT MATIC TO MBLOX
      * =========================
      */
-    function convertMATICtoMBLOX(string memory digitalKey, address receiver) payable public {
-        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
-            revert InvalidDigitalKey();
+    function convertMATICtoMBLOX(address receiver, string memory dateTime, bytes memory signature) payable public {
         if(receiver == address(0)) revert ZeroAddress();
         if(msg.value < 0.1 ether) revert InadequateMATIC();
+
+        bytes memory args = abi.encode(receiver, bytes(dateTime));
+
+        _verifySignature(signature, args);
 
         MBloxContract.mintMBlox(receiver, 1000 ether);
         _recipient.transfer(msg.value);
@@ -222,16 +238,41 @@ contract GameManager is IGameManager, Initializable {
      *   CLAIM METR BALANCE
      * =======================
      */
-    function claimMETRBalance(string memory digitalKey, address claimant) external override {
-        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
-            revert InvalidDigitalKey();
+    function claimMETRBalance(address claimant, string memory dateTime, bytes memory signature) external override {
         if(claimant == address(0)) revert ZeroAddress();
         uint256 previousClaim = players[claimant].claimedMETRBalance;
         uint256 METRBalance = _metrContract.balanceOf(claimant);
         if(previousClaim >= METRBalance) revert NoMETRToClaim();
 
+        bytes memory args = abi.encode(claimant, bytes(dateTime));
+        _verifySignature(signature, args);
+
         players[claimant].claimedMETRBalance = METRBalance;
         MBloxContract.mintMBlox(claimant, METRBalance - previousClaim);
         emit METRBalanceClaimed(claimant, METRBalance - previousClaim);
     }
+
+    /**
+     * =======================
+     *  VERIFY SIGNATURE 
+     * =======================
+     */
+    function _verifySignature(bytes memory signature, bytes memory message) internal {
+
+        if(usedSignatures[signature]) revert InvalidSignature();
+
+        address recoveredAddress = SigRecovery.recoverAddressFromMessage(
+            message,
+            signature
+        );
+
+        console.log("recoveredAddress %s", recoveredAddress);
+        console.log("_gameWallet %s", _gameWallet);
+
+
+        if(recoveredAddress != _gameWallet) revert InvalidSignature();
+
+        usedSignatures[signature] = true;
+    }
+
 }

@@ -1,13 +1,19 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { MetaBlox } from "../../typechain-types";
+import { MBlox } from "../../typechain-types";
 const { ethers, upgrades } = require("hardhat");
 
 let Deployer: SignerWithAddress;
 let Alice: SignerWithAddress;
 let Bob: SignerWithAddress;
 
-let MetaBloxContract: MetaBlox;
+let MBloxContract: MBlox;
 
+/**
+ * This deployFixture is just going to use the same variables as the MBlox deployFixtue
+ * This is for convenience purposes, as it is easier to fully test the SigRecovery contract using existing functionality
+ * rather than developing a personalised test suite specific for the SigRecovery contract
+ * @returns Variables used for testing
+ */
 const deployFixture = async () => {
   [Deployer, Alice, Bob] = await ethers.getSigners();
 
@@ -15,16 +21,12 @@ const deployFixture = async () => {
     process.env.GAME_WALLET_MNEMONIC
   );
 
-  const MetaBlox_Contract = await ethers.getContractFactory(
-    "MetaBlox",
-    Deployer
-  );
+  const MBlox_Contract = await ethers.getContractFactory("MBlox", Deployer);
 
-  MetaBloxContract = await upgrades.deployProxy(MetaBlox_Contract, [
+  MBloxContract = await upgrades.deployProxy(MBlox_Contract, [
     gameWallet.address,
   ]);
-
-  await MetaBloxContract.deployed();
+  await MBloxContract.deployed();
 
   // Mock invalid signature
   const invalidMessageHash = ethers.utils.keccak256(
@@ -55,10 +57,11 @@ const deployFixture = async () => {
     Deployer,
     Alice,
     Bob,
-    MetaBloxContract,
+    MBloxContract,
     gameWallet,
     validSignature,
     invalidSignature,
+    validMessageHash,
   };
 };
 

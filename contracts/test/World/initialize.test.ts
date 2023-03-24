@@ -15,9 +15,9 @@ describe("World initialize tests", () => {
    * =====================================================================
    */
   it("Should not allow re-initializing", async () => {
-    const { WorldContract } = await loadFixture(deployFixture);
+    const { WorldContract, gameWallet } = await loadFixture(deployFixture);
 
-    await expect(WorldContract.initialize("testDigitalKey")).to.be.reverted;
+    await expect(WorldContract.initialize(gameWallet.address)).to.be.reverted;
   });
 
   /**

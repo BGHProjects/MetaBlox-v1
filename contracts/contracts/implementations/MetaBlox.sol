@@ -37,7 +37,7 @@ contract MetaBlox is Initializable, ERC1155Upgradeable, AccessControlUpgradeable
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
 
-    // Restricts use to authorised callers
+    // Restricts use to authorised callers *** NO LONGER USED ***
     string private _digitalKey; 
 
     // Stores the prices of the different blocks in ether
@@ -66,10 +66,7 @@ contract MetaBlox is Initializable, ERC1155Upgradeable, AccessControlUpgradeable
      *  INITIALIZE
      * =======================
      */
-    function initialize(string memory digitalKey, address gameWallet) initializer public {
-        
-        // Assign the digital key
-        _digitalKey = digitalKey;
+    function initialize(address gameWallet) initializer public {
 
         // Assign the gameWallet
         _gameWallet = gameWallet;
@@ -250,7 +247,7 @@ contract MetaBlox is Initializable, ERC1155Upgradeable, AccessControlUpgradeable
 
         if(usedSignatures[signature]) revert InvalidSignature();
 
-        bytes memory encodedRequest = abi.encode(account, msg.sender);
+        bytes memory encodedRequest = abi.encode(account);
 
         address recoveredAddress = SigRecovery.recoverAddressFromMessage(
             encodedRequest,

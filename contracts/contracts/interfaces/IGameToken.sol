@@ -25,9 +25,8 @@ interface IGameToken {
     */
 
     /// @dev Intializing function required for upgradeable smart contracts
-    /// @param digitalKey Variable used to authenticate this contract's function calls
     /// @param gameWallet Wallet that is authorised to call certain contract calls
-    function initialize(string memory digitalKey, address gameWallet) external;
+    function initialize(address gameWallet) external;
 
     /// @dev Grants the relevant roles to another account
     /// @param account The account to be granted the roles
