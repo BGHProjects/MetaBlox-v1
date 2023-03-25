@@ -9,7 +9,6 @@ import "./World.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-import "hardhat/console.sol";
 /**
  * 
  * ███╗   ███╗███████╗████████╗ █████╗ ██████╗ ██╗      ██████╗ ██╗  ██╗
@@ -265,10 +264,6 @@ contract GameManager is IGameManager, Initializable {
             message,
             signature
         );
-
-        console.log("recoveredAddress %s", recoveredAddress);
-        console.log("_gameWallet %s", _gameWallet);
-
 
         if(recoveredAddress != _gameWallet) revert InvalidSignature();
 

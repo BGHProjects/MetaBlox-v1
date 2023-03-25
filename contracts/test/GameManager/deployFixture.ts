@@ -142,51 +142,6 @@ const deployFixture = async () => {
   );
   const invalidPBSignature = ethers.utils.arrayify(invalidPBSig);
 
-  // Purchase World
-
-  // const validPWHash = ethers.utils.keccak256(
-  //   ethers.utils.defaultAbiCoder.encode(
-  //     [
-  //       {
-  //         worldGridData: {
-  //           owner: "address",
-  //           coords: {
-  //             x: "uint256",
-  //             y: "uint256",
-  //           },
-  //         },
-  //         worldBlockDetails: {
-  //           blockTotal: "uint256",
-  //           worldLayout: "string",
-  //         },
-  //         colour: "string",
-  //         id: "uint256",
-  //         tokenURI: "string",
-  //       },
-  //       "address",
-  //       "string",
-  //     ],
-  //     [testWorld1, Alice.address, "dateTime1"]
-  //   )
-  // );
-  // console.log("validPWHash", validPWHash);
-
-  // const validPWSig = await gameWallet.signMessage(
-  //   ethers.utils.arrayify(validPWHash)
-  // );
-  // console.log("validPWSig", validPWSig);
-
-  // const validPWSignature = ethers.utils.arrayify(validPWSig);
-  // console.log("validPWSignature", validPWSignature);
-
-  // const invalidPWSig = await Alice.signMessage(
-  //   ethers.utils.arrayify(validPWHash)
-  // );
-  // console.log("invalidPWSig", invalidPWSig);
-  // const invalidPWSignature = ethers.utils.arrayify(invalidPWSig);
-
-  // console.log("invalidPWSignature", invalidPWSignature);
-
   // // Save World Changes
 
   // const validSWCHash = ethers.utils.keccak256(

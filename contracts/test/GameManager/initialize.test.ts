@@ -18,11 +18,12 @@ describe("GameManager initialize tests", () => {
       MetaBloxContract,
       WorldContract,
       TestMETRContract,
+      gameWallet,
     } = await loadFixture(deployFixture);
 
     await expect(
       GameManagerContract.initialize(
-        "testDigitalKey",
+        gameWallet.address,
         TestMETRContract.address,
         MBloxContract.address,
         MetaBloxContract.address,
@@ -45,6 +46,7 @@ describe("GameManager initialize tests", () => {
       MetaBloxContract,
       WorldContract,
       Deployer,
+      gameWallet,
     } = await loadFixture(deployFixture);
 
     const GameManager_Contract = await ethers.getContractFactory(
@@ -54,7 +56,7 @@ describe("GameManager initialize tests", () => {
 
     await expect(
       upgrades.deployProxy(GameManager_Contract, [
-        "testDigitalKey",
+        gameWallet.address,
         ZERO_ADDRESS,
         MBloxContract.address,
         MetaBloxContract.address,
@@ -77,6 +79,7 @@ describe("GameManager initialize tests", () => {
       WorldContract,
       TestMETRContract,
       Deployer,
+      gameWallet,
     } = await loadFixture(deployFixture);
 
     const GameManager_Contract = await ethers.getContractFactory(
@@ -86,7 +89,7 @@ describe("GameManager initialize tests", () => {
 
     await expect(
       upgrades.deployProxy(GameManager_Contract, [
-        "testDigitalKey",
+        gameWallet.address,
         TestMETRContract.address,
         ZERO_ADDRESS,
         MetaBloxContract.address,
@@ -109,6 +112,7 @@ describe("GameManager initialize tests", () => {
       WorldContract,
       TestMETRContract,
       Deployer,
+      gameWallet,
     } = await loadFixture(deployFixture);
 
     const GameManager_Contract = await ethers.getContractFactory(
@@ -118,7 +122,7 @@ describe("GameManager initialize tests", () => {
 
     await expect(
       upgrades.deployProxy(GameManager_Contract, [
-        "testDigitalKey",
+        gameWallet.address,
         TestMETRContract.address,
         MBloxContract.address,
         ZERO_ADDRESS,
@@ -141,6 +145,7 @@ describe("GameManager initialize tests", () => {
       MetaBloxContract,
       TestMETRContract,
       Deployer,
+      gameWallet,
     } = await loadFixture(deployFixture);
 
     const GameManager_Contract = await ethers.getContractFactory(
@@ -150,7 +155,7 @@ describe("GameManager initialize tests", () => {
 
     await expect(
       upgrades.deployProxy(GameManager_Contract, [
-        "testDigitalKey",
+        gameWallet.address,
         TestMETRContract.address,
         MBloxContract.address,
         MetaBloxContract.address,
@@ -173,6 +178,7 @@ describe("GameManager initialize tests", () => {
       WorldContract,
       TestMETRContract,
       Deployer,
+      gameWallet,
     } = await loadFixture(deployFixture);
 
     const GameManager_Contract = await ethers.getContractFactory(
@@ -182,7 +188,7 @@ describe("GameManager initialize tests", () => {
 
     await expect(
       upgrades.deployProxy(GameManager_Contract, [
-        "testDigitalKey",
+        gameWallet.address,
         TestMETRContract.address,
         MBloxContract.address,
         MetaBloxContract.address,

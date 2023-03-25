@@ -36,11 +36,6 @@
       "kind": "transparent"
     },
     {
-      "address": "0x3Aa5ebB10DC797CAC828524e59A333d0A371443c",
-      "txHash": "0x60a6bdb24da169ed59054f1227d067403636fbaa5dd0f0fa5868b9fe430bc778",
-      "kind": "transparent"
-    },
-    {
       "address": "0x7a2088a1bFc9d81c55368AE168C2C02570cB814F",
       "txHash": "0x66914a94469ce3eaa542616a8e41490dd1dafd2c918d160fd7e84f5e87d4b6bd",
       "kind": "transparent"
@@ -333,61 +328,6 @@
     {
       "address": "0x70eE76691Bdd9696552AF8d4fd634b3cF79DD529",
       "txHash": "0xec1b68e06bd7f1f32f160dda1bc738c27b5f94733c1d4e891317996f5be9983b",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
-      "txHash": "0xc27ca964afd606d007112fc9c1d792f5b35694ce01b8c0622f027c2b7a2a538f",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x9A676e781A523b5d0C0e43731313A708CB607508",
-      "txHash": "0x0f6119190e8f684a4f734c0f6a5008bdbad498b0465fcc85551a4c9d48fd8da4",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1",
-      "txHash": "0x711a7f5eae02d025b4954bf1bfc749df23173c3f05bff357fd2957266afd42b0",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x59b670e9fA9D0A427751Af201D676719a970857b",
-      "txHash": "0x1556721f4c2e5706de6006ec0479e00e6c0ee8d8787fd490a507a27324b72d07",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1",
-      "txHash": "0x61f323731e84672b58a8c5421ced88001c8d8f8aa812e270b54a054af6b9dcb0",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44",
-      "txHash": "0xa86026de529181dc8bf1e06fb23af30ffb5749549168611e2a864c443034d4e4",
-      "kind": "transparent"
-    },
-    {
-      "address": "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f",
-      "txHash": "0x3a9118e577800d99a35b5dd391cb667d76f548e2dc4d39faee12dbeff7b0c23c",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x4A679253410272dd5232B3Ff7cF5dbB88f295319",
-      "txHash": "0x6f7057fa50b5cbece19d60faa9888cbba67e72efac481980adb1577fe1b7f132",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x67d269191c92Caf3cD7723F116c85e6E9bf55933",
-      "txHash": "0x27846ad74e2f1c3c1c86b40bcb56800737c9c642455d2bc6232347779a0482b3",
-      "kind": "transparent"
-    },
-    {
-      "address": "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E",
-      "txHash": "0x9861f8ca2bcf03ae370befdc7b650adb97602471b17ed2ea8d0de1524ec5e9af",
-      "kind": "transparent"
-    },
-    {
-      "address": "0xc3e53F4d16Ae77Db1c982e75a937B9f60FE63690",
-      "txHash": "0xa603b4f5421c1252d3401b252882a2595e07d1b55b97f26b0b45cf1161fabe53",
       "kind": "transparent"
     },
     {
@@ -1221,6 +1161,66 @@
       "kind": "transparent"
     },
     {
+      "address": "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
+      "txHash": "0xc27ca964afd606d007112fc9c1d792f5b35694ce01b8c0622f027c2b7a2a538f",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x9A676e781A523b5d0C0e43731313A708CB607508",
+      "txHash": "0x0f6119190e8f684a4f734c0f6a5008bdbad498b0465fcc85551a4c9d48fd8da4",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1",
+      "txHash": "0x61f323731e84672b58a8c5421ced88001c8d8f8aa812e270b54a054af6b9dcb0",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x322813Fd9A801c5507c9de605d63CEA4f2CE6c44",
+      "txHash": "0xa86026de529181dc8bf1e06fb23af30ffb5749549168611e2a864c443034d4e4",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xa85233C63b9Ee964Add6F2cffe00Fd84eb32338f",
+      "txHash": "0x3a9118e577800d99a35b5dd391cb667d76f548e2dc4d39faee12dbeff7b0c23c",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x4A679253410272dd5232B3Ff7cF5dbB88f295319",
+      "txHash": "0x6f7057fa50b5cbece19d60faa9888cbba67e72efac481980adb1577fe1b7f132",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x67d269191c92Caf3cD7723F116c85e6E9bf55933",
+      "txHash": "0x27846ad74e2f1c3c1c86b40bcb56800737c9c642455d2bc6232347779a0482b3",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xE6E340D132b5f46d1e472DebcD681B2aBc16e57E",
+      "txHash": "0x9861f8ca2bcf03ae370befdc7b650adb97602471b17ed2ea8d0de1524ec5e9af",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xc3e53F4d16Ae77Db1c982e75a937B9f60FE63690",
+      "txHash": "0xa603b4f5421c1252d3401b252882a2595e07d1b55b97f26b0b45cf1161fabe53",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
+      "txHash": "0xb8427921edcaaef2e98d37590ee1ac550c90a2d5a8d3425917eda053919be56b",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE",
+      "txHash": "0xb67a2eba47f0f2543ca2ae1b2108695be163b78741069e3cb2a0597d45ebfa51",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d",
+      "txHash": "0x190c5f04183a6a64a4f93b63ac15ce655b271fd0e00eb2af2a121b1ba080f33c",
+      "kind": "transparent"
+    },
+    {
       "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
       "txHash": "0xc40fade33bebd0e66767aed61222e5e4d5824fe4b45450a47a9711e2f5b2d144",
       "kind": "transparent"
@@ -1246,23 +1246,23 @@
       "kind": "transparent"
     },
     {
-      "address": "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
-      "txHash": "0xb8427921edcaaef2e98d37590ee1ac550c90a2d5a8d3425917eda053919be56b",
-      "kind": "transparent"
-    },
-    {
-      "address": "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE",
-      "txHash": "0xb67a2eba47f0f2543ca2ae1b2108695be163b78741069e3cb2a0597d45ebfa51",
+      "address": "0x959922bE3CAee4b8Cd9a407cc3ac1C251C2007B1",
+      "txHash": "0x749c44ced993cf1aa6651266e42e49005796e88edf9204bf605d2944e9f6c33e",
       "kind": "transparent"
     },
     {
       "address": "0x68B1D87F95878fE05B998F19b66F4baba5De1aed",
-      "txHash": "0xf933c369e80630848575560f3a8d500d1c0daa5017d819a465199bef3f3a6186",
+      "txHash": "0x5d6af53252dd0bb08e99f8b12bb2a30ba4ad8409ca852d995096ee3d8d00534f",
       "kind": "transparent"
     },
     {
-      "address": "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d",
-      "txHash": "0x190c5f04183a6a64a4f93b63ac15ce655b271fd0e00eb2af2a121b1ba080f33c",
+      "address": "0x3Aa5ebB10DC797CAC828524e59A333d0A371443c",
+      "txHash": "0x8dc6d16383863dd2872c7806842547f28f6e1fb59a095bb1aca9d1543260d2e2",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x59b670e9fA9D0A427751Af201D676719a970857b",
+      "txHash": "0x21eb79253033b53b08355f8c9da9d46f1f9387beaf09d8892e21b59235e21a1c",
       "kind": "transparent"
     }
   ],
@@ -1836,9 +1836,9 @@
         }
       }
     },
-    "cae4f34a823fb15e2096b6f0ad605f879290c7cc5f9cbbecc3388cae5a6262ec": {
+    "cc5dcb0c73346ad0084c3c2440d48c4ceb06de7cc3c07e5f7ed28cc703ca8846": {
       "address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
-      "txHash": "0xce599f5797ccc472fafa61163ad4c53fa6b26a25128bfa22072c442371d4113e",
+      "txHash": "0x2cca34b3e938e7fdf9c65addde5905f6b56b9d830ef528be99a68c5bd4149cdf",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -1865,7 +1865,7 @@
             "slot": "1",
             "type": "t_string_storage",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:72"
+            "src": "contracts\\implementations\\GameManager.sol:71"
           },
           {
             "label": "_metrContract",
@@ -1873,31 +1873,31 @@
             "slot": "2",
             "type": "t_contract(ERC20)6277",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:73"
+            "src": "contracts\\implementations\\GameManager.sol:72"
           },
           {
             "label": "MBloxContract",
             "offset": 0,
             "slot": "3",
-            "type": "t_contract(MBlox)9665",
+            "type": "t_contract(MBlox)9634",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:76"
+            "src": "contracts\\implementations\\GameManager.sol:75"
           },
           {
             "label": "MetaBloxContract",
             "offset": 0,
             "slot": "4",
-            "type": "t_contract(MetaBlox)11171",
+            "type": "t_contract(MetaBlox)11140",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:77"
+            "src": "contracts\\implementations\\GameManager.sol:76"
           },
           {
             "label": "WorldContract",
             "offset": 0,
             "slot": "5",
-            "type": "t_contract(World)12186",
+            "type": "t_contract(World)12155",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:79"
+            "src": "contracts\\implementations\\GameManager.sol:78"
           },
           {
             "label": "_recipient",
@@ -1905,7 +1905,7 @@
             "slot": "6",
             "type": "t_address_payable",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:83"
+            "src": "contracts\\implementations\\GameManager.sol:82"
           },
           {
             "label": "usedColours",
@@ -1913,23 +1913,23 @@
             "slot": "7",
             "type": "t_array(t_string_storage)dyn_storage",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:85"
+            "src": "contracts\\implementations\\GameManager.sol:84"
           },
           {
             "label": "players",
             "offset": 0,
             "slot": "8",
-            "type": "t_mapping(t_address,t_struct(PlayerInfo)12459_storage)",
+            "type": "t_mapping(t_address,t_struct(PlayerInfo)12427_storage)",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:88"
+            "src": "contracts\\implementations\\GameManager.sol:87"
           },
           {
             "label": "gridData",
             "offset": 0,
             "slot": "9",
-            "type": "t_array(t_struct(GridData)12468_storage)dyn_storage",
+            "type": "t_array(t_struct(GridData)12436_storage)dyn_storage",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:91"
+            "src": "contracts\\implementations\\GameManager.sol:90"
           },
           {
             "label": "_gameWallet",
@@ -1937,7 +1937,7 @@
             "slot": "10",
             "type": "t_address",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:93"
+            "src": "contracts\\implementations\\GameManager.sol:92"
           },
           {
             "label": "usedSignatures",
@@ -1945,7 +1945,7 @@
             "slot": "11",
             "type": "t_mapping(t_bytes_memory_ptr,t_bool)",
             "contract": "GameManager",
-            "src": "contracts\\implementations\\GameManager.sol:94"
+            "src": "contracts\\implementations\\GameManager.sol:93"
           }
         ],
         "types": {
@@ -1961,7 +1961,7 @@
             "label": "string[]",
             "numberOfBytes": "32"
           },
-          "t_array(t_struct(GridData)12468_storage)dyn_storage": {
+          "t_array(t_struct(GridData)12436_storage)dyn_storage": {
             "label": "struct IGameManager.GridData[]",
             "numberOfBytes": "32"
           },
@@ -1977,19 +1977,19 @@
             "label": "contract ERC20",
             "numberOfBytes": "20"
           },
-          "t_contract(MBlox)9665": {
+          "t_contract(MBlox)9634": {
             "label": "contract MBlox",
             "numberOfBytes": "20"
           },
-          "t_contract(MetaBlox)11171": {
+          "t_contract(MetaBlox)11140": {
             "label": "contract MetaBlox",
             "numberOfBytes": "20"
           },
-          "t_contract(World)12186": {
+          "t_contract(World)12155": {
             "label": "contract World",
             "numberOfBytes": "20"
           },
-          "t_mapping(t_address,t_struct(PlayerInfo)12459_storage)": {
+          "t_mapping(t_address,t_struct(PlayerInfo)12427_storage)": {
             "label": "mapping(address => struct IGameManager.PlayerInfo)",
             "numberOfBytes": "32"
           },
@@ -2001,7 +2001,7 @@
             "label": "string",
             "numberOfBytes": "32"
           },
-          "t_struct(GridData)12468_storage": {
+          "t_struct(GridData)12436_storage": {
             "label": "struct IGameManager.GridData",
             "members": [
               {
@@ -2031,7 +2031,7 @@
             ],
             "numberOfBytes": "128"
           },
-          "t_struct(PlayerInfo)12459_storage": {
+          "t_struct(PlayerInfo)12427_storage": {
             "label": "struct IGameManager.PlayerInfo",
             "members": [
               {
@@ -2063,9 +2063,9 @@
         }
       }
     },
-    "a78d5fd2f4fe5acaa1fbda0b59f64399870db37b6ac11657fb5af908d05f5c72": {
+    "92c4c1fa02d2dd087b1b751ef7945baced1476a05904580a6241b75514e2de74": {
       "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "txHash": "0xcd6aaeebe2f50d359e3e46beaebfe584591e5fb8ca37ac9501b8e8e6dd080f21",
+      "txHash": "0x401df9e208db50684f29eb7aa7472a666a82b632df892a9e27006294eeb670a0",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -2284,9 +2284,9 @@
         }
       }
     },
-    "25d2d33c771eef0d7a20e75f4e70b415f5c7a949d351a1200287b810def01f88": {
+    "852974e420af7b9d79afd3e995457da22940848eba1be5b78f46e7365c54f8bd": {
       "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
-      "txHash": "0x219328289fdc18bac14c99c0f13aefce56edf39765069d7ec93b528f21ef4af0",
+      "txHash": "0x6e9b37c700402109117cf85562f8d60083c89e560facec1ef55448c3626ecaf7",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -2505,9 +2505,9 @@
         }
       }
     },
-    "e6200ad8a29bbd5baa941c6d47a13bf258c88460557eb6ef021d4838b110bfdc": {
+    "3947d0f94272cabaf27f2a2ddc9ddaac6f35c43f6b70bd7e5a2f31095252fdae": {
       "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
-      "txHash": "0x5996631f2e3cfe624cf66cb7638330848feac2ac8541f71580b200159e2068f9",
+      "txHash": "0x2f784ec69553fd3c437fd83410e5ffbe2598bf220852fc4efed30804797ab70c",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -2652,7 +2652,7 @@
             "label": "worlds",
             "offset": 0,
             "slot": "302",
-            "type": "t_mapping(t_uint256,t_struct(WorldMetadata)12938_storage)",
+            "type": "t_mapping(t_uint256,t_struct(WorldMetadata)12906_storage)",
             "contract": "World",
             "src": "contracts\\implementations\\World.sol:108"
           },
@@ -2738,7 +2738,7 @@
             "label": "mapping(uint256 => string)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_struct(WorldMetadata)12938_storage)": {
+          "t_mapping(t_uint256,t_struct(WorldMetadata)12906_storage)": {
             "label": "mapping(uint256 => struct IUtilities.WorldMetadata)",
             "numberOfBytes": "32"
           },
@@ -2746,7 +2746,7 @@
             "label": "string",
             "numberOfBytes": "32"
           },
-          "t_struct(Coordinates)12914_storage": {
+          "t_struct(Coordinates)12882_storage": {
             "label": "struct IUtilities.Coordinates",
             "members": [
               {
@@ -2794,7 +2794,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(WorldBlockDetails)12925_storage": {
+          "t_struct(WorldBlockDetails)12893_storage": {
             "label": "struct IUtilities.WorldBlockDetails",
             "members": [
               {
@@ -2812,7 +2812,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(WorldGridData)12920_storage": {
+          "t_struct(WorldGridData)12888_storage": {
             "label": "struct IUtilities.WorldGridData",
             "members": [
               {
@@ -2823,25 +2823,25 @@
               },
               {
                 "label": "coords",
-                "type": "t_struct(Coordinates)12914_storage",
+                "type": "t_struct(Coordinates)12882_storage",
                 "offset": 0,
                 "slot": "1"
               }
             ],
             "numberOfBytes": "96"
           },
-          "t_struct(WorldMetadata)12938_storage": {
+          "t_struct(WorldMetadata)12906_storage": {
             "label": "struct IUtilities.WorldMetadata",
             "members": [
               {
                 "label": "worldGridData",
-                "type": "t_struct(WorldGridData)12920_storage",
+                "type": "t_struct(WorldGridData)12888_storage",
                 "offset": 0,
                 "slot": "0"
               },
               {
                 "label": "worldBlockDetails",
-                "type": "t_struct(WorldBlockDetails)12925_storage",
+                "type": "t_struct(WorldBlockDetails)12893_storage",
                 "offset": 0,
                 "slot": "3"
               },

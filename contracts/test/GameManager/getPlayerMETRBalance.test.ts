@@ -23,12 +23,26 @@ describe("GameManager getPlayerMETRBalance tests", () => {
    * =====================================================================
    */
   it("Should return correct claimed METR balance", async () => {
-    const { GameManagerContract, Alice, TestMETRContract } = await loadFixture(
-      deployFixture
-    );
+    const { GameManagerContract, Alice, TestMETRContract, gameWallet } =
+      await loadFixture(deployFixture);
 
     await TestMETRContract.mintMBlox(Alice.address, 5);
-    await GameManagerContract.claimMETRBalance("testDigitalKey", Alice.address);
+
+    const eu = ethers.utils;
+
+    const data = eu.defaultAbiCoder.encode(
+      ["address", "string"],
+      [Alice.address, "dateTime1"]
+    );
+
+    const hash = eu.keccak256(data);
+
+    const sig = await gameWallet.signMessage(eu.arrayify(hash));
+
+    await expect(
+      GameManagerContract.claimMETRBalance(Alice.address, "dateTime1", sig)
+    ).to.not.be.reverted;
+
     const metrBalance = await GameManagerContract.getPlayerMETRBalance(
       Alice.address
     );
