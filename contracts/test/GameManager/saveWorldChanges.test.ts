@@ -6,25 +6,27 @@ import deployFixture from "./deployFixture";
 describe("GameManager saveWorldChanges tests", () => {
   /**
    * =====================================================================
-   *   SHOULD NOT ALLOW SAVING CHANGES WITH AN INVALID DIGITAL KEY
+   *   SHOULD NOT ALLOW SAVING CHANGES WITH AN INVALID SIGNATURE
    * =====================================================================
    */
-  it("Should not allow saving changes with an invalid digital key", async () => {
+  it("Should not allow saving changes with an invalid signature", async () => {
     const {
       GameManagerContract,
       Alice,
       updatedWorldBlockDetails,
       emptyBlockUpdates,
+      invalidPBSignature,
     } = await loadFixture(deployFixture);
     await expect(
       GameManagerContract.saveWorldChanges(
-        "notTestDigitalKey",
         Alice.address,
         0,
         updatedWorldBlockDetails,
-        emptyBlockUpdates
+        emptyBlockUpdates,
+        "dateTime1",
+        invalidPBSignature
       )
-    ).to.be.revertedWithCustomError(GameManagerContract, "InvalidDigitalKey");
+    ).to.be.revertedWithCustomError(GameManagerContract, "InvalidSignature");
   });
 
   /**
@@ -40,6 +42,7 @@ describe("GameManager saveWorldChanges tests", () => {
       testWorld1,
       updatedWorldBlockDetails,
       emptyBlockUpdates,
+      gameWallet,
     } = await loadFixture(deployFixture);
 
     // Mint the World to be updated
@@ -51,14 +54,38 @@ describe("GameManager saveWorldChanges tests", () => {
 
     expect(convertToInt).to.eq(1);
 
-    // Update World
-    await expect(
-      GameManagerContract.saveWorldChanges(
-        "testDigitalKey",
+    const eu = ethers.utils;
+
+    const data = eu.defaultAbiCoder.encode(
+      [
+        "address",
+        "uint256",
+        "tuple(uint256 blockTotal, string worldLayout) worldBlockDetails",
+        "tuple(uint256[] increases, uint256[] increaseIds, uint256[] decreases, uint256[] decreaseIds) blockUpdates",
+        "string",
+      ],
+      [
         Alice.address,
         0,
         updatedWorldBlockDetails,
-        emptyBlockUpdates
+        emptyBlockUpdates,
+        "dateTime1",
+      ]
+    );
+
+    const hash = eu.keccak256(data);
+
+    const sig = await gameWallet.signMessage(eu.arrayify(hash));
+
+    // Update World
+    await expect(
+      GameManagerContract.saveWorldChanges(
+        Alice.address,
+        0,
+        updatedWorldBlockDetails,
+        emptyBlockUpdates,
+        "dateTime1",
+        sig
       )
     ).to.not.be.reverted;
   });
@@ -77,6 +104,7 @@ describe("GameManager saveWorldChanges tests", () => {
       testWorld1,
       updatedWorldBlockDetails,
       testBlockUpdates,
+      gameWallet,
     } = await loadFixture(deployFixture);
 
     // Mint the World to be updated
@@ -102,14 +130,38 @@ describe("GameManager saveWorldChanges tests", () => {
     expect(await MetaBloxContract.balanceOf(Alice.address, 2)).be.eq(5);
     expect(await MetaBloxContract.balanceOf(Alice.address, 3)).be.eq(5);
 
-    // Update World
-    await expect(
-      GameManagerContract.saveWorldChanges(
-        "testDigitalKey",
+    const eu = ethers.utils;
+
+    const data = eu.defaultAbiCoder.encode(
+      [
+        "address",
+        "uint256",
+        "tuple(uint256 blockTotal, string worldLayout) worldBlockDetails",
+        "tuple(uint256[] increaseIds, uint256[] increases, uint256[] decreaseIds, uint256[] decreases) blockUpdates",
+        "string",
+      ],
+      [
         Alice.address,
         0,
         updatedWorldBlockDetails,
-        testBlockUpdates
+        testBlockUpdates,
+        "dateTime1",
+      ]
+    );
+
+    const hash = eu.keccak256(data);
+
+    const sig = await gameWallet.signMessage(eu.arrayify(hash));
+
+    // Update World
+    await expect(
+      GameManagerContract.saveWorldChanges(
+        Alice.address,
+        0,
+        updatedWorldBlockDetails,
+        testBlockUpdates,
+        "dateTime1",
+        sig
       )
     ).to.not.be.reverted;
 

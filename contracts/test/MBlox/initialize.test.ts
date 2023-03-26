@@ -14,9 +14,9 @@ describe("MBlox initialize tests", () => {
    * =====================================================================
    */
   it("Should not allow re-initializing", async () => {
-    const { MBloxContract } = await loadFixture(deployFixture);
+    const { MBloxContract, gameWallet } = await loadFixture(deployFixture);
 
-    await expect(MBloxContract.initialize("testDigitalKey")).to.be.reverted;
+    await expect(MBloxContract.initialize(gameWallet.address)).to.be.reverted;
   });
 
   /**

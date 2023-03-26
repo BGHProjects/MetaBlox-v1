@@ -75,22 +75,22 @@ There are four main aspects of gameplay within the project. These are as follows
 
 This proof of concept uses a smart contract system that includes four implementations and seven interfaces. All the contracts were deployed to the [Polygon Mumbai Test Network](https://mumbai.polygonscan.com/), were written in the Solidity programming language and deployed using Hardhat, both of which are referenced in the stack displayed above. The implementations used in this smart contract system are as follows:
 
-### [MBlox](https://mumbai.polygonscan.com/address/0x8CC4b7E3d689Fb5b12D53492c523707095fD3C13#code)
+### [MBlox](https://mumbai.polygonscan.com/address/0x6b7f8E11b3cef96AC3672eCaf9dC14DB39f60991#code)
 
 - This contract represents the in-game currency that is primarily used to purchase the other tokens in the game.
 - It is a relatively basic [upgradeable ERC20 contract](https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/v4.7.3/contracts/token/ERC20/ERC20Upgradeable.sol) that provides basic minting and burning functionality.
 
-### [MetaBlox](https://mumbai.polygonscan.com/address/0x02cCF93F1Ba99146107328CA64cb641C63615309#code)
+### [MetaBlox](https://mumbai.polygonscan.com/address/0xC2f260d0Eb42DB7c2C8143130D4894AF2500D994#code)
 
 - This contract represents the different blocks that the user is able to purchase and then use to build with within the game.
 - It is an implementation of an [upgradeable ERC1155 contract](https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/master/contracts/token/ERC1155/ERC1155Upgradeable.sol), that contains balances for each of the variants of blocks as described above, the prices of each block in MBlox, and minting, burning, and batch minting and burning functionality.
 
-### [World](https://mumbai.polygonscan.com/address/0x8504058723cc400edb1ab3e60035ef153334f482#code)
+### [World](https://mumbai.polygonscan.com/address/0x0dbE23d92c28FFb7a8322147F2ff87cB9Bc26d84#code)
 
 - This contract represents the different worlds that users can purchase and build within the game.
 - It is an implementation of an [upgradable ERC721 contract](https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable/blob/master/contracts/token/ERC721/ERC721Upgradeable.sol), that includes URI storage and burning functionality.
 
-### [GameManager](https://mumbai.polygonscan.com/address/0x82869119dDa5ADE65f010541f16fAD3fab362a81#code)
+### [GameManager](https://mumbai.polygonscan.com/address/0xb229E5167076D0d838cBfc37503F4DF0312D5160#code)
 
 - This contract facilitates interactions between the game and smart contract system.
 - It is a [custom upgradeable contract](https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable) and includes several key aspects of functionality, including getter functions for retrieving values relevant to the game, enabling users to purchase other tokens within the MBlox in-game currency, and handling changes to world tokens that users make by placing and removing blocks.

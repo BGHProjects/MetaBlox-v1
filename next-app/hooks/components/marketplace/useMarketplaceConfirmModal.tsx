@@ -1,4 +1,5 @@
 import { useToast } from "@chakra-ui/react";
+import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useAccount, useSigner } from "wagmi";
 import { Block, blockPrices } from "../../../constants/blocks";
@@ -65,11 +66,29 @@ const useMarketplaceConfirmModal = (
         (element) => element === block
       );
 
+      const eu = ethers.utils;
+
+      const dateTime = new Date().toString();
+
+      const gameWallet = ethers.Wallet.fromMnemonic(
+        process.env.NEXT_PUBLIC_GAME_WALLET_MNEMONIC as string
+      );
+
+      const data = eu.defaultAbiCoder.encode(
+        ["uint256", "uint256", "address", "string"],
+        [blockId, numberOfBlocks, address, dateTime]
+      );
+
+      const hash = eu.keccak256(data);
+
+      const sig = await gameWallet.signMessage(eu.arrayify(hash));
+
       const tx = await GameManager.purchaseBlocks(
-        process.env.NEXT_PUBLIC_DIGITAL_KEY,
         blockId,
         numberOfBlocks,
-        address
+        address,
+        dateTime,
+        sig
       );
 
       if (tx) {

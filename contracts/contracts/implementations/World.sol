@@ -3,6 +3,7 @@ pragma solidity 0.8.17;
 
 import "../interfaces/IWorld.sol";
 import "../interfaces/IGameItem.sol";
+import "./libraries/SigRecovery.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721BurnableUpgradeable.sol";
@@ -55,23 +56,27 @@ contract World is
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
     bytes32 public constant UPDATER_ROLE = keccak256("UPDATER_ROLE");
 
-    // Restricts use to authorised callers
-    string private _digitalKey;
-
     // Holds World data to be accessed by the game
     mapping(uint256 => WorldMetadata) public worlds;
 
     // Tracks token IDs
     CountersUpgradeable.Counter public _tokenIdCounter;
+
+    // Restricts calls to the game wallet
+    address private _gameWallet;
+
+    // Holds used signatures to prevent double dipping
+    mapping(bytes => bool) private usedSignatures;
     
     /**
      * =======================
      *  INITIALIZE
      * =======================
      */
-    function initialize(string memory digitalKey) public initializer {
-        // Assign the digital key
-        _digitalKey = digitalKey;
+    function initialize(address gameWallet) public initializer {
+
+        // Assign the gameWallet
+        _gameWallet = gameWallet;
 
         // Upgradeable contract required initializations
         __ERC721_init("WorldToken", "WRLD");
@@ -148,11 +153,9 @@ contract World is
      *  GRANT ROLES
      * =======================
      */
-    function grantRoles(address account, string memory digitalKey) public {
+    function grantRoles(address account, bytes memory signature) public {
         if (account == address(0)) revert ZeroAddress();
-        if (keccak256(bytes((digitalKey))) != keccak256(bytes((_digitalKey))))
-            revert InvalidDigitalKey();
-
+        _verifySignature(account, signature);
         _setupRole(MINTER_ROLE, account);
         _setupRole(BURNER_ROLE, account);
         _setupRole(UPDATER_ROLE, account);
@@ -202,6 +205,27 @@ contract World is
         returns (bool)
     {
         return super.supportsInterface(interfaceId);
+    }
+
+    /**
+     * =======================
+     *  VERIFY SIGNATURE
+     * =======================
+     */
+    function _verifySignature(address account, bytes memory signature) internal {
+
+        if(usedSignatures[signature]) revert InvalidSignature();
+
+        bytes memory encodedRequest = abi.encode(account);
+
+        address recoveredAddress = SigRecovery.recoverAddressFromMessage(
+            encodedRequest,
+            signature
+        );
+
+        if(recoveredAddress != _gameWallet) revert InvalidSignature();
+
+        usedSignatures[signature] = true;
     }
 
 }

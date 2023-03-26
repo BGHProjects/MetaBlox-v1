@@ -6,19 +6,21 @@ import deployFixture from "./deployFixture";
 describe("GameManager purchaseBlocks tests", () => {
   /**
    * =====================================================================
-   *   SHOULD NOT ALLOW PURCHASE WITH AN INVALID DIGITAL KEY
+   *   SHOULD NOT ALLOW PURCHASE WITH AN INVALID SIGNATURE
    * =====================================================================
    */
-  it("Should not allow purchase with an invalid digital key", async () => {
-    const { GameManagerContract, Alice } = await loadFixture(deployFixture);
+  it("Should not allow purchase with an invalid signature", async () => {
+    const { GameManagerContract, Alice, invalidPBSignature } =
+      await loadFixture(deployFixture);
     await expect(
       GameManagerContract.purchaseBlocks(
-        "notTestDigitalKey",
         1,
         1,
-        Alice.address
+        Alice.address,
+        "dateTime1",
+        invalidPBSignature
       )
-    ).to.be.revertedWithCustomError(GameManagerContract, "InvalidDigitalKey");
+    ).to.be.revertedWithCustomError(GameManagerContract, "InvalidSignature");
   });
 
   /**
@@ -27,9 +29,17 @@ describe("GameManager purchaseBlocks tests", () => {
    * =====================================================================
    */
   it("Should not allow purchase by the zero address", async () => {
-    const { GameManagerContract } = await loadFixture(deployFixture);
+    const { GameManagerContract, invalidPBSignature } = await loadFixture(
+      deployFixture
+    );
     await expect(
-      GameManagerContract.purchaseBlocks("testDigitalKey", 1, 1, ZERO_ADDRESS)
+      GameManagerContract.purchaseBlocks(
+        1,
+        1,
+        ZERO_ADDRESS,
+        "dateTime1",
+        invalidPBSignature
+      )
     ).to.be.revertedWithCustomError(GameManagerContract, "ZeroAddress");
   });
 
@@ -39,9 +49,16 @@ describe("GameManager purchaseBlocks tests", () => {
    * =====================================================================
    */
   it("Should not allow purchase with a non-positive amount", async () => {
-    const { GameManagerContract, Alice } = await loadFixture(deployFixture);
+    const { GameManagerContract, Alice, invalidPBSignature } =
+      await loadFixture(deployFixture);
     await expect(
-      GameManagerContract.purchaseBlocks("testDigitalKey", 1, 0, Alice.address)
+      GameManagerContract.purchaseBlocks(
+        1,
+        0,
+        Alice.address,
+        "dateTime1",
+        invalidPBSignature
+      )
     ).to.be.revertedWithCustomError(GameManagerContract, "NotPositiveValue");
   });
 
@@ -51,9 +68,35 @@ describe("GameManager purchaseBlocks tests", () => {
    * =====================================================================
    */
   it("Should not allow purchase of invalid block type", async () => {
-    const { GameManagerContract, Alice } = await loadFixture(deployFixture);
+    const { GameManagerContract, Alice, gameWallet } = await loadFixture(
+      deployFixture
+    );
+
+    const validPBHash = ethers.utils.keccak256(
+      ethers.utils.defaultAbiCoder.encode(
+        ["uint256", "uint256", "address", "bytes"],
+        [
+          13,
+          1,
+          Alice.address,
+          ethers.utils.formatBytes32String("dateTime1").substring(0, 20),
+        ]
+      )
+    );
+
+    const validPBSig = await gameWallet.signMessage(
+      ethers.utils.arrayify(validPBHash)
+    );
+    const validPBSignature = ethers.utils.arrayify(validPBSig);
+
     await expect(
-      GameManagerContract.purchaseBlocks("testDigitalKey", 13, 1, Alice.address)
+      GameManagerContract.purchaseBlocks(
+        13,
+        1,
+        Alice.address,
+        "dateTime1",
+        validPBSignature
+      )
     ).to.be.revertedWithCustomError(GameManagerContract, "InvalidTokenID");
   });
 
@@ -63,9 +106,35 @@ describe("GameManager purchaseBlocks tests", () => {
    * =====================================================================
    */
   it("Should not allow purchase without adequate MBLOX balance", async () => {
-    const { GameManagerContract, Alice } = await loadFixture(deployFixture);
+    const { GameManagerContract, Alice, gameWallet } = await loadFixture(
+      deployFixture
+    );
+
+    const validPBHash = ethers.utils.keccak256(
+      ethers.utils.defaultAbiCoder.encode(
+        ["uint256", "uint256", "address", "bytes"],
+        [
+          1,
+          1,
+          Alice.address,
+          ethers.utils.formatBytes32String("dateTime1").substring(0, 20),
+        ]
+      )
+    );
+
+    const validPBSig = await gameWallet.signMessage(
+      ethers.utils.arrayify(validPBHash)
+    );
+    const validPBSignature = ethers.utils.arrayify(validPBSig);
+
     await expect(
-      GameManagerContract.purchaseBlocks("testDigitalKey", 1, 1, Alice.address)
+      GameManagerContract.purchaseBlocks(
+        1,
+        1,
+        Alice.address,
+        "dateTime1",
+        validPBSignature
+      )
     ).to.be.revertedWithCustomError(GameManagerContract, "InadequateMBLOX");
   });
 
@@ -75,16 +144,44 @@ describe("GameManager purchaseBlocks tests", () => {
    * =====================================================================
    */
   it("Should allow purchase", async () => {
-    const { GameManagerContract, Alice, MBloxContract, MetaBloxContract } =
-      await loadFixture(deployFixture);
+    const {
+      GameManagerContract,
+      Alice,
+      MBloxContract,
+      MetaBloxContract,
+      gameWallet,
+    } = await loadFixture(deployFixture);
 
     await MBloxContract.mintMBlox(
       Alice.address,
       ethers.utils.parseEther("100")
     );
 
+    const validPBHash = ethers.utils.keccak256(
+      ethers.utils.defaultAbiCoder.encode(
+        ["uint256", "uint256", "address", "bytes"],
+        [
+          1,
+          1,
+          Alice.address,
+          ethers.utils.formatBytes32String("dateTime1").substring(0, 20),
+        ]
+      )
+    );
+
+    const validPBSig = await gameWallet.signMessage(
+      ethers.utils.arrayify(validPBHash)
+    );
+    const validPBSignature = ethers.utils.arrayify(validPBSig);
+
     await expect(
-      GameManagerContract.purchaseBlocks("testDigitalKey", 1, 1, Alice.address)
+      GameManagerContract.purchaseBlocks(
+        1,
+        1,
+        Alice.address,
+        "dateTime1",
+        validPBSignature
+      )
     ).to.not.be.reverted;
 
     const mbloxBalance = await MBloxContract.balanceOf(Alice.address);

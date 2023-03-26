@@ -12,24 +12,28 @@ describe("World grantRoles tests", () => {
    * =====================================================================
    */
   it("Should not allow granting roles to the zero address", async () => {
-    const { WorldContract } = await loadFixture(deployFixture);
+    const { WorldContract, invalidSignature } = await loadFixture(
+      deployFixture
+    );
 
     await expect(
-      WorldContract.grantRoles(ethers.constants.AddressZero, "testDigitalKey")
+      WorldContract.grantRoles(ethers.constants.AddressZero, invalidSignature)
     ).to.be.revertedWithCustomError(WorldContract, "ZeroAddress");
   });
 
   /**
    * =====================================================================
-   *   SHOULD NOT ALLOW GRANTING ROLES WITH AN INVALID DIGITAL KEY
+   *   SHOULD NOT ALLOW GRANTING ROLES WITH AN INVALID SIGNATURE
    * =====================================================================
    */
-  it("Should not allow granting roles with an invalid digital key", async () => {
-    const { WorldContract, Alice } = await loadFixture(deployFixture);
+  it("Should not allow granting roles with an invalid signature", async () => {
+    const { WorldContract, Alice, invalidSignature } = await loadFixture(
+      deployFixture
+    );
 
     await expect(
-      WorldContract.grantRoles(Alice.address, "notTestDigitalKey")
-    ).to.be.revertedWithCustomError(WorldContract, "InvalidDigitalKey");
+      WorldContract.grantRoles(Alice.address, invalidSignature)
+    ).to.be.revertedWithCustomError(WorldContract, "InvalidSignature");
   });
 
   /**
@@ -38,15 +42,35 @@ describe("World grantRoles tests", () => {
    * =====================================================================
    */
   it("Should allow granting of roles", async () => {
-    const { WorldContract, Alice } = await loadFixture(deployFixture);
+    const { WorldContract, Alice, validSignature } = await loadFixture(
+      deployFixture
+    );
 
-    await expect(WorldContract.grantRoles(Alice.address, "testDigitalKey")).not
-      .be.reverted;
+    await expect(WorldContract.grantRoles(Alice.address, validSignature)).not.be
+      .reverted;
 
     expect(await WorldContract.hasRole(MINTER_ROLE, Alice.address)).to.eq(true);
     expect(await WorldContract.hasRole(BURNER_ROLE, Alice.address)).to.eq(true);
     expect(await WorldContract.hasRole(UPDATER_ROLE, Alice.address)).to.eq(
       true
     );
+  });
+
+  /**
+   * =====================================================================
+   *   SHOULD NOT ALLOW SAME SIGNATURE
+   * =====================================================================
+   */
+  it("Should not allow same signature", async () => {
+    const { WorldContract, Alice, validSignature } = await loadFixture(
+      deployFixture
+    );
+
+    await expect(WorldContract.grantRoles(Alice.address, validSignature)).not.be
+      .reverted;
+
+    await expect(
+      WorldContract.grantRoles(Alice.address, validSignature)
+    ).to.be.revertedWithCustomError(WorldContract, "InvalidSignature");
   });
 });

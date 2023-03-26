@@ -15,9 +15,10 @@ describe("MetaBlox initialize tests", () => {
    * =====================================================================
    */
   it("Should not allow re-initializing", async () => {
-    const { MetaBloxContract } = await loadFixture(deployFixture);
+    const { MetaBloxContract, gameWallet } = await loadFixture(deployFixture);
 
-    await expect(MetaBloxContract.initialize("testDigitalKey")).to.be.reverted;
+    await expect(MetaBloxContract.initialize(gameWallet.address)).to.be
+      .reverted;
   });
 
   /**

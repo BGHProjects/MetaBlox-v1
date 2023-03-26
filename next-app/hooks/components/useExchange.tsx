@@ -39,11 +39,26 @@ const useExchange = () => {
     try {
       const contract = getGameManagerContract(signer);
 
-      const tx = await contract.convertMATICtoMBLOX(
-        process.env.NEXT_PUBLIC_DIGITAL_KEY,
-        address,
-        { value: ethers.utils.parseEther("0.1") }
+      const eu = ethers.utils;
+
+      const dateTime = new Date().toString();
+
+      const gameWallet = ethers.Wallet.fromMnemonic(
+        process.env.NEXT_PUBLIC_GAME_WALLET_MNEMONIC as string
       );
+
+      const data = eu.defaultAbiCoder.encode(
+        ["address", "string"],
+        [address, dateTime]
+      );
+
+      const hash = eu.keccak256(data);
+
+      const sig = await gameWallet.signMessage(eu.arrayify(hash));
+
+      const tx = await contract.convertMATICtoMBLOX(address, dateTime, sig, {
+        value: ethers.utils.parseEther("0.1"),
+      });
 
       if (tx) {
         toast({
@@ -117,10 +132,24 @@ const useExchange = () => {
         return;
       }
 
-      const tx = await contract.claimMETRBalance(
-        process.env.NEXT_PUBLIC_DIGITAL_KEY,
-        address
+      const eu = ethers.utils;
+
+      const dateTime = new Date().toString();
+
+      const gameWallet = ethers.Wallet.fromMnemonic(
+        process.env.NEXT_PUBLIC_GAME_WALLET_MNEMONIC as string
       );
+
+      const data = eu.defaultAbiCoder.encode(
+        ["address", "string"],
+        [address, dateTime]
+      );
+
+      const hash = eu.keccak256(data);
+
+      const sig = await gameWallet.signMessage(eu.arrayify(hash));
+
+      const tx = await contract.claimMETRBalance(address, dateTime, sig);
 
       if (tx) {
         toast({

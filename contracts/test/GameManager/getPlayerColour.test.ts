@@ -24,19 +24,42 @@ describe("GameManager getPlayerColour tests", () => {
    * =====================================================================
    */
   it("Should return correct colour", async () => {
-    const { GameManagerContract, MBloxContract, Alice, testWorld1 } =
-      await loadFixture(deployFixture);
+    const {
+      GameManagerContract,
+      MBloxContract,
+      Alice,
+      testWorld1,
+      gameWallet,
+    } = await loadFixture(deployFixture);
 
     await MBloxContract.mintMBlox(
       Alice.address,
       ethers.utils.parseEther("150")
     );
 
-    await GameManagerContract.purchaseWorld(
-      "testDigitalKey",
-      testWorld1,
-      Alice.address
+    const eu = ethers.utils;
+
+    const data = eu.defaultAbiCoder.encode(
+      [
+        "tuple(tuple(address owner, tuple(uint256 x, uint256 y) coords) worldGridData, tuple(uint256 blockTotal, string worldLayout) worldBlockDetails, string colour, uint256 id, string tokenURI)",
+        "address",
+        "string",
+      ],
+      [testWorld1, Alice.address, "dateTime"]
     );
+
+    const hash = eu.keccak256(data);
+
+    const sig = await gameWallet.signMessage(eu.arrayify(hash));
+
+    await expect(
+      GameManagerContract.purchaseWorld(
+        testWorld1,
+        Alice.address,
+        "dateTime",
+        sig
+      )
+    ).to.not.be.reverted;
 
     const playerColour = await GameManagerContract.getPlayerColour(
       Alice.address

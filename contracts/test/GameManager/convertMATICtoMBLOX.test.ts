@@ -7,31 +7,22 @@ import deployFixture from "./deployFixture";
 describe("GameManager convertMATICtoMBLOX tests", () => {
   /**
    * =====================================================================
-   *   SHOULD NOT ALLOW CONVERTING WITH AN INVALID DIGITAL KEY
-   * =====================================================================
-   */
-  it("Should not allow converting with an invalid digital key", async () => {
-    const { GameManagerContract, Alice } = await loadFixture(deployFixture);
-    await expect(
-      GameManagerContract.convertMATICtoMBLOX(
-        "notTestDigitalKey",
-        Alice.address,
-        { value: ethers.utils.parseEther("0.1") }
-      )
-    ).to.be.revertedWithCustomError(GameManagerContract, "InvalidDigitalKey");
-  });
-
-  /**
-   * =====================================================================
    *   SHOULD NOT ALLOW CONVERTING FOR THE ZERO ADDRESS
    * =====================================================================
    */
   it("Should not allow claiming by the zero address", async () => {
-    const { GameManagerContract } = await loadFixture(deployFixture);
+    const { GameManagerContract, invalidPBSignature } = await loadFixture(
+      deployFixture
+    );
     await expect(
-      GameManagerContract.convertMATICtoMBLOX("testDigitalKey", ZERO_ADDRESS, {
-        value: ethers.utils.parseEther("0.1"),
-      })
+      GameManagerContract.convertMATICtoMBLOX(
+        ZERO_ADDRESS,
+        "dateTime",
+        invalidPBSignature,
+        {
+          value: ethers.utils.parseEther("0.1"),
+        }
+      )
     ).to.be.revertedWithCustomError(GameManagerContract, "ZeroAddress");
   });
 
@@ -41,12 +32,36 @@ describe("GameManager convertMATICtoMBLOX tests", () => {
    * =====================================================================
    */
   it("Should not allow claiming for less than the MATIC price", async () => {
-    const { GameManagerContract, Alice } = await loadFixture(deployFixture);
+    const { GameManagerContract, Alice, invalidPBSignature } =
+      await loadFixture(deployFixture);
     await expect(
-      GameManagerContract.convertMATICtoMBLOX("testDigitalKey", Alice.address, {
-        value: ethers.utils.parseEther("0.05"),
-      })
+      GameManagerContract.convertMATICtoMBLOX(
+        Alice.address,
+        "dateTime",
+        invalidPBSignature,
+        {
+          value: ethers.utils.parseEther("0.05"),
+        }
+      )
     ).to.be.revertedWithCustomError(GameManagerContract, "InadequateMATIC");
+  });
+
+  /**
+   * =====================================================================
+   *   SHOULD NOT ALLOW CONVERTING WITH AN INVALID SIGNATURE
+   * =====================================================================
+   */
+  it("Should not allow converting with an invalid signature", async () => {
+    const { GameManagerContract, Alice, invalidPBSignature } =
+      await loadFixture(deployFixture);
+    await expect(
+      GameManagerContract.convertMATICtoMBLOX(
+        Alice.address,
+        "dateTime",
+        invalidPBSignature,
+        { value: ethers.utils.parseEther("0.1") }
+      )
+    ).to.be.revertedWithCustomError(GameManagerContract, "InvalidSignature");
   });
 
   /**
@@ -55,10 +70,22 @@ describe("GameManager convertMATICtoMBLOX tests", () => {
    * =====================================================================
    */
   it("Should allow converting", async () => {
-    const { GameManagerContract, Alice, MBloxContract, Recipient } =
+    const { GameManagerContract, Alice, MBloxContract, Recipient, gameWallet } =
       await loadFixture(deployFixture);
+
+    const eu = ethers.utils;
+
+    const data = eu.defaultAbiCoder.encode(
+      ["address", "string"],
+      [Alice.address, "dateTime1"]
+    );
+
+    const hash = eu.keccak256(data);
+
+    const sig = await gameWallet.signMessage(eu.arrayify(hash));
+
     await expect(
-      GameManagerContract.convertMATICtoMBLOX("testDigitalKey", Alice.address, {
+      GameManagerContract.convertMATICtoMBLOX(Alice.address, "dateTime1", sig, {
         value: ethers.utils.parseEther("0.1"),
       })
     ).to.not.be.reverted;

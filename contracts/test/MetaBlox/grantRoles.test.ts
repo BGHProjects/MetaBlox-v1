@@ -16,27 +16,31 @@ describe("MetaBlox grantRoles tests", () => {
    * =====================================================================
    */
   it("Should not allow granting roles to the zero address", async () => {
-    const { MetaBloxContract } = await loadFixture(deployFixture);
+    const { MetaBloxContract, invalidSignature } = await loadFixture(
+      deployFixture
+    );
 
     await expect(
       MetaBloxContract.grantRoles(
         ethers.constants.AddressZero,
-        "testDigitalKey"
+        invalidSignature
       )
     ).to.be.revertedWithCustomError(MetaBloxContract, "ZeroAddress");
   });
 
   /**
    * =====================================================================
-   *   SHOULD NOT ALLOW GRANTING ROLES WITH AN INVALID DIGITAL KEY
+   *   SHOULD NOT ALLOW GRANTING ROLES WITH AN INVALID SIGNATURE
    * =====================================================================
    */
-  it("Should not allow granting roles with an invalid digital key", async () => {
-    const { MetaBloxContract, Alice } = await loadFixture(deployFixture);
+  it("Should not allow granting roles with an invalid signature", async () => {
+    const { MetaBloxContract, Alice, invalidSignature } = await loadFixture(
+      deployFixture
+    );
 
     await expect(
-      MetaBloxContract.grantRoles(Alice.address, "notTestDigitalKey")
-    ).to.be.revertedWithCustomError(MetaBloxContract, "InvalidDigitalKey");
+      MetaBloxContract.grantRoles(Alice.address, invalidSignature)
+    ).to.be.revertedWithCustomError(MetaBloxContract, "InvalidSignature");
   });
 
   /**
@@ -45,10 +49,12 @@ describe("MetaBlox grantRoles tests", () => {
    * =====================================================================
    */
   it("Should allow granting of roles", async () => {
-    const { MetaBloxContract, Alice } = await loadFixture(deployFixture);
+    const { MetaBloxContract, Alice, validSignature } = await loadFixture(
+      deployFixture
+    );
 
-    await expect(MetaBloxContract.grantRoles(Alice.address, "testDigitalKey"))
-      .not.be.reverted;
+    await expect(MetaBloxContract.grantRoles(Alice.address, validSignature)).not
+      .be.reverted;
 
     expect(await MetaBloxContract.hasRole(MINTER_ROLE, Alice.address)).to.eq(
       true
@@ -59,5 +65,23 @@ describe("MetaBlox grantRoles tests", () => {
     expect(
       await MetaBloxContract.hasRole(URI_SETTER_ROLE, Alice.address)
     ).to.eq(true);
+  });
+
+  /**
+   * =====================================================================
+   *   SHOULD NOT ALLOW SAME SIGNATURE
+   * =====================================================================
+   */
+  it("Should not allow same signature", async () => {
+    const { MetaBloxContract, Alice, validSignature } = await loadFixture(
+      deployFixture
+    );
+
+    await expect(MetaBloxContract.grantRoles(Alice.address, validSignature)).not
+      .be.reverted;
+
+    await expect(
+      MetaBloxContract.grantRoles(Alice.address, validSignature)
+    ).to.be.revertedWithCustomError(MetaBloxContract, "InvalidSignature");
   });
 });
