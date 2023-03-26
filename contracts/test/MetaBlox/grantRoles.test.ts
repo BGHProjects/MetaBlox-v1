@@ -49,8 +49,9 @@ describe("MetaBlox grantRoles tests", () => {
    * =====================================================================
    */
   it("Should allow granting of roles", async () => {
-    const { MetaBloxContract, Alice, validSignature, Deployer } =
-      await loadFixture(deployFixture);
+    const { MetaBloxContract, Alice, validSignature } = await loadFixture(
+      deployFixture
+    );
 
     await expect(MetaBloxContract.grantRoles(Alice.address, validSignature)).not
       .be.reverted;

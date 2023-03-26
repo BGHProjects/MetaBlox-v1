@@ -1,5 +1,6 @@
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
+import { ethers } from "ethers";
 import { useState } from "react";
 import { useAccount, useSigner } from "wagmi";
 import { GameState } from "../../../constants/game";
@@ -95,7 +96,6 @@ const useGridModal = (
       ],
     };
 
-    const data = JSON.stringify(metadataJSON);
     const config = {
       method: "post",
       url: "https://api.pinata.cloud/pinning/pinJSONToIPFS",
@@ -103,7 +103,7 @@ const useGridModal = (
         "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_PINATA_JWT}`,
       },
-      data,
+      data: metadataJSON,
     };
 
     const finalRes = await axios(config);
@@ -181,9 +181,6 @@ const useGridModal = (
       const ipfsHash = uploadNFTData(colourUsed);
 
       const newWorldDetails = {
-        tokenURI: `ipfs://${ipfsHash}`,
-        id: 0,
-        colour: colourUsed,
         worldBlockDetails: {
           blockTotal: 0,
           worldLayout: "[]",
@@ -195,14 +192,39 @@ const useGridModal = (
             y: coords.y,
           },
         },
+        colour: colourUsed,
+        id: 0,
+        tokenURI: `ipfs://${ipfsHash}`,
       };
 
       const GameManager = getGameManagerContract(signer);
 
+      const eu = ethers.utils;
+
+      const gameWallet = ethers.Wallet.fromMnemonic(
+        process.env.NEXT_PUBLIC_GAME_WALLET_MNEMONIC as string
+      );
+
+      const dateTime = new Date().toString();
+
+      const data = eu.defaultAbiCoder.encode(
+        [
+          "tuple(tuple(address owner, tuple(uint256 x, uint256 y) coords) worldGridData, tuple(uint256 blockTotal, string worldLayout) worldBlockDetails, string colour, uint256 id, string tokenURI)",
+          "address",
+          "string",
+        ],
+        [newWorldDetails, address, dateTime]
+      );
+
+      const hash = eu.keccak256(data);
+
+      const sig = await gameWallet.signMessage(eu.arrayify(hash));
+
       const tx = await GameManager.purchaseWorld(
-        process.env.NEXT_PUBLIC_DIGITAL_KEY,
         newWorldDetails,
-        address
+        address,
+        dateTime,
+        sig
       );
 
       if (tx) {

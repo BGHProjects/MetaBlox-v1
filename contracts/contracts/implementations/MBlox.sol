@@ -41,9 +41,6 @@ contract MBlox is
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
 
-    // Restricts use to authorised callers *** NO LONGER USED ***
-    string private _digitalKey;
-
     // Restricts calls to the game wallet
     address private _gameWallet;
 

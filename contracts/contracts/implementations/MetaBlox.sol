@@ -37,9 +37,6 @@ contract MetaBlox is Initializable, ERC1155Upgradeable, AccessControlUpgradeable
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
 
-    // Restricts use to authorised callers *** NO LONGER USED ***
-    string private _digitalKey; 
-
     // Stores the prices of the different blocks in ether
     mapping(uint256 => uint256) public prices; 
 

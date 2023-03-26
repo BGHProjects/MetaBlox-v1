@@ -56,9 +56,6 @@ contract World is
     bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
     bytes32 public constant UPDATER_ROLE = keccak256("UPDATER_ROLE");
 
-    // Restricts use to authorised callers *** NO LONGER USED ***
-    string private _digitalKey;
-
     // Holds World data to be accessed by the game
     mapping(uint256 => WorldMetadata) public worlds;
 

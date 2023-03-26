@@ -131,12 +131,42 @@ const useGame = (animDuration: number) => {
     try {
       const gameManager = getGameManagerContract(signer);
 
+      const eu = ethers.utils;
+
+      const dateTime = new Date().toString();
+
+      const gameWallet = ethers.Wallet.fromMnemonic(
+        process.env.NEXT_PUBLIC_GAME_WALLET_MNEMONIC as string
+      );
+
+      const data = eu.defaultAbiCoder.encode(
+        [
+          "address",
+          "uint256",
+          "tuple(uint256 blockTotal, string worldLayout) worldBlockDetails",
+          "tuple(uint256[] increaseIds, uint256[] increases, uint256[] decreaseIds, uint256[] decreases) blockUpdates",
+          "string",
+        ],
+        [
+          address,
+          Number(ethers.utils.formatUnits(worldData.id, "wei")),
+          { blockTotal, worldLayout },
+          { increaseIds, increases, decreaseIds, decreases },
+          dateTime,
+        ]
+      );
+
+      const hash = eu.keccak256(data);
+
+      const sig = await gameWallet.signMessage(eu.arrayify(hash));
+
       const tx = await gameManager.saveWorldChanges(
-        process.env.NEXT_PUBLIC_DIGITAL_KEY,
         address,
         Number(ethers.utils.formatUnits(worldData.id, "wei")),
         { blockTotal, worldLayout },
-        { increaseIds, increases, decreaseIds, decreases }
+        { increaseIds, increases, decreaseIds, decreases },
+        dateTime,
+        sig
       );
 
       if (tx) {

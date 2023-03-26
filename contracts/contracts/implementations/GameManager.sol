@@ -32,9 +32,6 @@ contract GameManager is IGameManager, Initializable {
      * =======================
      */
 
-    // Restricts use to authorised callers *** NO LONGER USED ***
-    string private _digitalKey;
-
     // References to other contracts
     ERC20 public _metrContract;
     MBlox private MBloxContract;
