@@ -94,7 +94,7 @@ This proof of concept uses a smart contract system that includes four implementa
 
 - This contract facilitates interactions between the game and smart contract system.
 - It is a [custom upgradeable contract](https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable) and includes several key aspects of functionality, including getter functions for retrieving values relevant to the game, enabling users to purchase other tokens within the MBlox in-game currency, and handling changes to world tokens that users make by placing and removing blocks.
-- The Game Manager also restricts the minting and burning capability of the other contracts in the system to actions that occur in the game, to prevent malicious users from attempting to mint or burn tokens outside of the context of the game. This is primarily facilitated through the use of a "digitalKey" variable that is required to call any functions that pertain to major functionality.
+- The Game Manager also restricts the minting and burning capability of the other contracts in the system to actions that occur in the game, to prevent malicious users from attempting to mint or burn tokens outside of the context of the game. This is primarily facilitated through the use of a backend wallet that signs transactions that are created within the game. This signature is then deconstructed to determine the wallet that signed it, which is checked against a pre-set backend wallet address, to confirm that the transaction is legitimate.
 
 ## Test Coverage
 
